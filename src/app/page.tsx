@@ -3,12 +3,25 @@ import React from "react";
 
 const Home = () => {
   return (
-    <div className="container w-full bg-black">
-      <div className="flex h-dvh w-full flex-col items-center justify-center gap-2">
-        <h1 className="text-3xl font-semibold">Developers Blog</h1>
-        <p className="text-sm tracking-widest">For Developer by Developer</p>
+    <div className="container min-h-dvh w-full bg-background">
+      <div className="mt-52 flex h-dvh w-full flex-col items-center gap-2">
+        <h1 className="text-7xl font-semibold">Developers Blog</h1>
+        <p className="text-lg tracking-[0.34em]">For Developer by Developer</p>
 
-        <Button>Get Started</Button>
+        <div className="mt-10 flex gap-4">
+          <Button
+            variant={"secondary"}
+            className="rounded-full"
+          >
+            Read Blogs
+          </Button>
+          <Button
+            variant={"outline"}
+            className="rounded-full"
+          >
+            Search Blogs
+          </Button>
+        </div>
       </div>
     </div>
   );
