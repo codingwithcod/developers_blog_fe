@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import React from "react";
 
 const Home = () => {
@@ -9,12 +10,16 @@ const Home = () => {
         <p className="text-lg tracking-[0.34em]">For Developer by Developer</p>
 
         <div className="mt-10 flex gap-4">
-          <Button
-            variant={"secondary"}
-            className="rounded-full"
-          >
-            Read Blogs
-          </Button>
+          <Link href={"/blogs"}>
+            <Button
+              variant={"secondary"}
+              className="rounded-full"
+              role="link"
+            >
+              Read Blogs
+            </Button>
+          </Link>
+
           <Button
             variant={"outline"}
             className="rounded-full"
