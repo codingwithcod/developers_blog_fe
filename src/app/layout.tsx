@@ -19,6 +19,10 @@ export const metadata: Metadata = {
   description: "For developers by developers | Developers blog",
 };
 
+// Font: Georgia
+// Font: Roboto
+// Font: Merriweather
+
 export default function RootLayout({
   children,
 }: Readonly<{
