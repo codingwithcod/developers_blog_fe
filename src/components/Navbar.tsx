@@ -22,7 +22,9 @@ const Navbar = () => {
             <Link href={"/new-blog"}>Write</Link>
           </nav>
           <div>
-            <div className="h-9 w-9 rounded-full border border-gray-200/50"></div>
+            <Link href={"/u/@theabhipatel"}>
+              <div className="h-9 w-9 rounded-full border border-gray-200/50"></div>
+            </Link>
           </div>
         </div>
       </div>
