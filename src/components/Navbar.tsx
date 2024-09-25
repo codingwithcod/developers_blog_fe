@@ -11,7 +11,7 @@ const Navbar = () => {
 
         <div className="flex items-center">
           <div className="flex h-9 w-52 items-center rounded-full border border-gray-200/20 px-5">
-            <p className="text-sm text-gray-300/40">Search for anything..</p>
+            <p className="select-none text-sm text-gray-300/40">Search for anything..</p>
           </div>
         </div>
 
