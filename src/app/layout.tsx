@@ -1,27 +1,24 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+import { Merriweather, Roboto } from "next/font/google";
+
+const roboto = Roboto({
+  weight: ["300", "400", "500", "700", "900"],
+  subsets: ["latin"],
+  variable: "--font-roboto",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const merriweather = Merriweather({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-merriweather",
 });
 
 export const metadata: Metadata = {
   title: "Developers Blog",
   description: "For developers by developers | Developers blog",
 };
-
-// Font: Georgia
-// Font: Roboto
-// Font: Merriweather
 
 export default function RootLayout({
   children,
@@ -30,7 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${roboto.variable} ${merriweather.variable} antialiased`}>
         <Navbar />
         {children}
       </body>
