@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import TailwindcssAnimate from "tailwindcss-animate";
 
 const config: Config = {
   darkMode: ["class"],
@@ -63,8 +64,13 @@ const config: Config = {
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      fontFamily: {
+        georgia: ["Georgia", "serif"],
+        merriweather: ["var(--font-merriweather)", "serif"],
+        roboto: ["var(--font-roboto)", "sans-serif"],
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [TailwindcssAnimate],
 };
 export default config;
