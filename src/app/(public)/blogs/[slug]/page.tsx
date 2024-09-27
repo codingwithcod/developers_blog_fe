@@ -13,7 +13,7 @@ interface IProps {
 const Blog: FC<IProps> = ({ params: { slug } }) => {
   const decodedSlug = decodeURIComponent(slug);
 
-  const [markdown, setMarkDown] = useState(mdContent); //eslint-disable-line
+  const [markdown, setMarkDown] = useState(mdContent2); //eslint-disable-line
 
   return (
     <div className="container flex min-h-[70vh] w-full flex-col px-32 pt-20">
@@ -37,6 +37,7 @@ const Blog: FC<IProps> = ({ params: { slug } }) => {
 
 export default Blog;
 
+// eslint-disable-next-line
 const mdContent = `A paragraph with *emphasis* and **strong importance**.
 
 # This is Heading H1
@@ -93,3 +94,55 @@ this is paragraph which is very long to read and write but i am testing it to do
     </div>
 \`\`\`
 `;
+
+const mdContent2 = `<!--rehype:ignore:start-->
+React Markdown Preview
+===
+<!--rehype:ignore:end-->
+
+[![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-048754?logo=buymeacoffee)](https://jaywcjlove.github.io/#/sponsor)
+[![Build and Deploy](https://github.com/uiwjs/react-markdown-preview/actions/workflows/ci.marster.yml/badge.svg)](https://github.com/uiwjs/react-markdown-preview/actions/workflows/ci.marster.yml)
+[![Downloads](https://img.shields.io/npm/dm/@uiw/react-markdown-preview.svg?style=flat)](https://www.npmjs.com/package/@uiw/react-markdown-preview)
+[![Coverage Status](https://uiwjs.github.io/react-markdown-preview/badge.svg)](https://uiwjs.github.io/react-markdown-preview/coverage/lcov-report/)
+[![npm version](https://img.shields.io/npm/v/@uiw/react-markdown-preview.svg)](https://www.npmjs.com/package/@uiw/react-markdown-preview)
+[![npm unpkg](https://img.shields.io/badge/Open%20in-unpkg-blue)](https://uiwjs.github.io/npm-unpkg/#/pkg/@uiw/react-markdown-preview/file/README.md)
+[![Repo Dependents](https://badgen.net/github/dependents-repo/uiwjs/react-markdown-preview)](https://github.com/uiwjs/react-markdown-preview/network/dependents)
+
+React component preview markdown text in web browser. The minimal amount of CSS to replicate the GitHub Markdown style. The current [document website](https://uiwjs.github.io/react-markdown-preview/) is converted using this react component.
+
+## Features
+
+- 🌒 Support dark-mode/night-mode. \`@v4\`
+- 🙆🏼‍♂️ GitHub style: The markdown content is rendered as close to the way it's rendered on GitHub as possible.
+- 🏋🏾‍♂️ Support [GFM](https://github.github.com/gfm/) (autolink literals, footnotes, strikethrough, tables, tasklists).
+- 🍭 Support automatic code block highlight.
+- 🐝 Support for defining styles via comment.
+- ⛳️ Support for [GFM footnotes](https://github.blog/changelog/2021-09-30-footnotes-now-supported-in-markdown-fields/)
+- ⛳️ Support for [Github Alert](https://docs.github.com/en/get-started/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax#alerts)
+
+## Quick Start
+
+\`\`\`bash
+$ npm install @uiw/react-markdown-preview --save
+\`\`\`
+
+## Usage Example
+
+[![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?logo=codesandbox)](https://codesandbox.io/embed/react-markdown-preview-co1mj?fontsize=14&hidenavigation=1&theme=dark)
+
+\`\`\`jsx mdx:preview&checkered=0
+import React from 'react';
+import MarkdownPreview from '@uiw/react-markdown-preview';
+
+const source = \`
+## MarkdownPreview
+
+> todo: React component preview markdown text.
+\`;
+
+export default function Demo() {
+  return (
+    <MarkdownPreview source={source} style={{ padding: 16 }} />
+  )
+}
+\`\`\``;
