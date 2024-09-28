@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 import { Merriweather, Roboto } from "next/font/google";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${roboto.variable} ${merriweather.variable} antialiased`}>
         <Navbar />
+        <Toaster />
         {children}
       </body>
     </html>
