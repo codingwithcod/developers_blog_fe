@@ -1,29 +1,41 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const NewBlog = () => {
-  const [value, setValue] = React.useState("**Namaskar Developers!!**");
+  const [title, setTitle] = useState("");
+  const [thumbnail, setThumbnail] = useState("");
+  const [mdContent, setMdContent] = useState("**Namaskar Developers!!**");
 
   const handleSave = () => {
+    if (!title || !thumbnail || !mdContent) return;
+
     const localBlogs = JSON.parse(localStorage.getItem("blogs") ?? "[]");
 
     const blogs = [
       {
-        id: Date.now(),
-        content: value,
+        id: `bid${Date.now()}`,
+        title,
+        thumbnail,
+        content: mdContent,
+        createdAt: Date.now(),
+        reads: 1,
+        userName: "The AbhiPatel",
       },
       ...localBlogs,
     ];
     localStorage.setItem("blogs", JSON.stringify(blogs));
-    setValue("**Namaskar Developers!!**");
+    setTitle("");
+    setThumbnail("");
+    setMdContent("**Namaskar Developers!!**");
   };
 
   return (
-    <div className="container my-20 flex h-[70vh] w-full flex-col">
+    <div className="container mt-20 flex h-[70vh] w-full flex-col">
       <div className="flex justify-between">
-        <h1 className="text-4xl font-semibold tracking-widest">New Blog</h1>
+        <h1 className="text-3xl font-semibold">Write New Blog</h1>
         <div className="flex gap-3">
           <Button
             variant={"outline"}
@@ -34,11 +46,34 @@ const NewBlog = () => {
           <Button variant={"secondary"}>Publish</Button>
         </div>
       </div>
+      <div className="mt-10 flex flex-col gap-3">
+        <div>
+          <label htmlFor="title">Title</label>
+          <Input
+            className=""
+            id="title"
+            name="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="thumbnail">Thumbnail</label>
+          <Input
+            className=""
+            id="thumbnail"
+            name="thumbnail"
+            value={thumbnail}
+            onChange={(e) => setThumbnail(e.target.value)}
+          />
+        </div>
+      </div>
       <div className="mt-10 w-full">
         <MDEditor
-          value={value}
-          onChange={(e) => setValue(e ?? "")}
-          height={400}
+          value={mdContent}
+          onChange={(text) => setMdContent(text ?? "")}
+          height={300}
+          style={{ marginBottom: 30 }}
         />
         {/* <MDEditor.Markdown
           source={value}
