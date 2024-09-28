@@ -10,6 +10,7 @@ const NewBlog = () => {
   const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [mdContent, setMdContent] = useState("**Namaskar Developers!!**");
+  const [isEditorFullScreen, setIsEditorFullScreen] = useState(false);
 
   const handleSave = () => {
     if (!title || !thumbnail || !mdContent) {
@@ -77,12 +78,22 @@ const NewBlog = () => {
           />
         </div>
       </div>
-      <div className="mt-10 w-full">
+      <div className="mt-10">
+        <Button
+          variant={"outline"}
+          onClick={() => setIsEditorFullScreen(true)}
+        >
+          Open Editor Full Screen
+        </Button>
+      </div>
+      <div className="mt-5 w-full">
         <MDEditor
           value={mdContent}
           onChange={(text) => setMdContent(text ?? "")}
           height={300}
           style={{ marginBottom: 30 }}
+          fullscreen={isEditorFullScreen}
+          onHeightChange={() => setIsEditorFullScreen(false)}
         />
         {/* <MDEditor.Markdown
           source={value}
