@@ -3,14 +3,23 @@ import React, { useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 
 const NewBlog = () => {
+  const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [thumbnail, setThumbnail] = useState("");
   const [mdContent, setMdContent] = useState("**Namaskar Developers!!**");
 
   const handleSave = () => {
-    if (!title || !thumbnail || !mdContent) return;
+    if (!title || !thumbnail || !mdContent) {
+      toast({
+        title: "All field Required!!",
+        description: "Title, Thumbnail and Content is Required to save.",
+        variant: "destructive",
+        duration: 2000,
+      });
+    }
 
     const localBlogs = JSON.parse(localStorage.getItem("blogs") ?? "[]");
 
