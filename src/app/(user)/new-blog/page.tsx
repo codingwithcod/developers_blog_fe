@@ -4,6 +4,8 @@ import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { RocketIcon } from "@radix-ui/react-icons";
 
 const NewBlog = () => {
   const { toast } = useToast();
@@ -12,6 +14,7 @@ const NewBlog = () => {
   const [thumbnail, setThumbnail] = useState("");
   const [mdContent, setMdContent] = useState("**Namaskar Developers!!**");
   const [isEditorFullScreen, setIsEditorFullScreen] = useState(false);
+  const [isBlogSaved, setIsBlogSaved] = useState(false);
 
   const handleSave = () => {
     if (!title || !slug || !thumbnail || !mdContent) {
@@ -38,8 +41,11 @@ const NewBlog = () => {
       },
       ...localBlogs,
     ];
+
     localStorage.setItem("blogs", JSON.stringify(blogs));
+    setIsBlogSaved(true);
     setTitle("");
+    setSlug("");
     setThumbnail("");
     setMdContent("**Namaskar Developers!!**");
   };
@@ -57,6 +63,16 @@ const NewBlog = () => {
 
   return (
     <div className="container mt-20 flex h-[70vh] w-full flex-col">
+      {isBlogSaved && (
+        <div className="mb-5">
+          <Alert variant={"success"}>
+            <RocketIcon className="h-5 w-5" />
+            <AlertTitle>Success</AlertTitle>
+            <AlertDescription>Your Blog saved successfully.</AlertDescription>
+          </Alert>
+        </div>
+      )}
+
       <div className="flex justify-between">
         <h1 className="text-3xl font-semibold">Write New Blog</h1>
         <div className="flex gap-3">
