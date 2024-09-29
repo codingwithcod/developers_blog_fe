@@ -4,8 +4,7 @@ import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { RocketIcon } from "@radix-ui/react-icons";
+import SuccessAlert from "@/components/SuccessAlert";
 
 const NewBlog = () => {
   const { toast } = useToast();
@@ -65,11 +64,11 @@ const NewBlog = () => {
     <div className="container mt-20 flex h-[70vh] w-full flex-col">
       {isBlogSaved && (
         <div className="mb-5">
-          <Alert variant={"success"}>
-            <RocketIcon className="h-5 w-5" />
-            <AlertTitle>Success</AlertTitle>
-            <AlertDescription>Your Blog saved successfully.</AlertDescription>
-          </Alert>
+          <SuccessAlert
+            title="Success"
+            description="Your blog saved successfully."
+            onClose={() => setIsBlogSaved(false)}
+          />
         </div>
       )}
 
