@@ -1,14 +1,7 @@
 "use client";
-import Link from "next/link";
 import React from "react";
-import { Card, CardTitle } from "@/components/ui/card";
-import Image from "next/image";
 import { IBlog } from "@/interfaces/blog";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { timeAgo } from "@/utils/timeAgo";
-import { DotFilledIcon } from "@radix-ui/react-icons";
-import { Button } from "@/components/ui/button";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import BlogCard from "@/components/BlogCard";
 
 const Blogs = () => {
   const localBlogs = JSON.parse(localStorage.getItem("blogs") ?? "[]") as IBlog[];
@@ -19,53 +12,11 @@ const Blogs = () => {
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {localBlogs.map((blog) => {
-          const { id, title, thumbnail, createdAt, userName, reads } = blog;
           return (
-            <Link
-              key={id}
-              href={`/blogs/${title}`}
-            >
-              <Card className="w-full border-none bg-background text-foreground">
-                <div className="overflow-hidden rounded-lg">
-                  <Image
-                    src={thumbnail}
-                    alt={title}
-                    width={250}
-                    height={200}
-                    className="w-full object-cover"
-                  />
-                </div>
-                <div className="flex gap-3 py-2">
-                  {/* ---> Avatar  */}
-                  <div className="flex gap-3">
-                    <Avatar>
-                      <AvatarImage src="https://github.com/shadcn.png" />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                  </div>
-                  {/* ---> Title and user name  */}
-                  <div className="font-sans">
-                    <CardTitle className="line-clamp-2 leading-5">
-                      {title} something litle big name of the title
-                    </CardTitle>
-                    <div className="mt-2 text-muted-foreground">
-                      <p className="font-medium">{userName}</p>
-                      <div className="flex items-center text-sm">
-                        <p>{reads}K reads</p>
-                        <DotFilledIcon />
-                        <p>{timeAgo(createdAt)}</p>
-                      </div>
-                    </div>
-                  </div>
-                  {/* ---> Options three dots  */}
-                  <div>
-                    <Button className="relative h-10 w-10 rounded-full bg-background">
-                      <BsThreeDotsVertical className="absolute text-lg" />
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-            </Link>
+            <BlogCard
+              blog={blog}
+              key={blog.id}
+            />
           );
         })}
       </div>
