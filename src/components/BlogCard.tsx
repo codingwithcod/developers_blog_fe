@@ -14,7 +14,7 @@ interface IProps {
 }
 
 const BlogCard: FC<IProps> = ({ blog }) => {
-  const { title, slug, thumbnail, userName, reads, createdAt } = blog;
+  const { id, title, slug, thumbnail, userName, reads, createdAt } = blog;
 
   const handleOptionClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -22,7 +22,7 @@ const BlogCard: FC<IProps> = ({ blog }) => {
   };
 
   return (
-    <Link href={`/blogs/${slug}`}>
+    <Link href={`/blogs/${slug}?id=${id}`}>
       <Card className="w-full border-none bg-background text-foreground">
         {/* ---> Thumbnail  */}
         <div className="overflow-hidden rounded-lg">
