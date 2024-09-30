@@ -3,7 +3,7 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <header className="fixed top-0 mx-auto w-full border-b border-gray-200/10 bg-slate-800/50 backdrop-blur-md">
+    <header className="fixed top-0 z-50 mx-auto w-full border-b border-gray-200/10 bg-slate-800/50 backdrop-blur-md">
       <div className="container flex h-16 w-full justify-between">
         <div className="flex items-center text-3xl font-semibold">
           <Link href={"/"}>Developers Blog</Link>
