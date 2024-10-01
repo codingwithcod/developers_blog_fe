@@ -66,6 +66,7 @@ const config: Config = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
+        poppins: ["var(--font-poppins)", "sans-serif"],
         georgia: ["Georgia", "serif"],
         merriweather: ["var(--font-merriweather)", "serif"],
         roboto: ["var(--font-roboto)", "sans-serif"],

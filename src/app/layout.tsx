@@ -3,7 +3,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 
-import { Merriweather, Roboto } from "next/font/google";
+import { Merriweather, Roboto, Poppins } from "next/font/google";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700", "900"],
@@ -14,6 +14,11 @@ const merriweather = Merriweather({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-merriweather",
+});
+const poppins = Poppins({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +33,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} ${merriweather.variable} antialiased`}>
+      <body
+        className={`${poppins.variable} ${roboto.variable} ${merriweather.variable} font-poppins antialiased`}
+      >
         <Navbar />
         <Toaster />
         {children}
