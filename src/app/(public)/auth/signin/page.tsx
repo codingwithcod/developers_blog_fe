@@ -41,6 +41,17 @@ export default function SignIn() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    const result = await signIn("google");
+
+    if (result?.error) {
+      // console.error("Login failed:", result.error);
+    } else {
+      // Redirect after successful login
+      router.push("/");
+    }
+  };
+
   return (
     <div className="container mb-20 mt-40 flex justify-center">
       <Card className="w-[400px] border-muted-foreground/50 bg-background p-5 text-foreground backdrop:blur-sm">
@@ -85,12 +96,15 @@ export default function SignIn() {
         <CardFooter className="flex flex-col gap-2">
           <p className="text-sm text-muted-foreground">Or Signin with</p>
           <Button
+            type="button"
             variant={"outline"}
             className="w-full gap-3"
+            onClick={handleGoogleLogin}
           >
             <FcGoogle className="text-lg" /> Google
           </Button>
           <Button
+            type="button"
             variant={"outline"}
             className="w-full gap-3"
           >
