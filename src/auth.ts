@@ -10,6 +10,9 @@ import {
 } from "@/config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     GoogleProvider({
       clientId: AUTH_GOOGLE_CLIENT_ID,
