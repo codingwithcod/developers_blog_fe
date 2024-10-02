@@ -1,13 +1,33 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
+import GithubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { AUTH_GOOGLE_ID, AUTH_GOOGLE_SECRET } from "@/config";
+import {
+  AUTH_GITHUB_CLIENT_ID,
+  AUTH_GITHUB_SECRET,
+  AUTH_GOOGLE_CLIENT_ID,
+  AUTH_GOOGLE_SECRET,
+} from "@/config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: AUTH_GOOGLE_ID,
+      clientId: AUTH_GOOGLE_CLIENT_ID,
       clientSecret: AUTH_GOOGLE_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+        },
+      },
+    }),
+    GithubProvider({
+      clientId: AUTH_GITHUB_CLIENT_ID,
+      clientSecret: AUTH_GITHUB_SECRET,
+      authorization: {
+        params: {
+          prompt: "consent",
+        },
+      },
     }),
     CredentialsProvider({
       name: "Credentials",
