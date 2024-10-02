@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { signOut, useSession } from "next-auth/react";
+import SignOutButton from "@/components/SignOutButton";
+import { useSession } from "next-auth/react";
 import { notFound, useRouter } from "next/navigation";
 import React, { FC } from "react";
 
@@ -19,18 +19,13 @@ const Profile: FC<IProps> = ({ params: { username } }) => {
 
   if (status === "loading") return <div>Loading...</div>;
 
-  if (status === "unauthenticated") {
+  if (!session?.user) {
     router.push("/auth/signin");
-    return null;
   }
 
   if (!decodedUsername.startsWith("@")) {
     return notFound();
   }
-
-  const handleSignOut = () => {
-    signOut({ redirectTo: "/auth/signin" });
-  };
 
   return (
     <div className="flex h-[70vh] w-full items-center justify-center">
@@ -38,12 +33,7 @@ const Profile: FC<IProps> = ({ params: { username } }) => {
         <h1 className="text-2xl font-semibold tracking-widest">Welcome</h1>
         <p className="text-4xl font-bold">{session?.user?.name}</p>
 
-        <Button
-          onClick={handleSignOut}
-          size={"sm"}
-        >
-          Sign out
-        </Button>
+        <SignOutButton />
       </div>
     </div>
   );
