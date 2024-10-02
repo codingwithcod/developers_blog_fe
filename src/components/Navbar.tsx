@@ -1,7 +1,12 @@
+"use client";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 const Navbar = () => {
+  const { data } = useSession();
+
   return (
     <header className="fixed top-0 z-50 mx-auto w-full border-b border-gray-200/10 bg-slate-800/50 backdrop-blur-md">
       <div className="container flex h-16 w-full justify-between">
@@ -19,12 +24,23 @@ const Navbar = () => {
           <nav className="flex items-end gap-5 text-sm text-primary-foreground">
             <Link href={"/blogs"}>Blogs</Link>
             <Link href={"/category"}>Category</Link>
-            <Link href={"/new-blog"}>Write</Link>
+            {data?.user ? (
+              <Link href={"/new-blog"}>Write</Link>
+            ) : (
+              <Link href={"/auth/signin"}>Login</Link>
+            )}
           </nav>
           <div>
-            <Link href={"/u/@theabhipatel"}>
-              <div className="h-9 w-9 rounded-full border border-gray-200/50"></div>
-            </Link>
+            {data && (
+              <Link href={"/u/@theabhipatel"}>
+                <Avatar className="h-9 w-9 border">
+                  <AvatarImage src={data.user?.image ?? ""} />
+                  <AvatarFallback className="bg-background font-bold capitalize text-orange-500">
+                    {data.user?.name?.slice(0, 2)}
+                  </AvatarFallback>
+                </Avatar>
+              </Link>
+            )}
           </div>
         </div>
       </div>
