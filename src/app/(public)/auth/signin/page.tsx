@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,11 +16,13 @@ import { Label } from "@/components/ui/label";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
+import { toast } from "@/hooks/use-toast";
 
-export default function SignIn() {
+const SignIn = () => {
+  const { data: session } = useSession();
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();
 
   const handleCredentialSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,27 +32,40 @@ export default function SignIn() {
       password,
       redirect: false,
     });
-
-    // console.log("result ------->", result);
-
     if (result?.error) {
-      // console.error("Login failed:", result.error);
-    } else {
-      // Redirect after successful login
-      router.push("/");
+      toast({
+        title: "Login field !!",
+        description: result.error,
+        variant: "destructive",
+      });
     }
   };
 
   const handleGoogleLogin = async () => {
-    const result = await signIn("google");
-
+    const result = await signIn("google", { redirectTo: "/" });
     if (result?.error) {
-      // console.error("Login failed:", result.error);
-    } else {
-      // Redirect after successful login
-      router.push("/");
+      toast({
+        title: "Login field !!",
+        description: "Something went wrong, please try again.",
+        variant: "destructive",
+      });
     }
   };
+
+  const handleGithubLogin = async () => {
+    const result = await signIn("github", { redirectTo: "/" });
+    if (result?.error) {
+      toast({
+        title: "Login field !!",
+        description: "Something went wrong, please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  if (session?.user) {
+    router.back();
+  }
 
   return (
     <div className="container mb-20 mt-40 flex justify-center">
@@ -107,6 +122,7 @@ export default function SignIn() {
             type="button"
             variant={"outline"}
             className="w-full gap-3"
+            onClick={handleGithubLogin}
           >
             <FaGithub className="text-lg" /> Github
           </Button>
@@ -123,4 +139,6 @@ export default function SignIn() {
       </Card>
     </div>
   );
-}
+};
+
+export default SignIn;
