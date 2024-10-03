@@ -18,7 +18,7 @@ const NewBlog = () => {
 
   const handleSave = () => {
     if (!title || !slug || !thumbnail || !mdContent) {
-      toast({
+      return toast({
         title: "All field Required!!",
         description: "Title, Thumbnail and Content is Required to save.",
         variant: "destructive",
