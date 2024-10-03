@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
-import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -19,8 +18,6 @@ import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
 
 const SignIn = () => {
-  const { data: session } = useSession();
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -30,7 +27,7 @@ const SignIn = () => {
     const result = await signIn("credentials", {
       email,
       password,
-      redirect: false,
+      redirectTo: "/",
     });
     if (result?.error) {
       toast({
@@ -63,12 +60,8 @@ const SignIn = () => {
     }
   };
 
-  if (session?.user) {
-    router.back();
-  }
-
   return (
-    <div className="container mb-20 mt-40 flex justify-center">
+    <div className="container my-20 flex justify-center">
       <Card className="w-[400px] border-muted-foreground/50 bg-background p-5 text-foreground backdrop:blur-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Developers blog</CardTitle>
