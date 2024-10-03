@@ -8,10 +8,8 @@ import { HiPencilSquare } from "react-icons/hi2";
 import { blogs as constantBlogs } from "@/constant/blogs";
 
 const Blogs = () => {
-  const localBlogs = [
-    ...(JSON.parse(localStorage.getItem("blogs") ?? "[]") as IBlog[]),
-    ...constantBlogs,
-  ] as IBlog[];
+  // ...(JSON.parse(localStorage.getItem("blogs") ?? "[]") as IBlog[]),
+  const localBlogs = [...constantBlogs] as IBlog[];
 
   return (
     <div className="container flex h-[60vh] w-full flex-col items-center">
