@@ -8,6 +8,8 @@ const SignOutButton = () => {
       <Button
         type="submit"
         size={"sm"}
+        variant={"destructive"}
+        className="rounded-full"
       >
         Sign out
       </Button>
