@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import SuccessAlert from "@/components/SuccessAlert";
+import { handleMakeSlug } from "@/utils/handleMakeSlug";
 
 const NewBlog = () => {
   const { toast } = useToast();
@@ -17,7 +18,7 @@ const NewBlog = () => {
 
   const handleSave = () => {
     if (!title || !slug || !thumbnail || !mdContent) {
-      toast({
+      return toast({
         title: "All field Required!!",
         description: "Title, Thumbnail and Content is Required to save.",
         variant: "destructive",
@@ -51,12 +52,15 @@ const NewBlog = () => {
 
   /** Handling Title and Slug */
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const slug = e.target.value.split(" ").join("-");
-    setTitle(e.target.value);
+    const value = e.target.value;
+    const slug = handleMakeSlug(value);
+    setTitle(value);
     setSlug(slug);
   };
+
   const handleSlugChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const slug = e.target.value.split(" ").join("-");
+    const value = e.target.value;
+    const slug = handleMakeSlug(value);
     setSlug(slug);
   };
 
@@ -88,31 +92,31 @@ const NewBlog = () => {
         <div>
           <label htmlFor="title">Title</label>
           <Input
-            className=""
             id="title"
             name="title"
             value={title}
             onChange={handleTitleChange}
+            className="border-muted-foreground focus:border-muted"
           />
         </div>
         <div>
           <label htmlFor="slug">Slug</label>
           <Input
-            className=""
             id="slug"
             name="slug"
             value={slug}
             onChange={handleSlugChange}
+            className="border-muted-foreground focus:border-muted"
           />
         </div>
         <div>
           <label htmlFor="thumbnail">Thumbnail</label>
           <Input
-            className=""
             id="thumbnail"
             name="thumbnail"
             value={thumbnail}
             onChange={(e) => setThumbnail(e.target.value)}
+            className="border-muted-foreground focus:border-muted"
           />
         </div>
       </div>

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import { Toaster } from "@/components/ui/toaster";
 
-import { Merriweather, Roboto } from "next/font/google";
+import { Merriweather, Roboto, Poppins } from "next/font/google";
+import AppLayout from "./AppLayout";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700", "900"],
@@ -15,10 +14,26 @@ const merriweather = Merriweather({
   subsets: ["latin"],
   variable: "--font-merriweather",
 });
+const poppins = Poppins({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-poppins",
+});
 
 export const metadata: Metadata = {
-  title: "Developers Blog",
-  description: "For developers by developers | Developers blog",
+  metadataBase: new URL(`${process.env.APP_BASE_URL}`),
+  title: {
+    default: "Developers Blog",
+    template: "%s - For Developers by Developers | Developers blog",
+  },
+  description:
+    "Developers Blog brings developers together to share ideas, stay updated with the latest tech trends, and build better solutions. Be part of a thriving community of like-minded professionals.",
+  twitter: {
+    card: "summary_large_image",
+  },
+  openGraph: {
+    images: "/opengraph-image.png",
+  },
 };
 
 export default function RootLayout({
@@ -28,10 +43,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.variable} ${merriweather.variable} antialiased`}>
-        <Navbar />
-        <Toaster />
-        {children}
+      <body
+        className={`${poppins.variable} ${roboto.variable} ${merriweather.variable} font-poppins antialiased`}
+      >
+        <AppLayout>{children}</AppLayout>
       </body>
     </html>
   );
