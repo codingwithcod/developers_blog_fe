@@ -1,11 +1,13 @@
+import BlogCard from "@/components/BlogCard";
 import { Button } from "@/components/ui/button";
+import { blogs } from "@/constant/blogs";
 import Link from "next/link";
 import React from "react";
 
 const Home = () => {
   return (
-    <div className="container min-h-dvh w-full bg-background">
-      <div className="mt-52 flex h-dvh w-full flex-col items-center gap-2">
+    <main className="container min-h-dvh w-full bg-background">
+      <section className="mt-52 flex h-[25rem] w-full flex-col items-center gap-2">
         <h1 className="text-7xl font-semibold">Developers Blog</h1>
         <p className="text-lg tracking-[0.34em]">For Developers by Developers</p>
 
@@ -27,8 +29,23 @@ const Home = () => {
             Search Blogs
           </Button>
         </div>
-      </div>
-    </div>
+      </section>
+      <section>
+        <h2 className="mb-20 text-center text-3xl font-semibold">
+          Most Reads Blogs you would like
+        </h2>
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+          {blogs.map((blog) => {
+            return (
+              <BlogCard
+                blog={blog}
+                key={blog.id}
+              />
+            );
+          })}
+        </div>
+      </section>
+    </main>
   );
 };
 
