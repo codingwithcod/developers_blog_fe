@@ -21,8 +21,19 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Developers Blog",
-  description: "For developers by developers | Developers blog",
+  metadataBase: new URL(`${process.env.APP_BASE_URL}`),
+  title: {
+    default: "Developers Blog",
+    template: "%s - For Developers by Developers | Developers blog",
+  },
+  description:
+    "Developers Blog brings developers together to share ideas, stay updated with the latest tech trends, and build better solutions. Be part of a thriving community of like-minded professionals.",
+  twitter: {
+    card: "summary_large_image",
+  },
+  openGraph: {
+    images: "/opengraph-image.png",
+  },
 };
 
 export default function RootLayout({
