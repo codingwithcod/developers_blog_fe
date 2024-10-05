@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
-import { SessionProvider } from "next-auth/react";
+import ThemeProvider from "@/components/ThemeProvider";
 
 interface IProps {
   children: ReactNode;
@@ -10,11 +10,16 @@ interface IProps {
 const AppLayout: FC<IProps> = ({ children }) => {
   return (
     <>
-      <SessionProvider>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        // disableTransitionOnChange
+      >
         <Navbar />
         <Toaster />
         {children}
-      </SessionProvider>
+      </ThemeProvider>
     </>
   );
 };
