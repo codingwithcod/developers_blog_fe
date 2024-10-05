@@ -8,6 +8,7 @@ import { IBlog } from "@/interfaces/blog";
 import BlogCard from "@/components/BlogCard";
 import { auth } from "@/auth";
 import { BsThreeDots } from "react-icons/bs";
+import ThemeToggleButton from "@/components/ThemeToggleButton";
 
 interface IProps {
   params: {
@@ -101,8 +102,9 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             </Button>
           </div>
         </div>
-        <div className="flex h-full items-end">
+        <div className="flex h-full items-end justify-between">
           <SignOutButton />
+          <ThemeToggleButton />
         </div>
       </div>
     </div>
