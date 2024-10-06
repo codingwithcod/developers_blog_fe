@@ -27,7 +27,7 @@ const NavbarMobileMenu: FC<IProps> = ({ session }) => {
       <SheetTrigger>
         <Menu className="h-8 w-8" />
       </SheetTrigger>
-      <SheetContent className="flex flex-col bg-black pt-12">
+      <SheetContent className="flex flex-col bg-card pt-12">
         <SheetHeader className="w-full">
           <SheetTitle className="text-start text-2xl">Developers blog</SheetTitle>
         </SheetHeader>
@@ -70,7 +70,7 @@ const NavbarMobileMenu: FC<IProps> = ({ session }) => {
                 >
                   <Avatar className="h-12 w-12">
                     <AvatarImage src={session.user?.image ?? ""} />
-                    <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize">
+                    <AvatarFallback className="bg-indigo-500 font-roboto text-2xl font-bold capitalize text-white">
                       {session.user?.name?.slice(0, 1)}
                     </AvatarFallback>
                   </Avatar>
