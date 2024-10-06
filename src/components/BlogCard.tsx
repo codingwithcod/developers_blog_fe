@@ -40,22 +40,20 @@ const BlogCard: FC<IProps> = ({ blog }) => {
         <div className="flex gap-3 py-2">
           {/* ---> Avatar  */}
           <div className="flex gap-3">
-            <Avatar>
+            <Avatar className="h-8 w-8">
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
           </div>
           {/* ---> Title and user name  */}
           <div className="font-sans">
-            <CardTitle className="line-clamp-2 leading-5">
-              {title} something litle big name of the title
-            </CardTitle>
+            <CardTitle className="line-clamp-2 leading-5">{title}</CardTitle>
             <div className="mt-2 text-muted-foreground">
-              <p className="font-medium">{userName}</p>
+              <p className="text-sm font-medium">{userName}</p>
               <div className="flex items-center text-sm">
-                <p>{reads}K reads</p>
+                <p className="text-nowrap">{reads}K reads</p>
                 <DotFilledIcon />
-                <p>{timeAgo(createdAt)}</p>
+                <p className="text-nowrap">{timeAgo(createdAt)}</p>
               </div>
             </div>
           </div>
