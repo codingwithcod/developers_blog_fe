@@ -45,7 +45,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             <div className="flex items-center gap-5">
               <Avatar className="h-16 w-16">
                 <AvatarImage src={session?.user?.image ?? ""} />
-                <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize">
+                <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize text-white">
                   {session?.user?.name?.slice(0, 2)}
                 </AvatarFallback>
               </Avatar>
@@ -85,7 +85,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
       <div className="sticky top-16 hidden h-[90vh] w-[25%] flex-col gap-3 border-l border-border/50 p-5 md:flex lg:p-10">
         <Avatar className="h-20 w-20">
           <AvatarImage src={session?.user?.image ?? ""} />
-          <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize">
+          <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize text-white">
             {session?.user?.name?.slice(0, 2)}
           </AvatarFallback>
         </Avatar>
