@@ -26,7 +26,7 @@ const Blog: FC<IProps> = ({ params: { slug } }) => {
   const blog = blogs.find((blog) => blog.slug === slug);
 
   return (
-    <div className="container flex min-h-[70vh] w-full flex-col px-32 pt-20 sm:px-5 md:px-10 lg:px-52">
+    <div className="container flex min-h-[70vh] flex-col pt-20 sm:px-5 md:px-10 lg:px-52">
       {!blog && (
         <div className="flex h-[60vh] items-center justify-center">
           <p className="text-muted-foreground">This Blog is not exists or unavailable</p>
@@ -88,7 +88,7 @@ const Blog: FC<IProps> = ({ params: { slug } }) => {
 
           {/* ---> Blog thumbnail */}
           <div className="flex items-center justify-center py-5">
-            <div className="h-[20rem]">
+            <div>
               <Image
                 src={blog.thumbnail}
                 height={400}
