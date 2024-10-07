@@ -12,7 +12,7 @@ const Blogs = () => {
   const localBlogs = [...constantBlogs] as IBlog[];
 
   return (
-    <div className="container flex h-[60vh] w-full flex-col items-center">
+    <div className="container flex h-[60vh] flex-col items-center sm:px-5 md:px-10 lg:px-20">
       {localBlogs.length === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-end">
           <p className="text-2xl">There is no blogs available</p>
