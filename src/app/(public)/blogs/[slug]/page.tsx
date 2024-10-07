@@ -5,8 +5,8 @@ import React, { FC, useEffect, useState } from "react";
 // import rehypeHighlight from "rehype-highlight";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { IBlog } from "@/interfaces/blog";
 import MDEditor from "@uiw/react-md-editor";
+import { blogs } from "@/constant/blogs";
 
 interface IProps {
   params: {
@@ -19,17 +19,15 @@ const Blog: FC<IProps> = ({ params: { slug } }) => {
   const decodedSlug = decodeURIComponent(slug);
   const [mdContent, setMdContent] = useState("");
 
-  const localBlogs = JSON.parse(localStorage.getItem("blogs") ?? "[]") as IBlog[];
+  // const localBlogs = JSON.parse(localStorage.getItem("blogs") ?? "[]") as IBlog[];
 
   useEffect(() => {
-    if (localBlogs.length > 0) {
-      const blog = localBlogs.find((blog) => blog.id === query.get("id"));
-      setMdContent(blog?.content ?? "");
-    }
+    const blog = blogs.find((blog) => blog.id === query.get("id"));
+    setMdContent(blog?.content ?? "");
   }, []);
 
   return (
-    <div className="container flex min-h-[70vh] w-full flex-col px-32 pt-20 sm:px-5 md:px-10 lg:px-20">
+    <div className="container flex min-h-[70vh] w-full flex-col px-32 pt-20 sm:px-5 md:px-10 lg:px-40">
       <div>
         <p className="text-2xl font-semibold tracking-widest">
           <Link
