@@ -65,7 +65,7 @@ const NewBlog = () => {
   };
 
   return (
-    <div className="container mt-20 flex h-[70vh] w-full flex-col">
+    <div className="container mt-20 flex h-[70vh] flex-col sm:px-5 md:px-10 lg:px-20">
       {isBlogSaved && (
         <div className="mb-5">
           <SuccessAlert
