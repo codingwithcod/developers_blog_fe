@@ -29,7 +29,7 @@ const Blog: FC<IProps> = ({ params: { slug } }) => {
   }, []);
 
   return (
-    <div className="container flex min-h-[70vh] w-full flex-col px-32 pt-20">
+    <div className="container flex min-h-[70vh] w-full flex-col px-32 pt-20 sm:px-5 md:px-10 lg:px-20">
       <div>
         <p className="text-2xl font-semibold tracking-widest">
           <Link
