@@ -30,7 +30,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
   ] as IBlog[];
 
   return (
-    <div className="container flex h-full pt-16">
+    <div className="container flex h-full pt-16 sm:px-5 md:px-10 lg:px-20">
       {/* ---> Left side */}
       <div className="flex h-full w-full flex-col md:w-[75%] md:pr-20">
         {/* ---> Header */}
