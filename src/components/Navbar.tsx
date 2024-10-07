@@ -8,7 +8,7 @@ const Navbar = async () => {
 
   return (
     <header className="fixed top-0 z-50 mx-auto w-full border-b border-gray-200/10 bg-background/50 text-foreground backdrop-blur-md">
-      <div className="container flex h-16 w-full justify-between">
+      <div className="container flex h-16 w-full justify-between sm:px-5 md:px-10 lg:px-20">
         {/* ---> Logo Developers Blog */}
         <div className="flex items-center text-xl font-semibold md:text-3xl">
           <Link href={"/"}>Developers Blog</Link>
