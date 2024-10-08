@@ -26,7 +26,7 @@ const Blog: FC<IProps> = ({ params: { slug } }) => {
   const blog = blogs.find((blog) => blog.slug === slug);
 
   return (
-    <div className="container flex min-h-[70vh] flex-col pt-20 sm:px-5 md:px-10 lg:px-52">
+    <div className="container flex min-h-[70vh] flex-col py-20 sm:px-5 md:px-10 lg:px-52">
       {!blog && (
         <div className="flex h-[60vh] items-center justify-center">
           <p className="text-muted-foreground">This Blog is not exists or unavailable</p>
@@ -71,15 +71,15 @@ const Blog: FC<IProps> = ({ params: { slug } }) => {
               </div>
             </div>
 
-            <div className="flex h-12 items-center gap-5 border-y border-muted-foreground/30 py-2">
+            <div className="flex h-12 items-center gap-5 border-y border-muted-foreground/20 py-2">
               <div className="flex items-center gap-3">
                 <FaBookReader /> {blog.reads}k reads
               </div>
-              <div className="h-full border-r border-muted-foreground/30" />
+              <div className="h-full border-r border-muted-foreground/20" />
               <div className="flex items-center gap-3">
                 <AiFillLike /> 400
               </div>
-              <div className="h-full border-r border-muted-foreground/30" />
+              <div className="h-full border-r border-muted-foreground/20" />
               <div className="flex items-center gap-3">
                 <FaCommentDots /> 120
               </div>
