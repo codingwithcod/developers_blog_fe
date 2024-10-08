@@ -34,7 +34,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
       {/* ---> Left side */}
       <div className="flex h-full w-full flex-col md:w-[75%] md:pr-20">
         {/* ---> Header */}
-        <div className="border-b py-10">
+        <div className="border-b border-muted-foreground/20 py-10">
           {/* ---> For large screens header */}
           <div className="hidden items-center justify-between md:flex">
             <span className="text-4xl font-semibold tracking-wide">{session?.user?.name}</span>
@@ -82,7 +82,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
       </div>
 
       {/* ---> Right side */}
-      <div className="sticky top-16 hidden h-[90vh] w-[25%] flex-col gap-3 border-l border-border/50 p-5 md:flex lg:p-10">
+      <div className="sticky top-16 hidden h-[90vh] w-[25%] flex-col gap-3 border-l border-muted-foreground/20 p-5 md:flex lg:p-10">
         <Avatar className="h-20 w-20">
           <AvatarImage src={session?.user?.image ?? ""} />
           <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize text-white">
