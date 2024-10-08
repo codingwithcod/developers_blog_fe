@@ -24,7 +24,7 @@ const BlogCard: FC<IProps> = ({ blog }) => {
 
   return (
     <Link href={`/blogs/${slug}?id=${id}`}>
-      <Card className="w-full border-none bg-background text-foreground">
+      <Card className="w-full border-none bg-background text-foreground shadow-none">
         {/* ---> Thumbnail  */}
         <div className="overflow-hidden rounded-lg">
           <Image
@@ -47,7 +47,18 @@ const BlogCard: FC<IProps> = ({ blog }) => {
           </div>
           {/* ---> Title and user name  */}
           <div className="font-sans">
-            <CardTitle className="line-clamp-2 leading-5">{title}</CardTitle>
+            <div className="flex">
+              <CardTitle className="line-clamp-2 leading-5">{title}</CardTitle>
+              {/* ---> Options three dots  */}
+              <div className="translate-x-2">
+                <Button
+                  onClick={handleOptionClick}
+                  className="relative h-10 w-10 rounded-full bg-background text-muted-foreground shadow-none hover:bg-muted"
+                >
+                  <BsThreeDotsVertical className="absolute text-lg" />
+                </Button>
+              </div>
+            </div>
             <div className="mt-2 text-muted-foreground">
               <p className="text-sm font-medium">{userName}</p>
               <div className="flex items-center text-sm">
@@ -56,15 +67,6 @@ const BlogCard: FC<IProps> = ({ blog }) => {
                 <p className="text-nowrap">{timeAgo(createdAt)}</p>
               </div>
             </div>
-          </div>
-          {/* ---> Options three dots  */}
-          <div>
-            <Button
-              onClick={handleOptionClick}
-              className="relative h-10 w-10 rounded-full bg-background"
-            >
-              <BsThreeDotsVertical className="absolute text-lg" />
-            </Button>
           </div>
         </div>
       </Card>
