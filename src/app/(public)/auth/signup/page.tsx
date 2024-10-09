@@ -45,7 +45,9 @@ export default function SignIn() {
 
       <Card className="w-full border-muted-foreground/30 bg-background text-foreground backdrop:blur-sm sm:w-[400px] sm:p-5">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl">Developers blog</CardTitle>
+          <Link href={"/"}>
+            <CardTitle className="text-2xl">Developers blog</CardTitle>
+          </Link>
           <CardDescription className="tracking-wider">
             Sign up and create your account.
           </CardDescription>
