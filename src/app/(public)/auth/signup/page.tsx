@@ -43,7 +43,7 @@ export default function SignIn() {
         </div>
       )}
 
-      <Card className="w-[400px] border-muted-foreground/30 bg-background p-5 text-foreground backdrop:blur-sm">
+      <Card className="w-full border-muted-foreground/30 bg-background text-foreground backdrop:blur-sm sm:w-[400px] sm:p-5">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Developers blog</CardTitle>
           <CardDescription className="tracking-wider">
