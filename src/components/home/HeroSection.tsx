@@ -30,7 +30,7 @@ const HeroSection = () => {
       </div>
 
       {/* ---> Blue blur effect  */}
-      <div className="absolute left-[50%] top-[50%] -z-50 h-96 w-96 -translate-x-[50%] -translate-y-[50%] rounded-full bg-blue-950 blur-[120px]"></div>
+      <div className="absolute left-[50%] top-[50%] -z-50 h-36 w-36 -translate-x-[50%] -translate-y-[50%] rounded-full bg-blue-200 blur-[120px] dark:bg-blue-950"></div>
     </section>
   );
 };
