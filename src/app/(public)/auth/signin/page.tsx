@@ -61,8 +61,8 @@ const SignIn = () => {
   };
 
   return (
-    <div className="container my-20 flex justify-center">
-      <Card className="w-[400px] border-muted-foreground/50 bg-background p-5 text-foreground backdrop:blur-sm">
+    <div className="container flex justify-center py-20 sm:px-5 md:px-10 lg:px-20">
+      <Card className="w-[400px] border-muted-foreground/30 bg-background p-5 text-foreground backdrop:blur-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Developers blog</CardTitle>
           <CardDescription className="tracking-wider">Sign in to your account.</CardDescription>
@@ -77,7 +77,7 @@ const SignIn = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your Email"
-                  className="border-muted-foreground focus:border-muted"
+                  className="border-muted-foreground/40 focus:border-primary"
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -87,7 +87,7 @@ const SignIn = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your Password"
-                  className="border-muted-foreground focus:border-muted"
+                  className="border-muted-foreground/40 focus:border-primary"
                 />
               </div>
               <div>
@@ -123,7 +123,7 @@ const SignIn = () => {
             Don&apos;t have an account ?{" "}
             <Link
               href={"/auth/signup"}
-              className="text-primary-foreground"
+              className="font-semibold text-muted-foreground duration-300 hover:text-blue-500"
             >
               Sign up
             </Link>
