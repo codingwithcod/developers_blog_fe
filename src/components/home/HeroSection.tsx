@@ -4,7 +4,7 @@ import { Button } from "../ui/button";
 
 const HeroSection = () => {
   return (
-    <section className="flex h-[32rem] w-full flex-col items-center gap-2 pt-52 text-center sm:h-[36rem]">
+    <section className="relative flex h-[32rem] w-full flex-col items-center gap-2 pt-52 text-center sm:h-[36rem]">
       <h1 className="text-4xl font-semibold sm:text-5xl md:text-7xl">Developers Blog</h1>
       <p className="text-[10px] tracking-[0.34em] sm:text-sm md:text-lg">
         For Developers by Developers
@@ -28,6 +28,9 @@ const HeroSection = () => {
           Search Blogs
         </Button>
       </div>
+
+      {/* ---> Blue blur effect  */}
+      <div className="absolute left-[50%] top-[50%] -z-50 h-96 w-96 -translate-x-[50%] -translate-y-[50%] rounded-full bg-blue-950 blur-[120px]"></div>
     </section>
   );
 };
