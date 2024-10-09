@@ -32,18 +32,18 @@ export default function SignIn() {
   };
 
   return (
-    <div className="container my-20 flex flex-col items-center">
+    <div className="container flex flex-col items-center py-20 sm:px-5 md:px-10 lg:px-20">
       {isSuccessAlert && (
         <div className="my-5">
           <SuccessAlert
             onClose={() => setIsSuccessAlert(false)}
             title="Success"
-            description="Your are register with us success fully now you can login to your account."
+            description="Your are register with us successfully now you can login to your account."
           />
         </div>
       )}
 
-      <Card className="w-[400px] border-muted-foreground/50 bg-background py-0 text-foreground backdrop:blur-sm">
+      <Card className="w-[400px] border-muted-foreground/30 bg-background p-5 text-foreground backdrop:blur-sm">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Developers blog</CardTitle>
           <CardDescription className="tracking-wider">
@@ -60,7 +60,7 @@ export default function SignIn() {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="Enter your Email"
-                  className="border-muted-foreground focus:border-muted"
+                  className="border-muted-foreground/40 focus:border-primary"
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -70,7 +70,7 @@ export default function SignIn() {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="Enter your Email"
-                  className="border-muted-foreground focus:border-muted"
+                  className="border-muted-foreground/40 focus:border-primary"
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -80,7 +80,7 @@ export default function SignIn() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter your Email"
-                  className="border-muted-foreground focus:border-muted"
+                  className="border-muted-foreground/40 focus:border-primary"
                 />
               </div>
               <div className="flex flex-col space-y-1.5">
@@ -90,7 +90,7 @@ export default function SignIn() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Enter your Password"
-                  className="border-muted-foreground focus:border-muted"
+                  className="border-muted-foreground/40 focus:border-primary"
                 />
               </div>
               <div>
@@ -122,7 +122,7 @@ export default function SignIn() {
             Already have an account ?{" "}
             <Link
               href={"/auth/signin"}
-              className="text-primary-foreground"
+              className="font-semibold text-muted-foreground duration-300 hover:text-blue-500"
             >
               Sign in
             </Link>
