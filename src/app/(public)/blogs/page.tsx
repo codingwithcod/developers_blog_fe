@@ -12,7 +12,7 @@ const Blogs = () => {
   const localBlogs = [...constantBlogs] as IBlog[];
 
   return (
-    <div className="container flex h-[60vh] w-full flex-col items-center">
+    <div className="container flex min-h-[90vh] flex-col items-center pb-20 pt-24 sm:px-5 md:px-10 lg:px-20">
       {localBlogs.length === 0 && (
         <div className="flex h-full w-full flex-col items-center justify-end">
           <p className="text-2xl">There is no blogs available</p>
@@ -29,7 +29,7 @@ const Blogs = () => {
           </Link>
         </div>
       )}
-      <div className="mt-24 grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4">
         {localBlogs.map((blog) => {
           return (
             <BlogCard

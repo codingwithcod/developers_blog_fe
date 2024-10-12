@@ -8,6 +8,7 @@ import { IBlog } from "@/interfaces/blog";
 import BlogCard from "@/components/BlogCard";
 import { auth } from "@/auth";
 import { BsThreeDots } from "react-icons/bs";
+import ThemeToggleButton from "@/components/ThemeToggleButton";
 
 interface IProps {
   params: {
@@ -29,22 +30,22 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
   ] as IBlog[];
 
   return (
-    <div className="container flex h-full pt-16">
+    <div className="container flex h-full pt-16 sm:px-5 md:px-10 lg:px-20">
       {/* ---> Left side */}
-      <div className="flex h-full w-full flex-col md:w-[75%] md:pr-20 lg:w-[70%]">
+      <div className="flex h-full w-full flex-col md:w-[75%] md:pr-20">
         {/* ---> Header */}
-        <div className="border-b py-10">
-          {/* ---> For large screens */}
+        <div className="border-b border-muted-foreground/20 py-10">
+          {/* ---> For large screens header */}
           <div className="hidden items-center justify-between md:flex">
             <span className="text-4xl font-semibold tracking-wide">{session?.user?.name}</span>
             <BsThreeDots className="text-xl" />
           </div>
-          {/* ---> For small screens */}
+          {/* ---> For small screens header */}
           <div className="flex items-center justify-between md:hidden">
             <div className="flex items-center gap-5">
               <Avatar className="h-16 w-16">
                 <AvatarImage src={session?.user?.image ?? ""} />
-                <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize">
+                <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize text-white">
                   {session?.user?.name?.slice(0, 2)}
                 </AvatarFallback>
               </Avatar>
@@ -68,8 +69,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
           </div>
         </div>
         {/* ---> Body */}
-
-        <div className="grid grid-cols-1 gap-10 py-16 sm:grid-cols-2 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 py-16 sm:grid-cols-2 xl:grid-cols-3">
           {localBlogs.map((blog) => {
             return (
               <BlogCard
@@ -80,11 +80,12 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
           })}
         </div>
       </div>
+
       {/* ---> Right side */}
-      <div className="sticky top-16 hidden h-[90vh] w-[25%] flex-col gap-3 border-l border-border/70 p-5 md:flex lg:w-[30%] lg:p-10">
+      <div className="sticky top-16 hidden h-[90vh] w-[25%] flex-col gap-3 border-l border-muted-foreground/20 p-5 md:flex lg:p-10">
         <Avatar className="h-20 w-20">
           <AvatarImage src={session?.user?.image ?? ""} />
-          <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize">
+          <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize text-white">
             {session?.user?.name?.slice(0, 2)}
           </AvatarFallback>
         </Avatar>
@@ -101,8 +102,9 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             </Button>
           </div>
         </div>
-        <div className="flex h-full items-end">
+        <div className="flex h-full items-end justify-between">
           <SignOutButton />
+          <ThemeToggleButton />
         </div>
       </div>
     </div>

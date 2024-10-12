@@ -1,34 +1,15 @@
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import React from "react";
+import HeroSection from "@/components/home/HeroSection";
+import MostReadBlogsSection from "@/components/home/MostReadBlogsSection";
 
 const Home = () => {
   return (
-    <div className="container min-h-dvh w-full bg-background">
-      <div className="mt-52 flex h-dvh w-full flex-col items-center gap-2">
-        <h1 className="text-7xl font-semibold">Developers Blog</h1>
-        <p className="text-lg tracking-[0.34em]">For Developers by Developers</p>
-
-        <div className="mt-10 flex gap-4">
-          <Link href={"/blogs"}>
-            <Button
-              variant={"secondary"}
-              className="rounded-full"
-              role="link"
-            >
-              Read Blogs
-            </Button>
-          </Link>
-
-          <Button
-            variant={"outline"}
-            className="rounded-full"
-          >
-            Search Blogs
-          </Button>
-        </div>
-      </div>
-    </div>
+    <>
+      <div className="absolute top-0 -z-50 h-full w-full bg-gradient-to-b from-indigo-50 via-background to-background dark:from-[#090624]" />
+      <main className="container min-h-dvh sm:px-5 md:px-10 lg:px-20">
+        <HeroSection />
+        <MostReadBlogsSection />
+      </main>
+    </>
   );
 };
 

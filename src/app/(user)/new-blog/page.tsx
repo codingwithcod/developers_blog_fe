@@ -65,7 +65,7 @@ const NewBlog = () => {
   };
 
   return (
-    <div className="container mt-20 flex h-[70vh] w-full flex-col">
+    <div className="container mt-20 flex flex-col sm:px-5 md:px-10 lg:px-20">
       {isBlogSaved && (
         <div className="mb-5">
           <SuccessAlert
@@ -96,7 +96,7 @@ const NewBlog = () => {
             name="title"
             value={title}
             onChange={handleTitleChange}
-            className="border-muted-foreground focus:border-muted"
+            className="border-muted-foreground/40 focus:border-primary"
           />
         </div>
         <div>
@@ -106,7 +106,7 @@ const NewBlog = () => {
             name="slug"
             value={slug}
             onChange={handleSlugChange}
-            className="border-muted-foreground focus:border-muted"
+            className="border-muted-foreground/40 focus:border-primary"
           />
         </div>
         <div>
@@ -116,7 +116,7 @@ const NewBlog = () => {
             name="thumbnail"
             value={thumbnail}
             onChange={(e) => setThumbnail(e.target.value)}
-            className="border-muted-foreground focus:border-muted"
+            className="border-muted-foreground/40 focus:border-primary"
           />
         </div>
       </div>
@@ -133,14 +133,10 @@ const NewBlog = () => {
           value={mdContent}
           onChange={(text) => setMdContent(text ?? "")}
           height={300}
-          style={{ marginBottom: 30 }}
+          style={{ marginBottom: 30, background: "transparent" }}
           fullscreen={isEditorFullScreen}
           onHeightChange={() => setIsEditorFullScreen(false)}
         />
-        {/* <MDEditor.Markdown
-          source={value}
-          style={{ whiteSpace: "pre-wrap", padding: 10 }}
-        /> */}
       </div>
     </div>
   );
