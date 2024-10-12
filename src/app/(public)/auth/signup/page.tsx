@@ -15,20 +15,56 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import SuccessAlert from "@/components/SuccessAlert";
+import { useToast } from "@/hooks/use-toast";
+import { axiosInstance } from "@/utils/axiosInstance";
+import { AxiosError } from "axios";
 
 export default function SignIn() {
+  const { toast } = useToast();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSuccessAlert, setIsSuccessAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCredentialSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // console.log("user info -->", { firstName, lastName, email, password });
-    setIsSuccessAlert(true);
-    window.scrollTo(0, 0);
+    if (!firstName || !lastName || !email || !password)
+      return toast({
+        title: "All field Required!!",
+        description: "First Name, Last Name, Email and Password are Required to save.",
+        variant: "destructive",
+        duration: 2000,
+      });
+    setIsLoading(true);
+
+    try {
+      await axiosInstance.post("http://localhost:3331/api/v1/auth/signup", {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+
+      setIsSuccessAlert(true);
+      window.scrollTo(0, 0);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return toast({
+          title: "Sign up Failed!",
+          description: error.response?.data.message,
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -99,8 +135,9 @@ export default function SignIn() {
                 <Button
                   type="submit"
                   className="w-full"
+                  disabled={isLoading}
                 >
-                  Sign up
+                  {isLoading ? "Signing up..." : "Sign up"}
                 </Button>
               </div>
             </div>
