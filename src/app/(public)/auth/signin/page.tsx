@@ -16,23 +16,31 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
+import { handleCredentialsSignin } from "@/actions/authActions";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleCredentialSubmit = async (e: React.FormEvent) => {
+  const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirectTo: "/",
-    });
-    if (result?.error) {
+    try {
+      const result = await handleCredentialsSignin({
+        email,
+        password,
+      });
+      if (result?.message) {
+        toast({
+          title: "Login field !!",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.log("error login ------>", error); // eslint-disable-line
       toast({
         title: "Login field !!",
-        description: result.error,
+        description: "Something went wrong try again",
         variant: "destructive",
       });
     }
@@ -70,7 +78,7 @@ const SignIn = () => {
           <CardDescription className="tracking-wider">Sign in to your account.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleCredentialSubmit}>
+          <form onSubmit={handleOnSubmit}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email">Email</Label>
