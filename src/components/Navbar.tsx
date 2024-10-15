@@ -36,9 +36,9 @@ const Navbar = async () => {
               {session && (
                 <Link href={"/u/@theabhipatel"}>
                   <Avatar className="h-7 w-7 md:h-9 md:w-9">
-                    <AvatarImage src={session.user?.image ?? ""} />
+                    <AvatarImage src={session.user?.profilePic ?? ""} />
                     <AvatarFallback className="bg-indigo-500 font-roboto font-bold capitalize text-white">
-                      {session.user?.name?.slice(0, 1)}
+                      {session.user?.firstName?.slice(0, 1)}
                     </AvatarFallback>
                   </Avatar>
                 </Link>
