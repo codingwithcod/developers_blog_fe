@@ -10,6 +10,7 @@ import {
 } from "@/config";
 import { axiosInstance } from "./utils/axiosInstance";
 import { AxiosError } from "axios";
+import { errorLog } from "./utils/errorLog";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
@@ -77,6 +78,38 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       session.user.profilePic = profilePic;
       session.user.accessToken = accessToken;
       return session;
+    },
+    signIn: async ({ user, account }) => {
+      try {
+        if (account?.provider === "google" || account?.provider === "github") {
+          const [firstName, lastName] = user.name?.split(" ") as [string, string];
+          const res = await axiosInstance.post(`/auth/oauth-signin`, {
+            provider: account?.provider,
+            providerAccountId: account?.providerAccountId,
+            email: user.email,
+            firstName,
+            lastName,
+            profilePic: user.image,
+          });
+
+          if (res?.data?.user) {
+            user._id = res.data.user._id;
+            user.firstName = res.data.user.firstName;
+            user.lastName = res.data.user.lastName;
+            user.role = res.data.user.role;
+            user.profilePic = res.data.user.profilePic;
+            user.accessToken = res.data.accessToken;
+            return true;
+          } else {
+            throw new Error("OAuth sign-in failed.");
+          }
+        }
+
+        return true;
+      } catch (error) {
+        errorLog(error);
+        return false;
+      }
     },
   },
   pages: {
