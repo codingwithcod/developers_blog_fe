@@ -1,6 +1,5 @@
 "use client";
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,9 +15,18 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
-import { handleCredentialsSignin } from "@/actions/authActions";
+import {
+  handleCredentialsSignin,
+  handleGithubSignin,
+  handleGoogleSignin,
+} from "@/actions/authActions";
+import { useRouter, useSearchParams } from "next/navigation";
+import { errorLog } from "@/utils/errorLog";
 
 const SignIn = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const signinError = searchParams.get("error");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -46,27 +54,56 @@ const SignIn = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    const result = await signIn("google", { redirectTo: "/" });
-    if (result?.error) {
-      toast({
-        title: "Login field !!",
-        description: "Something went wrong, please try again.",
-        variant: "destructive",
-      });
+  const handleGoogleSubmit = async () => {
+    try {
+      const result = await handleGoogleSignin();
+      if (result?.message) {
+        toast({
+          title: "Login field !!",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      errorLog(["error google login ------>", error]);
     }
   };
 
-  const handleGithubLogin = async () => {
-    const result = await signIn("github", { redirectTo: "/" });
-    if (result?.error) {
-      toast({
-        title: "Login field !!",
-        description: "Something went wrong, please try again.",
-        variant: "destructive",
-      });
+  const handleGithubSubmit = async () => {
+    try {
+      const result = await handleGithubSignin();
+      if (result?.message) {
+        toast({
+          title: "Login field !!",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      errorLog(["error google login ------>", error]);
     }
   };
+
+  /** ---> If login error then showing toast. */
+  useEffect(() => {
+    if (signinError) {
+      if (signinError === "AccessDenied") {
+        toast({
+          title: "Login field !!",
+          description: "You cannot log in with Google. Please use your credentials.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Login field !!",
+          description: "An error occurred during sign-in. Please try again.",
+          variant: "destructive",
+        });
+      }
+      const newUrl = window.location.pathname;
+      router.replace(newUrl);
+    }
+  }, [signinError]);
 
   return (
     <div className="container flex flex-col items-center justify-center py-20 sm:px-5 md:px-10 lg:px-20">
@@ -117,7 +154,7 @@ const SignIn = () => {
             type="button"
             variant={"outline"}
             className="w-full gap-3"
-            onClick={handleGoogleLogin}
+            onClick={handleGoogleSubmit}
           >
             <FcGoogle className="text-lg" /> Google
           </Button>
@@ -125,7 +162,7 @@ const SignIn = () => {
             type="button"
             variant={"outline"}
             className="w-full gap-3"
-            onClick={handleGithubLogin}
+            onClick={handleGithubSubmit}
           >
             <FaGithub className="text-lg" /> Github
           </Button>
