@@ -27,6 +27,44 @@ export async function handleCredentialsSignin({
   }
 }
 
+export async function handleGoogleSignin() {
+  try {
+    await signIn("google", { redirectTo: "/" });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      if (error.type === "AccessDenied") {
+        return {
+          message: "Access Denied you cannot login.",
+        };
+      } else {
+        return {
+          message: "Something went wrong.",
+        };
+      }
+    }
+    throw error;
+  }
+}
+
+export async function handleGithubSignin() {
+  try {
+    await signIn("github", { redirectTo: "/" });
+  } catch (error) {
+    if (error instanceof AuthError) {
+      if (error.type === "AccessDenied") {
+        return {
+          message: "Access Denied you cannot login.",
+        };
+      } else {
+        return {
+          message: "Something went wrong.",
+        };
+      }
+    }
+    throw error;
+  }
+}
+
 export async function handleSignOut() {
   await signOut({ redirectTo: "/auth/signin" });
 }
