@@ -108,11 +108,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return true;
       } catch (error) {
         errorLog(error);
-        return false;
+        if (error instanceof AxiosError) {
+          throw new Error(error.response?.data.message);
+        }
+        throw error;
       }
     },
   },
   pages: {
     signIn: "/auth/signin",
+    error: "/auth/signin",
   },
 });
