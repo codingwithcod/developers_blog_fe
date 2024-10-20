@@ -8,7 +8,7 @@ import {
   AUTH_GOOGLE_CLIENT_ID,
   AUTH_GOOGLE_SECRET,
 } from "@/config";
-import { axiosInstance } from "./utils/axiosInstance";
+import { axiosClient } from "./utils/axiosClient";
 import { AxiosError } from "axios";
 import { errorLog } from "./utils/errorLog";
 
@@ -44,7 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         const { email, password } = credentials;
         try {
-          const res = await axiosInstance.post("/auth/signin", { email, password });
+          const res = await axiosClient.post("/auth/signin", { email, password });
           return { ...res.data.user, accessToken: res.data.accessToken };
         } catch (error) {
           if (error instanceof AxiosError) {
@@ -83,7 +83,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       try {
         if (account?.provider === "google" || account?.provider === "github") {
           const [firstName, lastName] = user.name?.split(" ") as [string, string];
-          const res = await axiosInstance.post(`/auth/oauth-signin`, {
+          const res = await axiosClient.post(`/auth/oauth-signin`, {
             provider: account?.provider,
             providerAccountId: account?.providerAccountId,
             email: user.email,
