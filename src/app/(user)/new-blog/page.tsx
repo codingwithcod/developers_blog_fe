@@ -6,6 +6,11 @@ import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import SuccessAlert from "@/components/SuccessAlert";
 import { handleMakeSlug } from "@/utils/handleMakeSlug";
+import { errorLog } from "@/utils/errorLog";
+import { axiosClient } from "@/utils/axiosClient";
+import apiEndpoints from "@/api/apiEndpoints";
+
+type TStatus = "draft" | "published";
 
 const NewBlog = () => {
   const { toast } = useToast();
@@ -16,7 +21,7 @@ const NewBlog = () => {
   const [isEditorFullScreen, setIsEditorFullScreen] = useState(false);
   const [isBlogSaved, setIsBlogSaved] = useState(false);
 
-  const handleSave = () => {
+  const handleSave = async (status: TStatus) => {
     if (!title || !slug || !thumbnail || !mdContent) {
       return toast({
         title: "All field Required!!",
@@ -26,28 +31,28 @@ const NewBlog = () => {
       });
     }
 
-    const localBlogs = JSON.parse(localStorage.getItem("blogs") ?? "[]");
-
-    const blogs = [
-      {
-        id: `bid${Date.now()}`,
+    try {
+      await axiosClient.post(apiEndpoints.blogs.addBlog, {
         title,
         slug,
         thumbnail,
+        status,
         content: mdContent,
-        createdAt: Date.now(),
-        reads: 1,
-        userName: "The AbhiPatel",
-      },
-      ...localBlogs,
-    ];
-
-    localStorage.setItem("blogs", JSON.stringify(blogs));
-    setIsBlogSaved(true);
-    setTitle("");
-    setSlug("");
-    setThumbnail("");
-    setMdContent("**Namaskar Developers!!**");
+      });
+      setIsBlogSaved(true);
+      setTitle("");
+      setSlug("");
+      setThumbnail("");
+      setMdContent("**Namaskar Developers!!**");
+    } catch (error) {
+      errorLog(error);
+      toast({
+        title: "Blog saving failed !!",
+        description: "Blog did not save, please try again",
+        variant: "destructive",
+        duration: 2000,
+      });
+    }
   };
 
   /** Handling Title and Slug */
@@ -81,11 +86,16 @@ const NewBlog = () => {
         <div className="flex gap-3">
           <Button
             variant={"outline"}
-            onClick={handleSave}
+            onClick={() => handleSave("draft")}
           >
             Save
           </Button>
-          <Button variant={"secondary"}>Publish</Button>
+          <Button
+            variant={"secondary"}
+            onClick={() => handleSave("published")}
+          >
+            Publish
+          </Button>
         </div>
       </div>
       <div className="mt-10 flex flex-col gap-3">
