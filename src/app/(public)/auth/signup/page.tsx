@@ -16,8 +16,9 @@ import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import SuccessAlert from "@/components/SuccessAlert";
 import { useToast } from "@/hooks/use-toast";
-import { axiosInstance } from "@/utils/axiosInstance";
+import { axiosClient } from "@/utils/axiosClient";
 import { AxiosError } from "axios";
+import apiEndpoints from "@/api/apiEndpoints";
 
 export default function SignIn() {
   const { toast } = useToast();
@@ -41,7 +42,7 @@ export default function SignIn() {
     setIsLoading(true);
 
     try {
-      await axiosInstance.post("http://localhost:3331/api/v1/auth/signup", {
+      await axiosClient.post(apiEndpoints.auth.signup, {
         firstName,
         lastName,
         email,
