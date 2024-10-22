@@ -12,6 +12,7 @@ import {
 import { axiosClient } from "./utils/axiosClient";
 import axios, { AxiosError } from "axios";
 import { errorLog } from "./utils/errorLog";
+import apiEndpoints from "./api/apiEndpoints";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
@@ -45,7 +46,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         const { email, password } = credentials;
         try {
-          const res = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/auth/signin`, {
+          const res = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/${apiEndpoints.auth.signin}`, {
             email,
             password,
           });
