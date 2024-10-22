@@ -7,9 +7,10 @@ import {
   AUTH_GITHUB_SECRET,
   AUTH_GOOGLE_CLIENT_ID,
   AUTH_GOOGLE_SECRET,
+  NEXT_PUBLIC_API_BASE_URL,
 } from "@/config";
 import { axiosClient } from "./utils/axiosClient";
-import { AxiosError } from "axios";
+import axios, { AxiosError } from "axios";
 import { errorLog } from "./utils/errorLog";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -44,13 +45,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         const { email, password } = credentials;
         try {
-          const res = await axiosClient.post("/auth/signin", { email, password });
+          const res = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/auth/signin`, {
+            email,
+            password,
+          });
           return { ...res.data.user, accessToken: res.data.accessToken };
         } catch (error) {
           if (error instanceof AxiosError) {
             throw new CredentialsSignin(error.response?.data.message);
           }
-          throw new Error("Invalid email or password.");
+          throw new Error("Something went wrong. Please try again later.");
         }
       },
     }),
