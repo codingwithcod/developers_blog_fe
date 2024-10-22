@@ -15,7 +15,7 @@ export async function handleCredentialsSignin({
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {
         return {
-          message: "Invalid credentials",
+          message: error.message.split("Read")[0],
         };
       } else {
         return {
