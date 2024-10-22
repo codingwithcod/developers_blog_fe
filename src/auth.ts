@@ -9,7 +9,6 @@ import {
   AUTH_GOOGLE_SECRET,
   NEXT_PUBLIC_API_BASE_URL,
 } from "@/config";
-import { axiosClient } from "./utils/axiosClient";
 import axios, { AxiosError } from "axios";
 import { errorLog } from "./utils/errorLog";
 import apiEndpoints from "./api/apiEndpoints";
@@ -88,7 +87,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       try {
         if (account?.provider === "google" || account?.provider === "github") {
           const [firstName, lastName] = user.name?.split(" ") as [string, string];
-          const res = await axiosClient.post(`/auth/oauth-signin`, {
+          const res = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/${apiEndpoints.auth.oAuth}`, {
             provider: account?.provider,
             providerAccountId: account?.providerAccountId,
             email: user.email,
