@@ -7,11 +7,11 @@ import {
   AUTH_GITHUB_SECRET,
   AUTH_GOOGLE_CLIENT_ID,
   AUTH_GOOGLE_SECRET,
-  NEXT_PUBLIC_API_BASE_URL,
 } from "@/config";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { errorLog } from "./utils/errorLog";
 import apiEndpoints from "./api/apiEndpoints";
+import { axiosClient } from "./utils/axiosClient";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: {
@@ -45,7 +45,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       async authorize(credentials) {
         const { email, password } = credentials;
         try {
-          const res = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/${apiEndpoints.auth.signin}`, {
+          const res = await axiosClient.post(apiEndpoints.auth.signin, {
             email,
             password,
           });
@@ -87,7 +87,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       try {
         if (account?.provider === "google" || account?.provider === "github") {
           const [firstName, lastName] = user.name?.split(" ") as [string, string];
-          const res = await axios.post(`${NEXT_PUBLIC_API_BASE_URL}/${apiEndpoints.auth.oAuth}`, {
+          const res = await axiosClient.post(apiEndpoints.auth.oAuth, {
             provider: account?.provider,
             providerAccountId: account?.providerAccountId,
             email: user.email,
