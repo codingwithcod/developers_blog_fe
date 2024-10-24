@@ -7,7 +7,7 @@ import { timeAgo } from "@/utils/timeAgo";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { IBlog } from "@/interfaces/blog";
+import { IBlog } from "@/interfaces/IBlog";
 import { FC, MouseEvent } from "react";
 
 interface IProps {
@@ -15,7 +15,15 @@ interface IProps {
 }
 
 const BlogCard: FC<IProps> = ({ blog }) => {
-  const { id, title, slug, thumbnail, userName, reads, createdAt } = blog;
+  const {
+    _id,
+    title,
+    slug,
+    thumbnail,
+    reads,
+    createdAt,
+    user: { firstName, lastName, username, profilePic },
+  } = blog;
 
   const handleOptionClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -23,7 +31,7 @@ const BlogCard: FC<IProps> = ({ blog }) => {
   };
 
   return (
-    <Link href={`/blogs/${slug}?id=${id}`}>
+    <Link href={`/blogs/${slug}?id=${_id}`}>
       <Card className="w-full border-none bg-background text-foreground shadow-none">
         {/* ---> Thumbnail  */}
         <div className="overflow-hidden rounded-lg">
@@ -41,16 +49,16 @@ const BlogCard: FC<IProps> = ({ blog }) => {
           {/* ---> Avatar  */}
           <div className="flex gap-3">
             <Avatar className="h-8 w-8">
-              <AvatarImage src="https://github.com/shadcn.png" />
-              <AvatarFallback>CN</AvatarFallback>
+              <AvatarImage src={profilePic} />
+              <AvatarFallback>{firstName.slice(0, 1)}</AvatarFallback>
             </Avatar>
           </div>
           {/* ---> Title and user name  */}
-          <div className="font-sans">
+          <div className="w-full font-sans">
             <div className="flex">
-              <CardTitle className="line-clamp-2 leading-5">{title}</CardTitle>
+              <CardTitle className="line-clamp-2 w-full leading-5">{title}</CardTitle>
               {/* ---> Options three dots  */}
-              <div className="translate-x-2">
+              <div className="translate-x-2 justify-self-end">
                 <Button
                   onClick={handleOptionClick}
                   className="relative h-10 w-10 rounded-full bg-background text-muted-foreground shadow-none hover:bg-muted"
@@ -60,9 +68,13 @@ const BlogCard: FC<IProps> = ({ blog }) => {
               </div>
             </div>
             <div className="mt-2 text-muted-foreground">
-              <p className="text-sm font-medium">{userName}</p>
+              <Link href={`/u/${username}`}>
+                <p className="text-sm font-medium">
+                  {firstName} {lastName}
+                </p>
+              </Link>
               <div className="flex items-center text-sm">
-                <p className="text-nowrap">{reads}K reads</p>
+                <p className="text-nowrap">{reads.length}K reads</p>
                 <DotFilledIcon />
                 <p className="text-nowrap">{timeAgo(createdAt)}</p>
               </div>
