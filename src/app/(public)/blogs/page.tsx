@@ -1,5 +1,5 @@
 import React from "react";
-import { IBlog } from "@/interfaces/blog";
+import { IBlog } from "@/interfaces/IBlog";
 import BlogCard from "@/components/BlogCard";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,7 @@ const Blogs = async () => {
   try {
     const res = await axiosClient.get(apiEndpoints.blogs.getAllBlogs);
     const blogs = res.data.blogs as IBlog[];
+
     return (
       <div className="container flex min-h-[90vh] flex-col items-center pb-20 pt-24 sm:px-5 md:px-10 lg:px-20">
         {blogs.length === 0 && (
