@@ -15,7 +15,7 @@ const Blogs = async () => {
     return (
       <div className="container flex min-h-[90vh] flex-col items-center pb-20 pt-24 sm:px-5 md:px-10 lg:px-20">
         {blogs.length === 0 && (
-          <div className="flex h-full w-full flex-col items-center justify-end">
+          <div className="flex h-[20rem] w-full flex-col items-center justify-center">
             <p className="text-2xl">There is no blogs available</p>
             <p className="text-muted-foreground">You can also Write your own blogs</p>
             <Link href={`/new-blog`}>
