@@ -20,15 +20,9 @@ interface IProps {
 }
 
 const Blog: FC<IProps> = async ({ params: { slug } }) => {
-  // const query = useSearchParams();
-  // const decodedSlug = decodeURIComponent(slug);
-  // const localBlogs = JSON.parse(localStorage.getItem("blogs") ?? "[]") as IBlog[];
-  // const blog = blogs.find((blog) => blog.id === query.get("id"));
-
   try {
-    const res = await axiosClient.get(apiEndpoints.blogs.getBlog("67125bc0c80b84425e78a512"));
+    const res = await axiosClient.get(apiEndpoints.blogs.getBlogBySlug(slug));
     const blog = res.data.blog as IBlogPost;
-    console.log(slug); // eslint-disable-line
 
     return (
       <div className="container flex min-h-[90vh] flex-col py-20 sm:px-5 md:px-10 lg:px-52">
