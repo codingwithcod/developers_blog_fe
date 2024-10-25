@@ -7,7 +7,8 @@ const apiEndpoints = {
   blogs: {
     addBlog: `/blogs/add`,
     updateBlog: (blogId: string) => `/blogs/update/${blogId}`,
-    getBlog: (blogId: string) => `/blogs/${blogId}`,
+    getBlogById: (blogId: string) => `/blogs/${blogId}`,
+    getBlogBySlug: (slug: string) => `/blogs/slug/${slug}`,
     getAllBlogs: `/blogs`,
     getAllMyBlogs: `/blogs/my-blogs`,
   },
