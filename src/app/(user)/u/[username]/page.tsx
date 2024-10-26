@@ -30,21 +30,23 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
         <div className="border-b border-muted-foreground/20 py-10">
           {/* ---> For large screens header */}
           <div className="hidden items-center justify-between md:flex">
-            <span className="text-4xl font-semibold tracking-wide">{session?.user?.name}</span>
+            <span className="text-4xl font-semibold tracking-wide">
+              {session?.user?.firstName} {session?.user?.lastName}
+            </span>
             <BsThreeDots className="text-xl" />
           </div>
           {/* ---> For small screens header */}
           <div className="flex items-center justify-between md:hidden">
             <div className="flex items-center gap-5">
               <Avatar className="h-16 w-16">
-                <AvatarImage src={session?.user?.image ?? ""} />
-                <AvatarFallback className="bg-indigo-500 text-2xl font-bold capitalize text-white">
-                  {session?.user?.name?.slice(0, 2)}
+                <AvatarImage src={session?.user?.profilePic ?? ""} />
+                <AvatarFallback className="select-none bg-indigo-500 text-2xl font-bold capitalize text-white">
+                  {session?.user?.firstName?.slice(0, 1)}
                 </AvatarFallback>
               </Avatar>
               <div>
                 <h2 className="text-xl font-semibold tracking-wider sm:text-2xl">
-                  {session?.user?.name}
+                  {session?.user?.firstName} {session?.user?.lastName}
                 </h2>
                 <p className="text-muted-foreground">552 Followers</p>
               </div>
