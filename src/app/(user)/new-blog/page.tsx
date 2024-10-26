@@ -20,6 +20,8 @@ const NewBlog = () => {
   const [mdContent, setMdContent] = useState("**Namaskar Developers!!**");
   const [isEditorFullScreen, setIsEditorFullScreen] = useState(false);
   const [isBlogSaved, setIsBlogSaved] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const handleSave = async (status: TStatus) => {
     if (!title || !slug || !thumbnail || !mdContent) {
@@ -29,6 +31,11 @@ const NewBlog = () => {
         variant: "destructive",
         duration: 2000,
       });
+    }
+    if (status === "draft") {
+      setIsSaving(true);
+    } else {
+      setIsPublishing(true);
     }
 
     try {
@@ -52,6 +59,9 @@ const NewBlog = () => {
         variant: "destructive",
         duration: 2000,
       });
+    } finally {
+      setIsSaving(false);
+      setIsPublishing(false);
     }
   };
 
@@ -86,15 +96,19 @@ const NewBlog = () => {
         <div className="flex gap-3">
           <Button
             variant={"outline"}
+            disabled={isSaving || isPublishing}
             onClick={() => handleSave("draft")}
+            className="w-24"
           >
-            Save
+            {isSaving ? "Saving.." : "Save"}
           </Button>
           <Button
             variant={"secondary"}
+            disabled={isSaving || isPublishing}
             onClick={() => handleSave("published")}
+            className="w-28"
           >
-            Publish
+            {isPublishing ? "Publishing.." : "Publish"}
           </Button>
         </div>
       </div>
