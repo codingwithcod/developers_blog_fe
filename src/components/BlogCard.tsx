@@ -9,14 +9,15 @@ import { Button } from "@/components/ui/button";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IBlog } from "@/interfaces/IBlog";
 import { FC, MouseEvent } from "react";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   blog: IBlog;
 }
 
 const BlogCard: FC<IProps> = ({ blog }) => {
+  const router = useRouter();
   const {
-    _id,
     title,
     slug,
     thumbnail,
@@ -30,8 +31,14 @@ const BlogCard: FC<IProps> = ({ blog }) => {
     e.preventDefault();
   };
 
+  const handleNavigateToProfile = (e: MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    e.preventDefault();
+    router.push(`/u/@${username}`);
+  };
+
   return (
-    <Link href={`/blogs/${slug}?id=${_id}`}>
+    <Link href={`/blogs/${slug}`}>
       <Card className="w-full border-none bg-background text-foreground shadow-none">
         {/* ---> Thumbnail  */}
         <div className="overflow-hidden rounded-lg">
@@ -47,11 +54,13 @@ const BlogCard: FC<IProps> = ({ blog }) => {
         {/* ---> Card footer  */}
         <div className="flex gap-3 py-2">
           {/* ---> Avatar  */}
-          <div className="flex gap-3">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={profilePic} />
-              <AvatarFallback>{firstName.slice(0, 1)}</AvatarFallback>
-            </Avatar>
+          <div className="flex items-start gap-3">
+            <button onClick={handleNavigateToProfile}>
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={profilePic} />
+                <AvatarFallback>{firstName.slice(0, 1)}</AvatarFallback>
+              </Avatar>
+            </button>
           </div>
           {/* ---> Title and user name  */}
           <div className="w-full font-sans">
@@ -68,11 +77,14 @@ const BlogCard: FC<IProps> = ({ blog }) => {
               </div>
             </div>
             <div className="mt-2 text-muted-foreground">
-              <Link href={`/u/${username}`}>
+              <button
+                onClick={handleNavigateToProfile}
+                className="pr-2"
+              >
                 <p className="text-sm font-medium">
                   {firstName} {lastName}
                 </p>
-              </Link>
+              </button>
               <div className="flex items-center text-sm">
                 <p className="text-nowrap">{reads.length}K reads</p>
                 <DotFilledIcon />
