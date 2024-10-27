@@ -3,7 +3,7 @@ import { errorLog } from "@/utils/errorLog";
 import { Button } from "./ui/button";
 import { axiosClient } from "@/utils/axiosClient";
 import apiEndpoints from "@/api/apiEndpoints";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
 
@@ -12,15 +12,25 @@ interface IProps {
   isFollowed?: boolean;
 }
 
-const FollowButton: FC<IProps> = ({ followingId, isFollowed }) => {
+const FollowButton: FC<IProps> = ({ followingId, isFollowed: isFollowedByUser }) => {
   const { toast } = useToast();
+  const [isFollowed, setIsFollowed] = useState(isFollowedByUser);
 
   const handleFollowUnFollow = async () => {
     try {
-      await axiosClient.post(apiEndpoints.user.followUser(followingId));
-      toast({
-        title: "Followed successfully",
-      });
+      if (isFollowed) {
+        const res = await axiosClient.delete(apiEndpoints.user.unFollowUser(followingId));
+        toast({
+          title: res.data.message,
+        });
+        setIsFollowed(false);
+      } else {
+        const res = await axiosClient.post(apiEndpoints.user.followUser(followingId));
+        toast({
+          title: res.data.message,
+        });
+        setIsFollowed(true);
+      }
     } catch (error) {
       errorLog(error);
       if (error instanceof AxiosError) {
@@ -35,7 +45,7 @@ const FollowButton: FC<IProps> = ({ followingId, isFollowed }) => {
   return (
     <Button
       variant={isFollowed ? "default" : "outline"}
-      className="rounded-full"
+      className="w-24 rounded-full"
       onClick={handleFollowUnFollow}
     >
       {isFollowed ? "Followed" : "Follow"}
