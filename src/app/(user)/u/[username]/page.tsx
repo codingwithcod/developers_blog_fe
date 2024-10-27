@@ -1,6 +1,5 @@
 import SignOutButton from "@/components/SignOutButton";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { FC } from "react";
 import { auth } from "@/auth";
 import { BsThreeDots } from "react-icons/bs";
@@ -11,6 +10,7 @@ import apiEndpoints from "@/api/apiEndpoints";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
 import { IUserProfile } from "@/interfaces/IUserProfile";
+import FollowButton from "@/components/FollowButton";
 
 interface IProps {
   params: {
@@ -59,12 +59,12 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
               </div>
 
               <div className="flex items-center gap-3">
-                <Button
-                  variant={"outline"}
-                  className="rounded-full"
-                >
-                  Follow
-                </Button>
+                {!isUserSelf && (
+                  <FollowButton
+                    followingId={profile.user}
+                    isFollowed={profile.isFollowed}
+                  />
+                )}
                 <BsThreeDots className="text-xl" />
               </div>
             </div>
@@ -89,12 +89,10 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             <p className="text-muted-foreground">Creator, Software Engineer, Traveller.</p>
             <div>
               {!isUserSelf && (
-                <Button
-                  variant={"outline"}
-                  className="rounded-full"
-                >
-                  Follow
-                </Button>
+                <FollowButton
+                  followingId={profile.user}
+                  isFollowed={profile.isFollowed}
+                />
               )}
             </div>
           </div>
