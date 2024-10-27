@@ -19,9 +19,10 @@ interface IProps {
 }
 
 const Profile: FC<IProps> = async ({ params: { username } }) => {
-  // [] Todo : have to check user. if self profile then show some other options as well
-  const session = await auth(); // eslint-disable-line
+  const session = await auth();
   const decodedUsername = decodeURIComponent(username).slice(1);
+
+  const isUserSelf = session?.user.username === decodedUsername;
 
   try {
     const res = await axiosClient.get(apiEndpoints.user.getProfileByUserName(decodedUsername));
@@ -87,18 +88,22 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             <p className="text-muted-foreground">552 Followers</p>
             <p className="text-muted-foreground">Creator, Software Engineer, Traveller.</p>
             <div>
-              <Button
-                variant={"outline"}
-                className="rounded-full"
-              >
-                Follow
-              </Button>
+              {!isUserSelf && (
+                <Button
+                  variant={"outline"}
+                  className="rounded-full"
+                >
+                  Follow
+                </Button>
+              )}
             </div>
           </div>
-          <div className="flex h-full items-end justify-between">
-            <SignOutButton />
-            <ThemeToggleButton />
-          </div>
+          {isUserSelf && (
+            <div className="flex h-full items-end justify-between">
+              <SignOutButton />
+              <ThemeToggleButton />
+            </div>
+          )}
         </div>
       </div>
     );
