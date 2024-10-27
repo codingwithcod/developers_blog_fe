@@ -5,12 +5,16 @@ import { IBlog } from "@/interfaces/IBlog";
 import { axiosClient } from "@/utils/axiosClient";
 import { errorLog } from "@/utils/errorLog";
 import Link from "next/link";
-import React from "react";
+import React, { FC } from "react";
 import { HiPencilSquare } from "react-icons/hi2";
 
-const MyBlogs = async () => {
+interface IProps {
+  userId: string;
+}
+
+const MyBlogs: FC<IProps> = async ({ userId }) => {
   try {
-    const res = await axiosClient.get(apiEndpoints.blogs.getAllMyBlogs);
+    const res = await axiosClient.get(apiEndpoints.blogs.getUsersAllBlogByUserId(userId));
     const blogs = res.data.blogs as IBlog[];
 
     return (
