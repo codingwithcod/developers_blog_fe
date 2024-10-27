@@ -8,6 +8,7 @@ export interface IBlogPost {
       user: string;
       firstName: string;
       lastName: string;
+      profilePic: string;
     };
     id: string;
   };
