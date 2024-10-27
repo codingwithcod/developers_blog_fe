@@ -15,6 +15,8 @@ const apiEndpoints = {
   },
   user: {
     getProfileByUserName: (username: string) => `/user/profile/${username}`,
+    followUser: (followingId: string) => `/user/follow/${followingId}`,
+    unFollowUser: (followingId: string) => `/user/unfollow/${followingId}`,
   },
 };
 
