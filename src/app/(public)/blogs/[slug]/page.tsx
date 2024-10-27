@@ -41,7 +41,7 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
                 <div className="flex items-center gap-5">
                   <Link href={`/u/@theabhipatel`}>
                     <Avatar className="h-12 w-12">
-                      <AvatarImage src={""} />
+                      <AvatarImage src={blog.user.userProfile.profilePic} />
                       <AvatarFallback className="bg-indigo-500 text-xl font-bold capitalize text-white">
                         {blog.user.userProfile.firstName.slice(0, 1)}
                       </AvatarFallback>
