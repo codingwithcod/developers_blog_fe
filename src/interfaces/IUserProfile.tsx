@@ -4,6 +4,8 @@ export interface IUserProfile {
   firstName: string;
   lastName: string;
   profilePic?: string;
+  followers: number;
+  isFollowed?: boolean;
   createdAt: string;
   updatedAt: string;
 }
