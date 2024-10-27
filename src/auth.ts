@@ -69,15 +69,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         token.role = user.role;
         token.profilePic = user.profilePic;
         token.accessToken = user.accessToken;
+        token.username = user.username;
       }
       return token;
     },
     session({ session, token }) {
-      const { _id, firstName, lastName, email, role, profilePic, accessToken } = token;
+      const { _id, firstName, lastName, email, role, profilePic, accessToken, username } = token;
       session.user._id = _id;
       session.user.firstName = firstName;
       session.user.lastName = lastName;
       session.user.email = email;
+      session.user.username = username;
       session.user.role = role;
       session.user.profilePic = profilePic;
       session.user.accessToken = accessToken;
@@ -100,6 +102,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             user._id = res.data.user._id;
             user.firstName = res.data.user.firstName;
             user.lastName = res.data.user.lastName;
+            user.username = res.data.user.username;
             user.role = res.data.user.role;
             user.profilePic = res.data.user.profilePic;
             user.accessToken = res.data.accessToken;
