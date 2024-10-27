@@ -89,7 +89,7 @@ const NavbarMobileMenu: FC<IProps> = ({ session }) => {
             <div>
               <div className="flex items-center gap-5">
                 <Link
-                  href={"/u/@theabhipatel"}
+                  href={`/u/@${session.user.username}`}
                   onClick={handleClickOnLink}
                 >
                   <Avatar className="h-12 w-12">
@@ -99,9 +99,14 @@ const NavbarMobileMenu: FC<IProps> = ({ session }) => {
                     </AvatarFallback>
                   </Avatar>
                 </Link>
-                <p className="line-clamp-1 text-xl">
-                  {session.user?.firstName} {session.user?.lastName}
-                </p>
+                <Link
+                  href={`/u/@${session.user.username}`}
+                  onClick={handleClickOnLink}
+                >
+                  <p className="line-clamp-1 text-xl">
+                    {session.user?.firstName} {session.user?.lastName}
+                  </p>
+                </Link>
               </div>
               <hr className="my-3 border-border/50" />
               <div className="flex w-full items-center justify-between">
