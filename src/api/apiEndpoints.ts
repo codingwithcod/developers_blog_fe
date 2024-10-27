@@ -12,6 +12,9 @@ const apiEndpoints = {
     getAllBlogs: `/blogs`,
     getAllMyBlogs: `/blogs/my-blogs`,
   },
+  user: {
+    getProfileByUserName: (username: string) => `/user/profile/${username}`,
+  },
 };
 
 export default apiEndpoints;
