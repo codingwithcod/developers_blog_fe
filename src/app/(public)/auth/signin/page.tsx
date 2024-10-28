@@ -29,9 +29,22 @@ const SignIn = () => {
   const signinError = searchParams.get("error");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      toast({
+        title: "Email and Password are required !!",
+        description: "Please fill correct email and password",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
       const result = await handleCredentialsSignin({
         email,
@@ -141,8 +154,9 @@ const SignIn = () => {
                 <Button
                   type="submit"
                   className="w-full"
+                  disabled={isLoading}
                 >
-                  Sign in
+                  {isLoading ? "Signing in..." : "Sign in"}
                 </Button>
               </div>
             </div>
