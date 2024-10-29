@@ -82,9 +82,14 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-2">
-            <h2 className="font-medium tracking-wider text-foreground">
-              {profile.firstName} {profile.lastName}
-            </h2>
+            <div>
+              <h2 className="font-medium tracking-wider text-foreground">
+                {profile.firstName} {profile.lastName}
+              </h2>
+              {isUserSelf && (
+                <p className="line-clamp-1 text-muted-foreground/60">{profile.email} something</p>
+              )}
+            </div>
             <p className="text-muted-foreground">552 Followers</p>
             <p className="text-muted-foreground">Creator, Software Engineer, Traveller.</p>
             <div>
