@@ -12,6 +12,8 @@ import { axiosClient } from "@/utils/axiosClient";
 import apiEndpoints from "@/api/apiEndpoints";
 import { IBlogPost } from "@/interfaces/IBlogPost";
 import { errorLog } from "@/utils/errorLog";
+import { AxiosError } from "axios";
+import { notFound } from "next/navigation";
 
 interface IProps {
   params: {
@@ -111,6 +113,9 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
     );
   } catch (error) {
     errorLog(error);
+    if (error instanceof AxiosError) {
+      return notFound();
+    }
     return (
       <div className="container flex min-h-[90vh] flex-col items-center justify-center pb-20 pt-24 text-center sm:px-5 md:px-10 lg:px-20">
         <h1 className="text-lg">Failed to fetch blog</h1>
