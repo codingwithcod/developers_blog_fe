@@ -3,14 +3,10 @@ export interface IBlogPost {
   user: {
     _id: string;
     email: string;
-    userProfile: {
-      _id: string;
-      user: string;
-      firstName: string;
-      lastName: string;
-      profilePic: string;
-    };
-    id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    profilePic: string;
   };
   title: string;
   slug: string;
