@@ -39,18 +39,18 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
 
               <div className="flex items-center justify-between py-5">
                 <div className="flex items-center gap-5">
-                  <Link href={`/u/@theabhipatel`}>
+                  <Link href={`/u/@${blog.user.username}`}>
                     <Avatar className="h-12 w-12">
-                      <AvatarImage src={blog.user.userProfile.profilePic} />
+                      <AvatarImage src={blog.user.profilePic} />
                       <AvatarFallback className="bg-indigo-500 text-xl font-bold capitalize text-white">
-                        {blog.user.userProfile.firstName.slice(0, 1)}
+                        {blog.user.firstName.slice(0, 1)}
                       </AvatarFallback>
                     </Avatar>
                   </Link>
                   <div>
                     <p className="text-base font-semibold tracking-wider sm:text-2xl">
-                      <Link href={`/u/@theabhipatel`}>
-                        {blog.user.userProfile.firstName} {blog.user.userProfile.lastName}
+                      <Link href={`/u/@${blog.user.username}`}>
+                        {blog.user.firstName} {blog.user.lastName}
                       </Link>
                     </p>
                     <div className="flex items-center gap-1">
