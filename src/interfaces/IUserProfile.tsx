@@ -3,6 +3,7 @@ export interface IUserProfile {
   user: string;
   firstName: string;
   lastName: string;
+  email: string;
   profilePic?: string;
   followers: number;
   isFollowed?: boolean;
