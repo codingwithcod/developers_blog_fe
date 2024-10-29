@@ -7,6 +7,7 @@ export interface IBlogPost {
     firstName: string;
     lastName: string;
     profilePic: string;
+    isFollowed: boolean;
   };
   title: string;
   slug: string;
