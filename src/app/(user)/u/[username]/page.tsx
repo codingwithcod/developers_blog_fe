@@ -11,6 +11,10 @@ import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
 import { IUserProfile } from "@/interfaces/IUserProfile";
 import FollowButton from "@/components/FollowButton";
+import { MdEmail } from "react-icons/md";
+/** ---> Hover card imports */
+
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 interface IProps {
   params: {
@@ -82,14 +86,44 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             </AvatarFallback>
           </Avatar>
           <div className="flex flex-col gap-2">
-            <div>
+            <div className="w-full">
               <h2 className="font-medium tracking-wider text-foreground">
                 {profile.firstName} {profile.lastName}
               </h2>
+
               {isUserSelf && (
-                <p className="line-clamp-1 text-muted-foreground/60">{profile.email} something</p>
+                <>
+                  <HoverCard>
+                    <HoverCardTrigger
+                      asChild
+                      className=""
+                    >
+                      <div>
+                        <p className="line-clamp-1 text-sm text-muted-foreground/60">
+                          {profile.email} <span className="invisible">.</span>
+                        </p>
+                      </div>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-80">
+                      <div className="flex justify-between space-x-4">
+                        <div className="space-y-1">
+                          <h4 className="text-sm font-semibold">
+                            {profile.firstName} {profile.lastName}
+                          </h4>
+                          <span className="text-xs text-muted-foreground">@{decodedUsername}</span>
+
+                          <div className="flex items-center pt-2">
+                            <MdEmail className="mr-2 h-4 w-4 opacity-70" />{" "}
+                            <span className="text-sm text-muted-foreground">{profile.email}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </HoverCardContent>
+                  </HoverCard>
+                </>
               )}
             </div>
+
             <p className="text-muted-foreground">552 Followers</p>
             <p className="text-muted-foreground">Creator, Software Engineer, Traveller.</p>
             <div>
