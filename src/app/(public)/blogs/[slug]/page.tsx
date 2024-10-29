@@ -2,7 +2,6 @@ import { FC } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import { BsThreeDots } from "react-icons/bs";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 import { FaBookReader, FaCommentDots } from "react-icons/fa";
@@ -14,6 +13,8 @@ import { IBlogPost } from "@/interfaces/IBlogPost";
 import { errorLog } from "@/utils/errorLog";
 import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
+import FollowButton from "@/components/FollowButton";
+import { auth } from "@/auth";
 
 interface IProps {
   params: {
@@ -22,17 +23,14 @@ interface IProps {
 }
 
 const Blog: FC<IProps> = async ({ params: { slug } }) => {
+  const session = await auth();
+
   try {
     const res = await axiosClient.get(apiEndpoints.blogs.getBlogBySlug(slug));
     const blog = res.data.blog as IBlogPost;
 
     return (
       <div className="container flex min-h-[90vh] flex-col py-20 sm:px-5 md:px-10 lg:px-52">
-        {!blog && (
-          <div className="flex h-[60vh] items-center justify-center">
-            <p className="text-muted-foreground">This Blog is not exists or unavailable</p>
-          </div>
-        )}
         {blog && (
           <>
             {/* ---> Blog header  */}
@@ -66,12 +64,13 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
                 </div>
 
                 <div className="flex items-center gap-3">
-                  <Button
-                    variant={"outline"}
-                    className="rounded-full"
-                  >
-                    Follow
-                  </Button>
+                  {session?.user._id !== blog.user._id && (
+                    <FollowButton
+                      isFollowed={blog.user.isFollowed}
+                      followingId={blog.user._id}
+                    />
+                  )}
+
                   <BsThreeDots className="text-xl" />
                 </div>
               </div>
