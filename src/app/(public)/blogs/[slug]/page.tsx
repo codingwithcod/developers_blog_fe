@@ -5,7 +5,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { BsThreeDots } from "react-icons/bs";
 import { DotFilledIcon } from "@radix-ui/react-icons";
 import { FaBookReader, FaCommentDots } from "react-icons/fa";
-import { AiFillLike } from "react-icons/ai";
 import RenderMarkdown from "./RenderMarkdown";
 import { axiosClient } from "@/utils/axiosClient";
 import apiEndpoints from "@/api/apiEndpoints";
@@ -15,6 +14,7 @@ import { AxiosError } from "axios";
 import { notFound } from "next/navigation";
 import FollowButton from "@/components/FollowButton";
 import { auth } from "@/auth";
+import LikeUnlikeBlogButton from "./LikeUnlikeBlogButton";
 
 interface IProps {
   params: {
@@ -76,14 +76,19 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
               </div>
 
               <div className="flex h-12 items-center gap-5 border-y border-muted-foreground/20 py-2">
+                {/* ---> Reads */}
                 <div className="flex items-center gap-3">
                   <FaBookReader /> {blog.reads.length}k reads
                 </div>
                 <div className="h-full border-r border-muted-foreground/20" />
-                <div className="flex items-center gap-3">
-                  <AiFillLike /> 400
-                </div>
+                {/* ---> Like Unlike button */}
+                <LikeUnlikeBlogButton
+                  likes={233}
+                  blogId={blog._id}
+                  isLiked={false}
+                />
                 <div className="h-full border-r border-muted-foreground/20" />
+                {/* ---> Comments count */}
                 <div className="flex items-center gap-3">
                   <FaCommentDots /> 120
                 </div>
