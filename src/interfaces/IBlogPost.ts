@@ -8,7 +8,9 @@ export interface IBlogPost {
     lastName: string;
     profilePic: string;
     isFollowed: boolean;
+    isLiked: boolean;
   };
+  likes: number;
   title: string;
   slug: string;
   thumbnail: string;
