@@ -87,6 +87,7 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
                   likes={blog.likes}
                   blogId={blog._id}
                   isLiked={blog.user.isLiked}
+                  session={session}
                 />
                 <div className="h-full border-r border-muted-foreground/20" />
                 {/* ---> Comments count */}
