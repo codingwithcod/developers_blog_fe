@@ -14,9 +14,10 @@ import { FC, ReactNode } from "react";
 
 interface IProps {
   children: ReactNode;
+  message: string;
 }
 
-const LoginAlert: FC<IProps> = ({ children }) => {
+const LoginAlert: FC<IProps> = ({ children, message }) => {
   const router = useRouter();
   const pathname = usePathname();
 
@@ -30,10 +31,7 @@ const LoginAlert: FC<IProps> = ({ children }) => {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>You are not logged in !</AlertDialogTitle>
-          <AlertDialogDescription>
-            Please make sure to log in to the application, then you will be able to follow this
-            user.
-          </AlertDialogDescription>
+          <AlertDialogDescription>{message}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Continue without login</AlertDialogCancel>
