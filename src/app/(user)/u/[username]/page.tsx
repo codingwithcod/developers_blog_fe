@@ -58,7 +58,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
                   <h2 className="text-xl font-semibold tracking-wider sm:text-2xl">
                     {profile.firstName} {profile.lastName}
                   </h2>
-                  <p className="text-muted-foreground">552 Followers</p>
+                  <p className="text-muted-foreground">{profile.followers} Followers</p>
                 </div>
               </div>
 
@@ -125,7 +125,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
               )}
             </div>
 
-            <p className="text-muted-foreground">552 Followers</p>
+            <p className="text-muted-foreground">{profile.followers} Followers</p>
             <p className="text-muted-foreground">Creator, Software Engineer, Traveller.</p>
             <div>
               {!isUserSelf && (
