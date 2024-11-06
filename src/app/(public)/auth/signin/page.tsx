@@ -70,7 +70,9 @@ const SignIn = () => {
 
   const handleGoogleSubmit = async () => {
     try {
-      const result = await handleGoogleSignin();
+      const result = await handleGoogleSignin({
+        redirectTo: searchParams.get("redirectTo") ?? "/",
+      });
       if (result?.message) {
         toast({
           title: "Login field !!",
@@ -85,7 +87,9 @@ const SignIn = () => {
 
   const handleGithubSubmit = async () => {
     try {
-      const result = await handleGithubSignin();
+      const result = await handleGithubSignin({
+        redirectTo: searchParams.get("redirectTo") ?? "/",
+      });
       if (result?.message) {
         toast({
           title: "Login field !!",

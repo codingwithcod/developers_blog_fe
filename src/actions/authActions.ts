@@ -29,9 +29,9 @@ export async function handleCredentialsSignin({
   }
 }
 
-export async function handleGoogleSignin() {
+export async function handleGoogleSignin({ redirectTo }: { redirectTo: string }) {
   try {
-    await signIn("google", { redirectTo: "/" });
+    await signIn("google", { redirectTo });
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "AccessDenied") {
@@ -48,9 +48,9 @@ export async function handleGoogleSignin() {
   }
 }
 
-export async function handleGithubSignin() {
+export async function handleGithubSignin({ redirectTo }: { redirectTo: string }) {
   try {
-    await signIn("github", { redirectTo: "/" });
+    await signIn("github", { redirectTo });
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "AccessDenied") {
