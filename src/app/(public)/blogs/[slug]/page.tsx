@@ -68,6 +68,7 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
                     <FollowButton
                       isFollowed={blog.user.isFollowed}
                       followingId={blog.user._id}
+                      session={session}
                     />
                   )}
 

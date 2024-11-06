@@ -6,13 +6,16 @@ import apiEndpoints from "@/api/apiEndpoints";
 import { FC, useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
+import { Session } from "next-auth";
+import LoginAlert from "./LoginAlert";
 
 interface IProps {
   followingId: string;
   isFollowed?: boolean;
+  session: Session | null;
 }
 
-const FollowButton: FC<IProps> = ({ followingId, isFollowed: isFollowedByUser }) => {
+const FollowButton: FC<IProps> = ({ followingId, isFollowed: isFollowedByUser, session }) => {
   const { toast } = useToast();
   const [isFollowed, setIsFollowed] = useState(isFollowedByUser);
 
@@ -43,13 +46,26 @@ const FollowButton: FC<IProps> = ({ followingId, isFollowed: isFollowedByUser })
   };
 
   return (
-    <Button
-      variant={isFollowed ? "default" : "outline"}
-      className="w-24 rounded-full"
-      onClick={handleFollowUnFollow}
-    >
-      {isFollowed ? "Followed" : "Follow"}
-    </Button>
+    <>
+      {session ? (
+        <Button
+          variant={isFollowed ? "default" : "outline"}
+          className="w-24 rounded-full"
+          onClick={handleFollowUnFollow}
+        >
+          {isFollowed ? "Followed" : "Follow"}
+        </Button>
+      ) : (
+        <LoginAlert>
+          <Button
+            variant={"outline"}
+            className="w-24 rounded-full"
+          >
+            {isFollowed ? "Followed" : "Follow"}
+          </Button>
+        </LoginAlert>
+      )}
+    </>
   );
 };
 
