@@ -67,6 +67,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
                   <FollowButton
                     followingId={profile.user}
                     isFollowed={profile.isFollowed}
+                    session={session}
                   />
                 )}
                 <BsThreeDots className="text-xl" />
@@ -131,6 +132,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
                 <FollowButton
                   followingId={profile.user}
                   isFollowed={profile.isFollowed}
+                  session={session}
                 />
               )}
             </div>
