@@ -56,7 +56,7 @@ const FollowButton: FC<IProps> = ({ followingId, isFollowed: isFollowedByUser, s
           {isFollowed ? "Followed" : "Follow"}
         </Button>
       ) : (
-        <LoginAlert>
+        <LoginAlert message="Please make sure to log in to the application, then you will be able to follow this user.">
           <Button
             variant={"outline"}
             className="w-24 rounded-full"
