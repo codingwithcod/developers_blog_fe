@@ -49,6 +49,7 @@ const SignIn = () => {
       const result = await handleCredentialsSignin({
         email,
         password,
+        redirectTo: searchParams.get("redirectTo") ?? "/",
       });
       if (result?.message) {
         toast({

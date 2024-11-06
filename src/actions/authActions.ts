@@ -5,12 +5,14 @@ import { AuthError } from "next-auth";
 export async function handleCredentialsSignin({
   email,
   password,
+  redirectTo,
 }: {
   email: string;
   password: string;
+  redirectTo: string;
 }) {
   try {
-    await signIn("credentials", { email, password, redirectTo: "/" });
+    await signIn("credentials", { email, password, redirectTo });
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {
