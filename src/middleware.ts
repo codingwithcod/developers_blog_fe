@@ -7,8 +7,6 @@ const middleware = async (request: NextRequest) => {
   const session = await auth();
   const isAuthenticated = !!session?.user;
 
-  // console.log(">>> request >>>>>>>>>>>>>>>>>>>>>>>>>", request);
-
   const isPublicRoute =
     PUBLIC_ROUTES.find((route) => nextUrl.pathname.startsWith(route)) || nextUrl.pathname === ROOT;
 
@@ -18,8 +16,6 @@ const middleware = async (request: NextRequest) => {
   /** ---> If user not logged in and try to access private pages. */
   if (!isAuthenticated && !isPublicRoute) {
     const redirectTo = encodeURIComponent(nextUrl.pathname + nextUrl.search);
-
-    //[::] TODO : Have to encode uri from loginAlert componet
     return Response.redirect(new URL(`${SIGNIN}?redirectTo=${redirectTo}`, nextUrl));
   }
 
