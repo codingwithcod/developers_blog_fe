@@ -9,7 +9,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FC, ReactNode } from "react";
 
 interface IProps {
@@ -20,9 +20,13 @@ interface IProps {
 const LoginAlert: FC<IProps> = ({ children, message }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const handleNavigateToLogin = () => {
-    router.push(`/auth/signin?redirectTo=${pathname}`);
+    const redirectTo = encodeURIComponent(
+      `${pathname}${searchParams.toString() ? `?${searchParams.toString()}` : ""}`
+    );
+    router.push(`/auth/signin?redirectTo=${redirectTo}`);
   };
 
   return (
