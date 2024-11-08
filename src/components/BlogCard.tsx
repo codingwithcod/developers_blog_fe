@@ -86,7 +86,7 @@ const BlogCard: FC<IProps> = ({ blog }) => {
                 </p>
               </button>
               <div className="flex items-center text-sm">
-                <p className="text-nowrap">{reads.length}K reads</p>
+                <p className="text-nowrap">{reads}K reads</p>
                 <DotFilledIcon />
                 <p className="text-nowrap">{timeAgo(createdAt)}</p>
               </div>
