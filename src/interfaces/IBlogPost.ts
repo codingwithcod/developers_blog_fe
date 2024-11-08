@@ -16,7 +16,7 @@ export interface IBlogPost {
   thumbnail: string;
   content: string;
   status: "draft" | "published";
-  reads: string[];
+  reads: number;
   createdAt: string;
   updatedAt: string;
 }
