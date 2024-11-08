@@ -79,7 +79,7 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
               <div className="flex h-12 items-center gap-5 border-y border-muted-foreground/20 py-2">
                 {/* ---> Reads */}
                 <div className="flex items-center gap-3">
-                  <FaBookReader /> {blog.reads.length}k reads
+                  <FaBookReader /> {blog.reads}k reads
                 </div>
                 <div className="h-full border-r border-muted-foreground/20" />
                 {/* ---> Like Unlike button */}
