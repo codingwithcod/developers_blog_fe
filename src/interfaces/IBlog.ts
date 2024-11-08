@@ -10,7 +10,7 @@ export interface IBlog {
   title: string;
   slug: string;
   thumbnail: string;
-  reads: string[];
+  reads: number;
   createdAt: Date;
   updatedAt: Date;
 }
