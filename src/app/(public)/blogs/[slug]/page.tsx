@@ -16,6 +16,8 @@ import FollowButton from "@/components/FollowButton";
 import { auth } from "@/auth";
 import LikeUnlikeBlogButton from "./LikeUnlikeBlogButton";
 
+// [::] TODO : Have to add comment section on this page
+
 interface IProps {
   params: {
     slug: string;
