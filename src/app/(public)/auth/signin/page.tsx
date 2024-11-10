@@ -65,6 +65,8 @@ const SignIn = () => {
         description: "Something went wrong try again",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
