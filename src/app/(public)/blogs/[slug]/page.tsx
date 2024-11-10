@@ -117,7 +117,10 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
             </div>
 
             {/* ---> Blog comments */}
-            <Comments blogId={blog._id} />
+            <Comments
+              blogId={blog._id}
+              session={session}
+            />
           </>
         )}
       </div>
