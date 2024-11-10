@@ -17,6 +17,7 @@ export interface IBlogPost {
   content: string;
   status: "draft" | "published";
   reads: number;
+  comments: number;
   createdAt: string;
   updatedAt: string;
 }
