@@ -14,11 +14,13 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 interface IProps {
   blogId: string;
+  commentsCount: number;
   session: Session | null;
 }
 
-const Comments: FC<IProps> = ({ blogId, session }) => {
+const Comments: FC<IProps> = ({ blogId, session, commentsCount }) => {
   const [comments, setComments] = useState<IComment[]>([]);
+  const [totalCommentsCount, setTotalCommentsCount] = useState(commentsCount);
   const [isLoading, setIsLoading] = useState(true);
   const [hasFetched, setHasFetched] = useState(false);
   const commentsRef = useRef<HTMLDivElement>(null);
@@ -85,6 +87,7 @@ const Comments: FC<IProps> = ({ blogId, session }) => {
           updatedAt: `${Date.now().toString()}`,
         };
         setComments((prev) => [newComment, ...prev]);
+        setTotalCommentsCount((prev) => ++prev);
       }
     } catch (error) {
       errorLog(error);
@@ -105,7 +108,7 @@ const Comments: FC<IProps> = ({ blogId, session }) => {
       ref={commentsRef}
       className="mt-10 min-h-96 w-full md:w-[70%]"
     >
-      <h3 className="text-2xl font-semibold">Comments</h3>
+      <h3 className="text-2xl font-semibold">{totalCommentsCount} Comments</h3>
       {/* ---> Add comments  */}
       <div className="flex w-full gap-3 py-8">
         <div>

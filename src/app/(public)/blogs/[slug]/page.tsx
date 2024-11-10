@@ -93,7 +93,7 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
                 <div className="h-full border-r border-muted-foreground/20" />
                 {/* ---> Comments count */}
                 <div className="flex items-center gap-3">
-                  <FaCommentDots /> 120
+                  <FaCommentDots /> {blog.comments}
                 </div>
               </div>
             </div>
@@ -120,6 +120,7 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
             <Comments
               blogId={blog._id}
               session={session}
+              commentsCount={blog.comments}
             />
           </>
         )}
