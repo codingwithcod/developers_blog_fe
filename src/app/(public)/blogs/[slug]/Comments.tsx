@@ -1,5 +1,6 @@
 "use client";
 import apiEndpoints from "@/api/apiEndpoints";
+import LoginAlert from "@/components/LoginAlert";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { IComment } from "@/interfaces/IComment";
@@ -129,13 +130,24 @@ const Comments: FC<IProps> = ({ blogId, session }) => {
               >
                 Cancel
               </Button>
-              <Button
-                onClick={handleSubmitComment}
-                disabled={!content || isSubmitting}
-                className="rounded-full bg-blue-500 text-white hover:bg-blue-500"
-              >
-                Comment
-              </Button>
+              {session ? (
+                <Button
+                  onClick={handleSubmitComment}
+                  disabled={!content || isSubmitting}
+                  className="rounded-full bg-blue-500 text-white hover:bg-blue-500"
+                >
+                  Comment
+                </Button>
+              ) : (
+                <LoginAlert message="Please make sure to log in to the application, then you will be able to comment on this blog.">
+                  <Button
+                    disabled={!content}
+                    className="rounded-full bg-blue-500 text-white hover:bg-blue-500"
+                  >
+                    Comment
+                  </Button>
+                </LoginAlert>
+              )}
             </div>
           )}
         </div>
