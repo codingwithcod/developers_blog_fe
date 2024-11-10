@@ -15,8 +15,7 @@ import { notFound } from "next/navigation";
 import FollowButton from "@/components/FollowButton";
 import { auth } from "@/auth";
 import LikeUnlikeBlogButton from "./LikeUnlikeBlogButton";
-
-// [::] TODO : Have to add comment section on this page
+import Comments from "./Comments";
 
 interface IProps {
   params: {
@@ -112,9 +111,13 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
               </div>
             </div>
 
+            {/* ---> Blog content */}
             <div className="mt-5">
               <RenderMarkdown content={blog.content} />
             </div>
+
+            {/* ---> Blog comments */}
+            <Comments blogId={blog._id} />
           </>
         )}
       </div>
