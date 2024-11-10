@@ -13,6 +13,7 @@ const apiEndpoints = {
     getUsersAllBlogByUserId: (userId: string) => `/blogs/user/${userId}`,
     getAllBlogs: `/blogs`,
     getAllMyBlogs: `/blogs/my-blogs`,
+    getAllCommentsForABlog: (blogId: string) => `/blogs/comment/${blogId}`,
   },
   user: {
     getProfileByUserName: (username: string) => `/user/profile/${username}`,
