@@ -63,6 +63,31 @@ const Comments: FC<IProps> = ({ blogId }) => {
       className="mt-10 min-h-52 w-full md:w-[70%]"
     >
       <h3 className="text-2xl font-semibold">Comments</h3>
+      {/* ---> Add comments  */}
+      <div className="flex w-full gap-3 py-8">
+        <div>
+          <Avatar className="h-11 w-11">
+            <AvatarImage src={"profilePic"} />
+            <AvatarFallback className="bg-indigo-500 text-xl">A</AvatarFallback>
+          </Avatar>
+        </div>
+        <div className="w-full">
+          <input
+            placeholder="Add a comment..."
+            className="flex h-9 w-full border-b-2 bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground/70 focus:border-b-2 focus:border-b-white focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+          />
+          <div className="flex justify-end gap-4 py-2">
+            <Button className="rounded-full bg-transparent text-foreground hover:bg-muted">
+              Cancel
+            </Button>
+            <Button className="rounded-full bg-blue-500 text-white hover:bg-blue-500">
+              Comment
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* ---> Displaying comments skeleton loader. */}
       {isLoading &&
         [...new Array(3)].map((_, index) => {
           return (
@@ -96,7 +121,7 @@ const Comments: FC<IProps> = ({ blogId }) => {
             </div>
           );
         })}
-      {/* ---> Displaying comments after loading */}
+      {/* ---> Displaying comments after loading. */}
       {!isLoading && (
         <>
           {comments.length > 0 ? (
