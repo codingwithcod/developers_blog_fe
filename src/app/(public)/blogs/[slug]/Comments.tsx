@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { IComment } from "@/interfaces/IComment";
 import { axiosClient } from "@/utils/axiosClient";
 import { errorLog } from "@/utils/errorLog";
+import { timeAgo } from "@/utils/timeAgo";
 import { Session } from "next-auth";
 import Link from "next/link";
 import React, { useState, useEffect, useRef, FC } from "react";
@@ -182,6 +183,7 @@ const Comments: FC<IProps> = ({ blogId, session }) => {
               {comments.map((comment) => {
                 const {
                   content,
+                  createdAt,
                   user: { firstName, lastName, username, profilePic },
                 } = comment;
                 return (
@@ -205,11 +207,17 @@ const Comments: FC<IProps> = ({ blogId, session }) => {
                       <div className="w-full font-sans">
                         <div className="flex">
                           <div className="w-full pr-2">
-                            <Link href={`/u/@${username}`}>
-                              <h4 className="text-lg leading-5">
-                                {firstName} {lastName}
-                              </h4>
-                            </Link>
+                            <div className="flex items-center gap-3">
+                              <Link href={`/u/@${username}`}>
+                                <h4 className="text-lg leading-5">
+                                  {firstName} {lastName}
+                                </h4>
+                              </Link>
+                              <span className="text-sm leading-5 text-muted-foreground">
+                                {timeAgo(new Date(createdAt))}
+                              </span>
+                            </div>
+
                             <p className="text-base font-medium text-muted-foreground">{content}</p>
                           </div>
 
