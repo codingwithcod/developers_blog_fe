@@ -108,7 +108,7 @@ const Comments: FC<IProps> = ({ blogId, session }) => {
       <div className="flex w-full gap-3 py-8">
         <div>
           <Avatar className="h-11 w-11">
-            <AvatarImage src={"profilePic"} />
+            <AvatarImage src={session?.user.profilePic} />
             <AvatarFallback className="bg-indigo-500 text-xl">A</AvatarFallback>
           </Avatar>
         </div>
