@@ -15,6 +15,7 @@ import { MdEmail } from "react-icons/md";
 /** ---> Hover card imports */
 
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import Link from "next/link";
 
 interface IProps {
   params: {
@@ -127,6 +128,14 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
 
             <p className="text-muted-foreground">{profile.followers} Followers</p>
             <p className="text-muted-foreground">Creator, Software Engineer, Traveller.</p>
+            {isUserSelf && (
+              <Link
+                href={`/u/@${decodedUsername}/update`}
+                className="mt-6 text-sm text-green-400 duration-300 hover:text-muted-foreground"
+              >
+                Update profile
+              </Link>
+            )}
             <div>
               {!isUserSelf && (
                 <FollowButton
