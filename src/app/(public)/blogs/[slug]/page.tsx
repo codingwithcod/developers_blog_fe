@@ -31,7 +31,7 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
     const blog = res.data.blog as IBlogPost;
 
     return (
-      <div className="container flex min-h-[90vh] flex-col py-20 sm:px-5 md:px-10 lg:px-52">
+      <div className="container flex min-h-[90vh] flex-col py-20">
         {blog && (
           <>
             {/* ---> Blog header  */}

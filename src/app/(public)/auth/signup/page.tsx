@@ -69,7 +69,7 @@ export default function SignIn() {
   };
 
   return (
-    <div className="container flex flex-col items-center py-20 sm:px-5 md:px-10 lg:px-20">
+    <div className="container flex flex-col items-center py-20">
       {isSuccessAlert && (
         <div className="my-5">
           <SuccessAlert

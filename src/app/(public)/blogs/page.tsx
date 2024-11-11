@@ -14,7 +14,7 @@ const Blogs = async () => {
     const blogs = res.data.blogs as IBlog[];
 
     return (
-      <div className="container flex min-h-[90vh] flex-col items-center pb-20 pt-24 sm:px-5 md:px-10 lg:px-20">
+      <div className="container flex min-h-[90vh] flex-col items-center pb-20 pt-24">
         {blogs.length === 0 && (
           <div className="flex h-[20rem] w-full flex-col items-center justify-center">
             <p className="text-2xl">There is no blogs available</p>
@@ -46,7 +46,7 @@ const Blogs = async () => {
   } catch (error) {
     errorLog(error);
     return (
-      <div className="container flex min-h-[90vh] flex-col items-center justify-center pb-20 pt-24 text-center sm:px-5 md:px-10 lg:px-20">
+      <div className="container flex min-h-[90vh] flex-col items-center justify-center pb-20 pt-24 text-center">
         <h1 className="text-lg">Failed to fetch blogs</h1>
         <p className="text-sm text-muted-foreground">
           There was an issue fetching the blogs. Please try again later.
