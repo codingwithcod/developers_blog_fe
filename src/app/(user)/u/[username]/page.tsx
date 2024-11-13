@@ -127,7 +127,9 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             </div>
 
             <p className="text-muted-foreground">{profile.followers} Followers</p>
-            <p className="text-muted-foreground">Creator, Software Engineer, Traveller.</p>
+            <p className="text-muted-foreground">
+              {profile.bio ?? "Hey there I am reading dev blogs."}
+            </p>
             {isUserSelf && (
               <Link
                 href={`/u/@${decodedUsername}/update`}
