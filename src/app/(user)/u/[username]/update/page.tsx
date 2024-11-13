@@ -1,37 +1,45 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import React from "react";
-import { BsThreeDots } from "react-icons/bs";
 import ProfileForm from "./ProfileForm";
+import { auth } from "@/auth";
+import { axiosClient } from "@/utils/axiosClient";
+import apiEndpoints from "@/api/apiEndpoints";
+import { IUserProfile } from "@/interfaces/IUserProfile";
+import { AxiosError } from "axios";
+import { notFound } from "next/navigation";
 
-const Update = () => {
-  return (
-    <div className="container flex min-h-[90vh] flex-col py-16 md:w-[70%] lg:w-[50%]">
-      <div className="flex h-32 w-full justify-between">
-        <div className="flex items-center gap-5">
-          <Avatar className="h-24 w-24">
-            <AvatarImage src={""} />
-            <AvatarFallback className="select-none bg-indigo-500 text-2xl font-bold capitalize text-white">
-              {/* {profile.firstName?.slice(0, 1)} */}A
-            </AvatarFallback>
-          </Avatar>
-          <div>
-            <h2 className="text-2xl font-semibold tracking-wider sm:text-2xl">
-              {/* {profile.firstName} {profile.lastName} */}
-              Abhi Patel
-            </h2>
-            <p className="text-muted-foreground">abhi@gmail.com</p>
-          </div>
-        </div>
+const Update = async () => {
+  const session = await auth();
 
-        <div className="flex items-center gap-3">
-          <BsThreeDots className="text-xl" />
-        </div>
+  try {
+    if (!session?.user) throw new Error("Session not found.");
+    const res = await axiosClient.get(
+      apiEndpoints.user.getProfileByUserName(session.user.username)
+    );
+    const profile = res.data.profile as IUserProfile;
+
+    return (
+      <div className="container flex min-h-[90vh] flex-col py-16 md:w-[70%] lg:w-[50%]">
+        {/* ---> Update form */}
+        <ProfileForm profile={profile} />
       </div>
+    );
+  } catch (error) {
+    /** ---> If user not found. */
+    if (error instanceof AxiosError) {
+      if (error.status === 404) {
+        return notFound();
+      }
+    }
 
-      {/* ---> Update form */}
-      <ProfileForm />
-    </div>
-  );
+    /** ---> If something else error occured. */
+    return (
+      <div className="container flex min-h-[90vh] flex-col items-center justify-center pb-20 pt-24 text-center sm:px-5 md:px-10 lg:px-20">
+        <h1 className="text-lg">Failed to fetch user profile</h1>
+        <p className="text-sm text-muted-foreground">
+          There was an issue fetching the profile. Please try again later.
+        </p>
+      </div>
+    );
+  }
 };
 
 export default Update;
