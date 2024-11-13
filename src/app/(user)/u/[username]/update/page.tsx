@@ -19,7 +19,10 @@ const Update = async () => {
     return (
       <div className="container flex min-h-[90vh] flex-col py-16 md:w-[70%] lg:w-[50%]">
         {/* ---> Update form */}
-        <ProfileForm profile={profile} />
+        <ProfileForm
+          profile={profile}
+          username={session.user.username}
+        />
       </div>
     );
   } catch (error) {

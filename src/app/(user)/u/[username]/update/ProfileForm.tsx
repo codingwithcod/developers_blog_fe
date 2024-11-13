@@ -23,6 +23,7 @@ import { axiosClient } from "@/utils/axiosClient";
 import apiEndpoints from "@/api/apiEndpoints";
 import { toast } from "@/hooks/use-toast";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   firstName: z
@@ -41,9 +42,11 @@ const formSchema = z.object({
 
 interface IProps {
   profile: IUserProfile;
+  username: string;
 }
 
-const ProfileForm: FC<IProps> = ({ profile }) => {
+const ProfileForm: FC<IProps> = ({ profile, username }) => {
+  const router = useRouter();
   const { firstName, lastName, bio, profilePic } = profile;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -65,6 +68,7 @@ const ProfileForm: FC<IProps> = ({ profile }) => {
       toast({
         title: "Profile updated successfully.",
       });
+      router.push(`/u/@${username}`);
     } catch (error) {
       errorLog(error);
       if (error instanceof AxiosError) {
@@ -181,6 +185,7 @@ const ProfileForm: FC<IProps> = ({ profile }) => {
                 variant={"outline"}
                 type="button"
                 className="rounded-full"
+                onClick={() => router.push(`/u/@${username}`)}
               >
                 Cancel
               </Button>
