@@ -16,8 +16,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { z } from "zod";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { IUserProfile } from "@/interfaces/IUserProfile";
+import { errorLog } from "@/utils/errorLog";
+import { axiosClient } from "@/utils/axiosClient";
+import apiEndpoints from "@/api/apiEndpoints";
+import { toast } from "@/hooks/use-toast";
+import { AxiosError } from "axios";
 
 const formSchema = z.object({
   firstName: z
@@ -39,7 +44,8 @@ interface IProps {
 }
 
 const ProfileForm: FC<IProps> = ({ profile }) => {
-  const { firstName, lastName, bio } = profile;
+  const { firstName, lastName, bio, profilePic } = profile;
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,8 +55,33 @@ const ProfileForm: FC<IProps> = ({ profile }) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(">>>>> values >>>>>>>", values); // eslint-disable-line
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      setIsSubmitting(true);
+      await axiosClient.patch(apiEndpoints.user.updateUserProfile, {
+        ...values,
+        profilePic,
+      });
+      toast({
+        title: "Profile updated successfully.",
+      });
+    } catch (error) {
+      errorLog(error);
+      if (error instanceof AxiosError) {
+        toast({
+          title: error.response?.data.message,
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Profile not udpated !!",
+          description: "Something went wrong, please try again later.",
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -148,15 +179,17 @@ const ProfileForm: FC<IProps> = ({ profile }) => {
             <div className="flex w-full justify-end gap-5">
               <Button
                 variant={"outline"}
+                type="button"
                 className="rounded-full"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
-                className="rounded-full"
+                disabled={isSubmitting}
+                className="w-28 rounded-full"
               >
-                Update
+                {isSubmitting ? "Updating ..." : "Update"}
               </Button>
             </div>
           </form>
