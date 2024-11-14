@@ -9,8 +9,6 @@ import { notFound } from "next/navigation";
 const Update = async () => {
   const session = await auth();
 
-  // [::] TODO : Have to protect this page. only logged in user can access their own page.
-
   try {
     if (!session?.user) throw new Error("Session not found.");
     const res = await axiosClient.get(
