@@ -25,6 +25,15 @@ const middleware = async (request: NextRequest) => {
   /** ---> If username not starts with @ then redirecting to 404 not found page. */
   if (isUserProfileRoute && !nextUrl.pathname.split("/u/")[1].startsWith("@")) {
     return NextResponse.rewrite(new URL("/404", nextUrl));
+  } else {
+    const regexForCheckIsProfileUpdateRoute = /^\/u\/@[^/]+\/update(\?.*)?$/;
+    if (regexForCheckIsProfileUpdateRoute.test(nextUrl.pathname)) {
+      const username = nextUrl.pathname.match(/^\/u\/@([^/]+)\/update(\?.*)?$/)?.[1];
+      if (username !== session?.user.username) {
+        /** ---> If user accessing update profile page for another user's username. then redirecting to user's profile page. */
+        return NextResponse.redirect(new URL(`/u/@${username}`, nextUrl));
+      }
+    }
   }
 
   NextResponse.next();
