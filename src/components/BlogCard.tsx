@@ -10,6 +10,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { IBlog } from "@/interfaces/IBlog";
 import { FC, MouseEvent } from "react";
 import { useRouter } from "next/navigation";
+import { AspectRatio } from "./ui/aspect-ratio";
 
 interface IProps {
   blog: IBlog;
@@ -42,13 +43,15 @@ const BlogCard: FC<IProps> = ({ blog }) => {
       <Card className="w-full border-none bg-background text-foreground shadow-none">
         {/* ---> Thumbnail  */}
         <div className="overflow-hidden rounded-lg">
-          <Image
-            src={thumbnail}
-            alt={title}
-            width={250}
-            height={200}
-            className="w-full object-cover"
-          />
+          <AspectRatio ratio={16 / 9}>
+            <Image
+              src={thumbnail}
+              alt={title}
+              width={450}
+              height={300}
+              className="w-full object-contain"
+            />
+          </AspectRatio>
         </div>
 
         {/* ---> Card footer  */}
