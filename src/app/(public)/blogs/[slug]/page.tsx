@@ -16,6 +16,7 @@ import FollowButton from "@/components/FollowButton";
 import { auth } from "@/auth";
 import LikeUnlikeBlogButton from "./LikeUnlikeBlogButton";
 import Comments from "./Comments";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 interface IProps {
   params: {
@@ -100,14 +101,16 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
 
             {/* ---> Blog thumbnail */}
             <div className="flex items-center justify-center py-5">
-              <div>
-                <Image
-                  src={blog.thumbnail}
-                  height={400}
-                  width={400}
-                  alt={blog.title}
-                  className="h-full w-full rounded-lg object-contain"
-                />
+              <div className="w-full md:w-[70%]">
+                <AspectRatio ratio={16 / 9}>
+                  <Image
+                    src={blog.thumbnail}
+                    alt={blog.title}
+                    height={400}
+                    width={400}
+                    className="h-full w-full rounded-lg object-contain"
+                  />
+                </AspectRatio>
               </div>
             </div>
 
