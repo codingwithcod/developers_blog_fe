@@ -24,18 +24,19 @@ import apiEndpoints from "@/api/apiEndpoints";
 import { toast } from "@/hooks/use-toast";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { IoIosCamera } from "react-icons/io";
 
 const formSchema = z.object({
   firstName: z
-    .string()
+    .string({ required_error: "First Name is required" })
     .min(2, { message: "First Name must be at least 2 characters." })
     .max(50, { message: "First Name must contain at most 50 characters" }),
   lastName: z
-    .string()
+    .string({ required_error: "Last Name is required" })
     .min(2, { message: "Last Name must be at least 2 characters." })
     .max(50, { message: "Last Name must contain at most 50 characters" }),
   bio: z
-    .string()
+    .string({ required_error: "Bio is required" })
     .min(10, { message: "Bio must be at least 10 characters." })
     .max(100, { message: "Bio must contain at most 100 characters" }),
 });
@@ -48,11 +49,10 @@ interface IProps {
 const ProfileForm: FC<IProps> = ({ profile, username }) => {
   const router = useRouter();
   const { firstName, lastName, bio, profilePic } = profile;
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [profileImage, setProfileImage] = useState(profilePic);
   const [file, setFile] = useState<File | null>(null);
-  const [uploadingProfilePic, setUploadingProfilePic] = useState(false);
-  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [imageErrorMessage, setImageErrorMessage] = useState("");
 
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -68,9 +68,10 @@ const ProfileForm: FC<IProps> = ({ profile, username }) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       setIsSubmitting(true);
+      const profilePic = await handleUploadImage();
       await axiosClient.patch(apiEndpoints.user.updateUserProfile, {
         ...values,
-        profilePic,
+        ...(profilePic ? { profilePic } : {}),
       });
       toast({
         title: "Profile updated successfully.",
@@ -101,49 +102,41 @@ const ProfileForm: FC<IProps> = ({ profile, username }) => {
     }
   };
 
-  // [::] TODO : Need to clear this function with validation and perfetc UI.
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const selectedFile = event.target.files[0];
-      if (!selectedFile.type.startsWith("image/")) {
-        setMessage("Please select a valid image file.");
-        return;
-      }
+
       if (selectedFile.size > 1 * 1024 * 1024) {
-        // 1 MB limit
-        setMessage("File size exceeds 1 MB.");
+        setImageErrorMessage("Profile Image must be less than 1 MB.");
         return;
+      } else {
+        setProfileImage(URL.createObjectURL(selectedFile));
+        setImageErrorMessage("");
       }
       setFile(selectedFile);
     }
   };
 
-  const handleUploadImage = async () => {
-    if (!file) return;
-    setUploadingProfilePic(true);
-    try {
-      const res = await axiosClient.get("/user/profile/upload/profile-picture");
-      const data = res.data;
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("public_id", data.public_id);
-      formData.append("signature", data.signature);
-      formData.append("timestamp", data.timestamp.toString());
-      formData.append("api_key", data.api_key);
+  const handleUploadImage = async (): Promise<string | null> => {
+    if (file) {
+      try {
+        const res = await axiosClient.get(apiEndpoints.user.uploadProfileImage);
+        const data = res.data;
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("public_id", data.public_id);
+        formData.append("signature", data.signature);
+        formData.append("timestamp", data.timestamp.toString());
+        formData.append("api_key", data.api_key);
 
-      const cloudinaryRes = await axios.post(data.upload_url, formData);
-
-      await axiosClient.patch(apiEndpoints.user.updateUserProfile, {
-        profilePic: cloudinaryRes.data.secure_url,
-      });
-      toast({
-        title: "Profile updated successfully.",
-      });
-      setFile(null);
-    } catch (error) {
-      errorLog(error);
-    } finally {
-      setUploadingProfilePic(false);
+        const cloudinaryRes = await axios.post(data.upload_url, formData);
+        return cloudinaryRes.data.secure_url as string;
+      } catch (error) {
+        errorLog(error);
+        return null;
+      }
+    } else {
+      return null;
     }
   };
 
@@ -153,12 +146,15 @@ const ProfileForm: FC<IProps> = ({ profile, username }) => {
         <div className="flex items-center gap-5">
           <Avatar
             onClick={handleImageSelectOpen}
-            className="h-24 w-24"
+            className="group relative h-24 w-24"
           >
-            <AvatarImage src={profile.profilePic} />
-            <AvatarFallback className="select-none bg-indigo-500 text-2xl font-bold capitalize text-white">
+            <AvatarImage src={profileImage} />
+            <AvatarFallback className="select-none bg-indigo-500 text-5xl font-bold capitalize text-white">
               {profile.firstName?.slice(0, 1)}
             </AvatarFallback>
+            <div className="absolute bottom-0 right-0 flex h-9 w-9 items-center justify-center rounded-full bg-muted duration-300 group-hover:text-muted-foreground/80">
+              <IoIosCamera className="top-5 text-xl" />
+            </div>
           </Avatar>
           <div>
             <h2 className="text-2xl font-semibold tracking-wider sm:text-2xl">
@@ -172,25 +168,16 @@ const ProfileForm: FC<IProps> = ({ profile, username }) => {
           <BsThreeDots className="text-xl" />
         </div>
       </div>
+      <p className="mb-2 text-sm text-red-500">{imageErrorMessage}</p>
 
-      {/* ---> Uploading image */}
-      <div>
-        <h2>Upload Profile Picture</h2>
-        <input
-          type="file"
-          ref={inputRef}
-          onChange={handleFileChange}
-          className="hidden"
-        />
-        <button
-          onClick={handleUploadImage}
-          disabled={uploadingProfilePic}
-        >
-          {uploadingProfilePic ? "Uploading..." : "Upload"}
-        </button>
-
-        <p className="text-red-500">{message}</p>
-      </div>
+      {/* --->Hidden input for Upload profile image. */}
+      <input
+        type="file"
+        ref={inputRef}
+        onChange={handleFileChange}
+        accept="image/*"
+        className="hidden"
+      />
 
       <div className="flex h-full w-full flex-col gap-4 rounded-md border p-5">
         <Form {...form}>
