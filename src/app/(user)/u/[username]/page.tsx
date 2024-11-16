@@ -13,9 +13,14 @@ import { IUserProfile } from "@/interfaces/IUserProfile";
 import FollowButton from "@/components/FollowButton";
 import { MdEmail } from "react-icons/md";
 /** ---> Hover card imports */
-
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "User Profile",
+  description: "See your profile what you can do here.",
+};
 
 interface IProps {
   params: {
