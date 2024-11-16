@@ -17,12 +17,56 @@ import { auth } from "@/auth";
 import LikeUnlikeBlogButton from "./LikeUnlikeBlogButton";
 import Comments from "./Comments";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Metadata } from "next";
+import { APP_BASE_URL } from "@/config";
+
+/** Fetching blog data */
+const fetchBlog = async (slug: string): Promise<IBlogPost | null> => {
+  try {
+    const res = await axiosClient.get(apiEndpoints.blogs.getBlogBySlug(slug));
+    return res.data.blog as IBlogPost;
+  } catch (error) {
+    errorLog(["Error fetching blog:", error]);
+    return null;
+  }
+};
 
 interface IProps {
   params: {
     slug: string;
   };
 }
+
+/** ------> Dynamically Generating Metadata <------ */
+export async function generateMetadata({ params: { slug } }: IProps): Promise<Metadata> {
+  const blog = await fetchBlog(slug);
+  if (blog) {
+    return {
+      title: `${blog.title}  | by ${blog.user.firstName} ${blog.user.lastName} |  ${new Date(blog.createdAt).toDateString()} | Developers blog`,
+      description: blog.title,
+      openGraph: {
+        title: blog.title,
+        description: blog.title,
+        images: [blog.thumbnail],
+        url: `${APP_BASE_URL}/blogs/${slug}`,
+        type: "article",
+        authors: [`${blog.user.firstName} ${blog.user.lastName}`],
+        publishedTime: blog.createdAt,
+      },
+      twitter: {
+        card: "summary_large_image",
+        title: blog.title,
+        description: blog.title,
+        images: [blog.thumbnail],
+      },
+    };
+  }
+  return {
+    title: "Blog not found",
+    description: "this blog not found or has been removed.",
+  };
+}
+/** ------> Dynamically Generating Metadata <------ */
 
 const Blog: FC<IProps> = async ({ params: { slug } }) => {
   const session = await auth();
