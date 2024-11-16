@@ -19,6 +19,7 @@ import Comments from "./Comments";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Metadata } from "next";
 import { APP_BASE_URL } from "@/config";
+import Script from "next/script";
 
 /** Fetching blog data */
 const fetchBlog = async (slug: string): Promise<IBlogPost | null> => {
@@ -44,6 +45,9 @@ export async function generateMetadata({ params: { slug } }: IProps): Promise<Me
     return {
       title: `${blog.title}  | by ${blog.user.firstName} ${blog.user.lastName} |  ${new Date(blog.createdAt).toDateString()} | Developers blog`,
       description: blog.title,
+      alternates: {
+        canonical: `${APP_BASE_URL}/blogs/${slug}`,
+      },
       openGraph: {
         title: blog.title,
         description: blog.title,
@@ -75,10 +79,29 @@ const Blog: FC<IProps> = async ({ params: { slug } }) => {
     const res = await axiosClient.get(apiEndpoints.blogs.getBlogBySlug(slug));
     const blog = res.data.blog as IBlogPost;
 
+    const jsonLdData = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      url: `${APP_BASE_URL}/blogs/${slug}`,
+      headline: blog.title,
+      image: blog.thumbnail,
+      datePublished: blog.createdAt,
+      author: {
+        "@type": "Person",
+        name: `${blog.user.firstName} ${blog.user.lastName}`,
+      },
+      description: blog.title,
+    };
+
     return (
       <div className="container flex min-h-[90vh] flex-col py-20">
         {blog && (
           <>
+            <Script
+              id="json-ld-blog"
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
+            />
             {/* ---> Blog header  */}
             <div>
               <h1 className="py-5 text-4xl font-bold tracking-wider">{blog.title}</h1>
