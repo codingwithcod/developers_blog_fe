@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { auth } from "@/auth";
 import NavbarMobileMenu from "./NavbarMobileMenu";
+import SearchBox from "./SearchBox";
 
 const Navbar = async () => {
   const session = await auth();
@@ -15,10 +16,8 @@ const Navbar = async () => {
         </div>
 
         {/* ---> Search bar */}
-        <div className="hidden items-center md:flex">
-          <div className="flex h-9 w-52 items-center rounded-full border border-gray-200/20 px-5">
-            <p className="select-none text-sm text-muted-foreground/50">Search for anything..</p>
-          </div>
+        <div className="flex items-center">
+          <SearchBox />
         </div>
 
         <div className="flex gap-3">
