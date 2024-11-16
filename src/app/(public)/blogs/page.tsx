@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { IBlog } from "@/interfaces/IBlog";
 import BlogCard from "@/components/BlogCard";
 import Link from "next/link";
@@ -8,9 +8,15 @@ import { axiosClient } from "@/utils/axiosClient";
 import apiEndpoints from "@/api/apiEndpoints";
 import { errorLog } from "@/utils/errorLog";
 
-const Blogs = async () => {
+interface IProps {
+  searchParams: {
+    search: string;
+  };
+}
+
+const Blogs: FC<IProps> = async ({ searchParams: { search } }) => {
   try {
-    const res = await axiosClient.get(apiEndpoints.blogs.getAllBlogs);
+    const res = await axiosClient.get(`${apiEndpoints.blogs.getAllBlogs}?search=${search ?? ""}`);
     const blogs = res.data.blogs as IBlog[];
 
     return (
