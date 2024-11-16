@@ -14,6 +14,8 @@ interface IProps {
   };
 }
 
+// [::] TODO : Have to add pagination
+
 const Blogs: FC<IProps> = async ({ searchParams: { search } }) => {
   try {
     const res = await axiosClient.get(`${apiEndpoints.blogs.getAllBlogs}?search=${search ?? ""}`);
