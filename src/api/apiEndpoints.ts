@@ -21,6 +21,7 @@ const apiEndpoints = {
     followUser: (followingId: string) => `/user/follow/${followingId}`,
     unFollowUser: (followingId: string) => `/user/unfollow/${followingId}`,
     updateUserProfile: `user/profile/update`,
+    uploadProfileImage: `/user/profile/upload/profile-picture`,
   },
 };
 
