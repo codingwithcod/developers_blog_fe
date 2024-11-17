@@ -6,7 +6,7 @@ const nextConfig = {
         hostname: "i.ytimg.com",
       },
       {
-        hostname: "madewithreact.com",
+        hostname: "res.cloudinary.com",
       },
     ],
   },
