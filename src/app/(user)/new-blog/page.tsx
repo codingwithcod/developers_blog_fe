@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,19 +9,30 @@ import { handleMakeSlug } from "@/utils/handleMakeSlug";
 import { errorLog } from "@/utils/errorLog";
 import { axiosClient } from "@/utils/axiosClient";
 import apiEndpoints from "@/api/apiEndpoints";
+import { Label } from "@/components/ui/label";
+import { HiOutlinePhoto } from "react-icons/hi2";
+import Image from "next/image";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import axios from "axios";
 
 type TStatus = "draft" | "published";
+
+// [::] : Have to fix layout
 
 const NewBlog = () => {
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [selectedThumbnailFile, setSelectedThumbnailFile] = useState<File | null>(null);
   const [mdContent, setMdContent] = useState("**Namaskar Developers!!**");
   const [isEditorFullScreen, setIsEditorFullScreen] = useState(false);
   const [isBlogSaved, setIsBlogSaved] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [imageErrorMessage, setImageErrorMessage] = useState("");
+
+  const thumbnailInputRef = useRef<HTMLInputElement>(null);
 
   const handleSave = async (status: TStatus) => {
     if (!title || !slug || !thumbnail || !mdContent) {
@@ -39,6 +50,7 @@ const NewBlog = () => {
     }
 
     try {
+      const thumbnail = await handleUploadThumbnail();
       await axiosClient.post(apiEndpoints.blogs.addBlog, {
         title,
         slug,
@@ -51,6 +63,7 @@ const NewBlog = () => {
       setSlug("");
       setThumbnail("");
       setMdContent("**Namaskar Developers!!**");
+      setImageErrorMessage("");
     } catch (error) {
       errorLog(error);
       toast({
@@ -77,6 +90,53 @@ const NewBlog = () => {
     const value = e.target.value;
     const slug = handleMakeSlug(value);
     setSlug(slug);
+  };
+
+  const handleSelectThumbnail = () => {
+    if (thumbnailInputRef) {
+      thumbnailInputRef.current?.click();
+    }
+  };
+
+  const handleThumbnailInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files?.length) {
+      const selectedFile = e.target.files[0];
+      const oneMb = 1 * 1024 * 1024;
+      if (selectedFile.size > oneMb) {
+        setImageErrorMessage("Thumbnail Image must be less than 1 MB.");
+      } else {
+        setThumbnail(URL.createObjectURL(selectedFile));
+        setImageErrorMessage("");
+        setSelectedThumbnailFile(selectedFile);
+      }
+    }
+  };
+
+  const handleUploadThumbnail = async (): Promise<string | null> => {
+    if (selectedThumbnailFile) {
+      try {
+        const fileName = selectedThumbnailFile.name.replace(
+          `.${selectedThumbnailFile.type.slice(6)}`,
+          ""
+        ); /** ---> Removing file extention */
+        const res = await axiosClient.get(apiEndpoints.blogs.requestThumbnailUpload(fileName));
+        const data = res.data;
+        const formData = new FormData();
+        formData.append("file", selectedThumbnailFile);
+        formData.append("public_id", data.public_id);
+        formData.append("signature", data.signature);
+        formData.append("timestamp", data.timestamp.toString());
+        formData.append("api_key", data.api_key);
+
+        const cloudinaryRes = await axios.post(data.upload_url, formData);
+        return cloudinaryRes.data.secure_url as string;
+      } catch (error) {
+        errorLog(error);
+        return null;
+      }
+    } else {
+      return null;
+    }
   };
 
   return (
@@ -114,7 +174,7 @@ const NewBlog = () => {
       </div>
       <div className="mt-10 flex flex-col gap-3">
         <div>
-          <label htmlFor="title">Title</label>
+          <Label htmlFor="title">Title</Label>
           <Input
             id="title"
             name="title"
@@ -124,7 +184,7 @@ const NewBlog = () => {
           />
         </div>
         <div>
-          <label htmlFor="slug">Slug</label>
+          <Label htmlFor="slug">Slug</Label>
           <Input
             id="slug"
             name="slug"
@@ -133,15 +193,36 @@ const NewBlog = () => {
             className="border-muted-foreground/40 focus:border-primary"
           />
         </div>
-        <div>
-          <label htmlFor="thumbnail">Thumbnail</label>
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="thumbnail">Thumbnail</Label>
           <Input
             id="thumbnail"
             name="thumbnail"
-            value={thumbnail}
-            onChange={(e) => setThumbnail(e.target.value)}
-            className="border-muted-foreground/40 focus:border-primary"
+            type="file"
+            ref={thumbnailInputRef}
+            accept="image/*"
+            onChange={handleThumbnailInputChange}
+            className="hidden"
           />
+          <button
+            onClick={handleSelectThumbnail}
+            className="flex h-32 w-52 items-center justify-center rounded-md border"
+          >
+            {thumbnail ? (
+              <AspectRatio ratio={16 / 9}>
+                <Image
+                  src={thumbnail}
+                  alt="thumbnail"
+                  width={400}
+                  height={300}
+                  className="h-full w-full object-contain"
+                />
+              </AspectRatio>
+            ) : (
+              <HiOutlinePhoto className="h-12 w-12 text-muted-foreground/50" />
+            )}
+          </button>
+          <p className="mb-2 text-sm text-red-500">{imageErrorMessage}</p>
         </div>
       </div>
       <div className="mt-10">
