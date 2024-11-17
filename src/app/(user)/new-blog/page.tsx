@@ -151,88 +151,87 @@ const NewBlog = () => {
         </div>
       )}
 
-      <div className="flex justify-between">
-        <h1 className="text-3xl font-semibold">Write New Blog</h1>
-        <div className="flex gap-3">
-          <Button
-            variant={"outline"}
-            disabled={isSaving || isPublishing}
-            onClick={() => handleSave("draft")}
-            className="w-24"
-          >
-            {isSaving ? "Saving.." : "Save"}
-          </Button>
-          <Button
-            variant={"secondary"}
-            disabled={isSaving || isPublishing}
-            onClick={() => handleSave("published")}
-            className="w-28"
-          >
-            {isPublishing ? "Publishing.." : "Publish"}
-          </Button>
+      <div className="flex gap-3">
+        <div className="flex w-full flex-col gap-3">
+          <div>
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
+              name="title"
+              value={title}
+              onChange={handleTitleChange}
+              className="border-muted-foreground/40 focus:border-primary"
+            />
+          </div>
+          <div>
+            <Label htmlFor="slug">Slug</Label>
+            <Input
+              id="slug"
+              name="slug"
+              value={slug}
+              onChange={handleSlugChange}
+              className="border-muted-foreground/40 focus:border-primary"
+            />
+          </div>
+          <div className="flex flex-col justify-start gap-1">
+            <Label
+              htmlFor="thumbnail"
+              className="w-fit"
+            >
+              Thumbnail
+            </Label>
+            <Input
+              id="thumbnail"
+              name="thumbnail"
+              type="file"
+              ref={thumbnailInputRef}
+              accept="image/*"
+              onChange={handleThumbnailInputChange}
+              className="hidden"
+            />
+            <button
+              onClick={handleSelectThumbnail}
+              className="flex h-32 w-52 items-center justify-center rounded-md border"
+            >
+              {thumbnail ? (
+                <AspectRatio ratio={16 / 9}>
+                  <Image
+                    src={thumbnail}
+                    alt="thumbnail"
+                    width={400}
+                    height={300}
+                    className="h-full w-full object-contain"
+                  />
+                </AspectRatio>
+              ) : (
+                <HiOutlinePhoto className="h-12 w-12 text-muted-foreground/50" />
+              )}
+            </button>
+            <p className="mb-2 text-sm text-red-500">{imageErrorMessage}</p>
+          </div>
+        </div>
+        <div className="hidden w-[30%] md:block">
+          <div className="sticky top-24 flex flex-col items-end gap-3">
+            <Button
+              variant={"outline"}
+              disabled={isSaving || isPublishing}
+              onClick={() => handleSave("draft")}
+              className="w-28"
+            >
+              {isSaving ? "Saving.." : "Save"}
+            </Button>
+            <Button
+              variant={"secondary"}
+              disabled={isSaving || isPublishing}
+              onClick={() => handleSave("published")}
+              className="w-28 bg-green-600/80"
+            >
+              {isPublishing ? "Publishing.." : "Publish"}
+            </Button>
+          </div>
         </div>
       </div>
-      <div className="mt-10 flex flex-col gap-3">
-        <div>
-          <Label htmlFor="title">Title</Label>
-          <Input
-            id="title"
-            name="title"
-            value={title}
-            onChange={handleTitleChange}
-            className="border-muted-foreground/40 focus:border-primary"
-          />
-        </div>
-        <div>
-          <Label htmlFor="slug">Slug</Label>
-          <Input
-            id="slug"
-            name="slug"
-            value={slug}
-            onChange={handleSlugChange}
-            className="border-muted-foreground/40 focus:border-primary"
-          />
-        </div>
-        <div className="flex flex-col gap-1">
-          <Label htmlFor="thumbnail">Thumbnail</Label>
-          <Input
-            id="thumbnail"
-            name="thumbnail"
-            type="file"
-            ref={thumbnailInputRef}
-            accept="image/*"
-            onChange={handleThumbnailInputChange}
-            className="hidden"
-          />
-          <button
-            onClick={handleSelectThumbnail}
-            className="flex h-32 w-52 items-center justify-center rounded-md border"
-          >
-            {thumbnail ? (
-              <AspectRatio ratio={16 / 9}>
-                <Image
-                  src={thumbnail}
-                  alt="thumbnail"
-                  width={400}
-                  height={300}
-                  className="h-full w-full object-contain"
-                />
-              </AspectRatio>
-            ) : (
-              <HiOutlinePhoto className="h-12 w-12 text-muted-foreground/50" />
-            )}
-          </button>
-          <p className="mb-2 text-sm text-red-500">{imageErrorMessage}</p>
-        </div>
-      </div>
-      <div className="mt-10">
-        <Button
-          variant={"outline"}
-          onClick={() => setIsEditorFullScreen(true)}
-        >
-          Open Editor Full Screen
-        </Button>
-      </div>
+
       <div className="mt-5 w-full">
         <MDEditor
           value={mdContent}
@@ -242,6 +241,26 @@ const NewBlog = () => {
           fullscreen={isEditorFullScreen}
           onHeightChange={() => setIsEditorFullScreen(false)}
         />
+      </div>
+      <div className="mb-5 flex w-full justify-end md:hidden">
+        <div className="flex items-end gap-3">
+          <Button
+            variant={"outline"}
+            disabled={isSaving || isPublishing}
+            onClick={() => handleSave("draft")}
+            className="w-28"
+          >
+            {isSaving ? "Saving.." : "Save"}
+          </Button>
+          <Button
+            variant={"secondary"}
+            disabled={isSaving || isPublishing}
+            onClick={() => handleSave("published")}
+            className="w-28 bg-green-600/80"
+          >
+            {isPublishing ? "Publishing.." : "Publish"}
+          </Button>
+        </div>
       </div>
     </div>
   );
