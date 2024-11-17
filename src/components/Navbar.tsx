@@ -11,12 +11,23 @@ const Navbar = async () => {
     <header className="fixed top-0 z-50 mx-auto w-full border-b border-muted-foreground/10 bg-background/50 text-foreground backdrop-blur-xl">
       <div className="container flex h-16 w-full justify-between sm:px-5 md:px-10 lg:px-20">
         {/* ---> Logo Developers Blog */}
-        <div className="flex items-center text-xl font-semibold md:text-3xl">
-          <Link href={"/"}>Developers Blog</Link>
+        <div className="flex items-center text-2xl font-semibold md:text-3xl">
+          <Link
+            href={"/"}
+            className="hidden md:block"
+          >
+            Developers Blog
+          </Link>
+          <Link
+            href={"/"}
+            className="md:hidden"
+          >
+            DB
+          </Link>
         </div>
 
         {/* ---> Search bar */}
-        <div className="flex items-center">
+        <div className="flex items-center px-3">
           <SearchBox />
         </div>
 
