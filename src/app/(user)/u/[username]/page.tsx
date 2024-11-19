@@ -17,6 +17,8 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import Link from "next/link";
 import { Metadata } from "next";
 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 export const metadata: Metadata = {
   title: "User Profile",
   description: "See your profile what you can do here.",
@@ -81,7 +83,34 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             </div>
           </div>
           {/* ---> Body */}
-          <MyBlogs userId={profile.user} />
+          <div>
+            <Tabs
+              defaultValue="account"
+              className="w-full"
+            >
+              <TabsList className="my-2">
+                <TabsTrigger value="myblogs">My Blogs</TabsTrigger>
+                <TabsTrigger value="liked">Liked </TabsTrigger>
+                <TabsTrigger value="read-later">Read Later</TabsTrigger>
+              </TabsList>
+              <hr />
+              <TabsContent value="myblogs">
+                {" "}
+                <MyBlogs userId={profile.user} />
+              </TabsContent>
+              <TabsContent value="liked">
+                <div className="flex h-52 w-full items-center justify-center text-4xl">
+                  <p>Liked Blogs</p>
+                </div>
+              </TabsContent>
+              <TabsContent value="read-later">
+                {" "}
+                <div className="flex h-52 w-full items-center justify-center text-4xl">
+                  <p>Read later Blogs</p>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
 
         {/* ---> Right side */}
