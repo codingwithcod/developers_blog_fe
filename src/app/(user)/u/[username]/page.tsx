@@ -14,7 +14,7 @@ import { MdEmail } from "react-icons/md";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import Link from "next/link";
 import { Metadata } from "next";
-import ProfileTabs from "./ProfileTabs";
+import ProfileTabs from "@/components/profileTabs/ProfileTabs";
 
 export const metadata: Metadata = {
   title: "User Profile",
