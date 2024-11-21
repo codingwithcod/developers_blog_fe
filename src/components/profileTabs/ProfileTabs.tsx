@@ -2,6 +2,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React, { FC, useState } from "react";
 import MyBlogs from "./MyBlogs";
+import LikedBlogs from "./LikedBlogs";
 
 interface IProps {
   userId: string;
@@ -41,9 +42,7 @@ const ProfileTabs: FC<IProps> = ({ userId }) => {
         <MyBlogs userId={userId} />
       </TabsContent>
       <TabsContent value="liked">
-        <div className="flex h-52 w-full items-center justify-center text-4xl">
-          <p>Liked Blogs</p>
-        </div>
+        <LikedBlogs />
       </TabsContent>
       <TabsContent value="read-later">
         <div className="flex h-52 w-full items-center justify-center text-4xl">
