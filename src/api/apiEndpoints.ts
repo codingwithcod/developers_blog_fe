@@ -16,6 +16,8 @@ const apiEndpoints = {
     getAllCommentsForABlog: (blogId: string) => `/blogs/comment/${blogId}`,
     commentToABlog: `/blogs/comment`,
     requestThumbnailUpload: (fileName: string) => `/blogs/upload/thumbnail?fileName=${fileName}`,
+    getUsersLikedBlogs: `/blogs/like`,
+    getUsersReadLaterBlogs: `/blogs/read-later`,
   },
   user: {
     getProfileByUserName: (username: string) => `/user/profile/${username}`,
