@@ -4,6 +4,7 @@ import { IBlog } from "@/interfaces/IBlog";
 import { axiosClient } from "@/utils/axiosClient";
 import { errorLog } from "@/utils/errorLog";
 import React, { useEffect, useState } from "react";
+import BlogCardSkeleton from "../BlogCardSkeleton";
 
 const LikedBlogs = () => {
   const [blogs, setBlogs] = useState<IBlog[]>([]);
@@ -31,7 +32,13 @@ const LikedBlogs = () => {
   if (!isError) {
     return (
       <>
-        {isLoading && <div className="text-5xl">Loding...</div>}
+        {isLoading && (
+          <div className="grid grid-cols-1 gap-10 py-16 sm:grid-cols-2 xl:grid-cols-3">
+            {[...new Array(6)].map((_, index) => (
+              <BlogCardSkeleton key={`likedblogskeleton-${index}`} />
+            ))}
+          </div>
+        )}
         {!isLoading && blogs.length === 0 && (
           <div className="flex h-[20rem] w-full flex-col items-center justify-center">
             <p className="text-2xl text-muted-foreground">There is no blogs available</p>

@@ -7,6 +7,7 @@ import { errorLog } from "@/utils/errorLog";
 import Link from "next/link";
 import React, { FC, useEffect, useState } from "react";
 import { HiPencilSquare } from "react-icons/hi2";
+import BlogCardSkeleton from "../BlogCardSkeleton";
 
 interface IProps {
   userId: string;
@@ -38,7 +39,13 @@ const MyBlogs: FC<IProps> = ({ userId }) => {
   if (!isError) {
     return (
       <>
-        {isLoading && <div className="text-5xl">Loding...</div>}
+        {isLoading && (
+          <div className="grid grid-cols-1 gap-10 py-16 sm:grid-cols-2 xl:grid-cols-3">
+            {[...new Array(6)].map((_, index) => (
+              <BlogCardSkeleton key={`myblogskeleton-${index}`} />
+            ))}
+          </div>
+        )}
         {!isLoading && blogs.length === 0 && (
           <div className="flex h-[20rem] w-full flex-col items-center justify-center">
             <p className="text-2xl text-muted-foreground">There is no blogs available</p>
