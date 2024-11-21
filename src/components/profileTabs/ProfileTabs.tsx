@@ -4,13 +4,26 @@ import React, { FC, useState } from "react";
 import MyBlogs from "./MyBlogs";
 import LikedBlogs from "./LikedBlogs";
 import ReadLaterBlogs from "./ReadLaterBlogs";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+
+type TTabs = "myblogs" | "liked" | "read-later";
 
 interface IProps {
   userId: string;
 }
 
 const ProfileTabs: FC<IProps> = ({ userId }) => {
-  const [activeTab, setActiveTab] = useState("myblogs");
+  const searchParams = useSearchParams();
+  const rotuer = useRouter();
+  const pathname = usePathname();
+  const [activeTab, setActiveTab] = useState(searchParams.get("tab") ?? "myblogs");
+
+  const handleTabChange = (tab: TTabs) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("tab", tab);
+    rotuer.replace(`${pathname}?${params.toString()}`);
+    setActiveTab(tab);
+  };
 
   return (
     <Tabs
@@ -20,19 +33,19 @@ const ProfileTabs: FC<IProps> = ({ userId }) => {
     >
       <TabsList className="my-2">
         <TabsTrigger
-          onClick={() => setActiveTab("myblogs")}
+          onClick={() => handleTabChange("myblogs")}
           value="myblogs"
         >
           My Blogs
         </TabsTrigger>
         <TabsTrigger
-          onClick={() => setActiveTab("liked")}
+          onClick={() => handleTabChange("liked")}
           value="liked"
         >
           Liked{" "}
         </TabsTrigger>
         <TabsTrigger
-          onClick={() => setActiveTab("read-later")}
+          onClick={() => handleTabChange("read-later")}
           value="read-later"
         >
           Read Later
