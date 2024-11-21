@@ -40,14 +40,14 @@ const MyBlogs: FC<IProps> = ({ userId }) => {
     return (
       <>
         {isLoading && (
-          <div className="grid grid-cols-1 gap-10 py-16 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-10 py-5 sm:grid-cols-2 xl:grid-cols-3">
             {[...new Array(6)].map((_, index) => (
               <BlogCardSkeleton key={`myblogskeleton-${index}`} />
             ))}
           </div>
         )}
         {!isLoading && blogs.length === 0 && (
-          <div className="flex h-[20rem] w-full flex-col items-center justify-center">
+          <div className="flex h-[20rem] w-full flex-col items-center justify-center text-center">
             <p className="text-2xl text-muted-foreground">There is no blogs available</p>
             <p className="text-sm text-muted-foreground/70">You can also Write your own blogs</p>
             <Link href={`/new-blog`}>
@@ -64,7 +64,7 @@ const MyBlogs: FC<IProps> = ({ userId }) => {
         )}
 
         {!isLoading && blogs.length > 0 && (
-          <div className="grid grid-cols-1 gap-10 py-16 sm:grid-cols-2 xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-10 py-5 sm:grid-cols-2 xl:grid-cols-3">
             {blogs.map((blog) => {
               return (
                 <BlogCard
