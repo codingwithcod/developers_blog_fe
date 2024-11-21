@@ -11,11 +11,13 @@ const SearchBox = () => {
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const params = new URLSearchParams(searchParams);
     if (searchText) {
-      params.set("search", searchText);
+      const params = new URLSearchParams(searchParams);
+      if (searchText) {
+        params.set("search", searchText);
+      }
+      replace(`/blogs?${params.toString()}`);
     }
-    replace(`/blogs?${params.toString()}`);
   };
 
   return (
