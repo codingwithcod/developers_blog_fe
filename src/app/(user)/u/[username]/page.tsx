@@ -4,7 +4,6 @@ import { FC } from "react";
 import { auth } from "@/auth";
 import { BsThreeDots } from "react-icons/bs";
 import ThemeToggleButton from "@/components/ThemeToggleButton";
-import MyBlogs from "./MyBlogs";
 import { axiosClient } from "@/utils/axiosClient";
 import apiEndpoints from "@/api/apiEndpoints";
 import { AxiosError } from "axios";
@@ -12,12 +11,10 @@ import { notFound } from "next/navigation";
 import { IUserProfile } from "@/interfaces/IUserProfile";
 import FollowButton from "@/components/FollowButton";
 import { MdEmail } from "react-icons/md";
-/** ---> Hover card imports */
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import Link from "next/link";
 import { Metadata } from "next";
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ProfileTabs from "./ProfileTabs";
 
 export const metadata: Metadata = {
   title: "User Profile",
@@ -83,34 +80,7 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             </div>
           </div>
           {/* ---> Body */}
-          <div>
-            <Tabs
-              defaultValue="account"
-              className="w-full"
-            >
-              <TabsList className="my-2">
-                <TabsTrigger value="myblogs">My Blogs</TabsTrigger>
-                <TabsTrigger value="liked">Liked </TabsTrigger>
-                <TabsTrigger value="read-later">Read Later</TabsTrigger>
-              </TabsList>
-              <hr />
-              <TabsContent value="myblogs">
-                {" "}
-                <MyBlogs userId={profile.user} />
-              </TabsContent>
-              <TabsContent value="liked">
-                <div className="flex h-52 w-full items-center justify-center text-4xl">
-                  <p>Liked Blogs</p>
-                </div>
-              </TabsContent>
-              <TabsContent value="read-later">
-                {" "}
-                <div className="flex h-52 w-full items-center justify-center text-4xl">
-                  <p>Read later Blogs</p>
-                </div>
-              </TabsContent>
-            </Tabs>
-          </div>
+          <ProfileTabs userId={profile.user} />
         </div>
 
         {/* ---> Right side */}

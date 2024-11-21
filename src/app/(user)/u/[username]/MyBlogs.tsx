@@ -5,21 +5,41 @@ import { IBlog } from "@/interfaces/IBlog";
 import { axiosClient } from "@/utils/axiosClient";
 import { errorLog } from "@/utils/errorLog";
 import Link from "next/link";
-import React, { FC } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { HiPencilSquare } from "react-icons/hi2";
 
 interface IProps {
   userId: string;
 }
 
-const MyBlogs: FC<IProps> = async ({ userId }) => {
-  try {
-    const res = await axiosClient.get(apiEndpoints.blogs.getUsersAllBlogByUserId(userId));
-    const blogs = res.data.blogs as IBlog[];
+const MyBlogs: FC<IProps> = ({ userId }) => {
+  const [blogs, setBlogs] = useState<IBlog[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isError, setIsError] = useState(false);
 
+  /** ---> Fetching blogs on component load. */
+  useEffect(() => {
+    fetchUsersBlogs();
+  }, []);
+
+  const fetchUsersBlogs = async () => {
+    setIsLoading(true);
+    try {
+      const res = await axiosClient.get(apiEndpoints.blogs.getUsersAllBlogByUserId(userId));
+      setBlogs(res.data.blogs);
+    } catch (error) {
+      errorLog(error);
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  if (!isError) {
     return (
       <>
-        {blogs.length === 0 && (
+        {isLoading && <div className="text-5xl">Loding...</div>}
+        {!isLoading && blogs.length === 0 && (
           <div className="flex h-[20rem] w-full flex-col items-center justify-center">
             <p className="text-2xl text-muted-foreground">There is no blogs available</p>
             <p className="text-sm text-muted-foreground/70">You can also Write your own blogs</p>
@@ -36,7 +56,7 @@ const MyBlogs: FC<IProps> = async ({ userId }) => {
           </div>
         )}
 
-        {blogs.length > 0 && (
+        {!isLoading && blogs.length > 0 && (
           <div className="grid grid-cols-1 gap-10 py-16 sm:grid-cols-2 xl:grid-cols-3">
             {blogs.map((blog) => {
               return (
@@ -50,8 +70,7 @@ const MyBlogs: FC<IProps> = async ({ userId }) => {
         )}
       </>
     );
-  } catch (error) {
-    errorLog(error);
+  } else {
     return (
       <div className="container flex min-h-[90vh] flex-col items-center justify-center pb-20 pt-24 text-center sm:px-5 md:px-10 lg:px-20">
         <h1 className="text-lg">Failed to fetch blogs</h1>
