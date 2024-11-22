@@ -1,5 +1,5 @@
 "use client";
-import React, { FC } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import { errorLog } from "@/utils/errorLog";
 import { axiosClient } from "@/utils/axiosClient";
@@ -21,7 +21,26 @@ const OptionDropdown: FC<IProps> = ({ blogId, username, isReadLater, blogStatus,
   const { data } = useSession();
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab");
-  const handleAddRemoveBlogToReadLater = async () => {
+  const boxRef = useRef<HTMLDivElement | null>(null);
+
+  /** Closing dropdown if click outside. */
+  useEffect(() => {
+    const handleClickOutSide = (e: MouseEvent) => {
+      if (boxRef.current && !boxRef.current.contains(e.target as Node)) {
+        onClose();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutSide);
+
+    /** ---> Cleaning up event listener on unmount */
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutSide);
+    };
+  }, [boxRef]);
+
+  const handleAddRemoveBlogToReadLater = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     try {
       if (isReadLater) {
         await axiosClient.delete(apiEndpoints.blogs.removeBlogFromReadLater(blogId));
@@ -47,7 +66,10 @@ const OptionDropdown: FC<IProps> = ({ blogId, username, isReadLater, blogStatus,
   };
 
   return (
-    <div className="absolute bottom-10 right-0 z-50 min-w-40 rounded-md bg-muted shadow-md">
+    <div
+      ref={boxRef}
+      className="absolute bottom-10 right-0 z-50 min-w-40 rounded-md bg-muted shadow-md"
+    >
       <div className="z-50 flex flex-col py-2">
         <Button
           className="rounded-none hover:bg-muted-foreground/30"
