@@ -19,7 +19,7 @@ const apiEndpoints = {
     getUsersLikedBlogs: `/blogs/like`,
     getUsersReadLaterBlogs: `/blogs/read-later`,
     addBlogToReadLater: (blogId: string) => `/blogs/read-later/add/${blogId}`,
-    removeBlogToReadLater: (blogId: string) => `/blogs/read-later/remove/${blogId}`,
+    removeBlogFromReadLater: (blogId: string) => `/blogs/read-later/remove/${blogId}`,
   },
   user: {
     getProfileByUserName: (username: string) => `/user/profile/${username}`,
