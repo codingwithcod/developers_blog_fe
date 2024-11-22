@@ -8,9 +8,10 @@ import { DotFilledIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IBlog } from "@/interfaces/IBlog";
-import { FC, MouseEvent } from "react";
+import { FC, MouseEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AspectRatio } from "./ui/aspect-ratio";
+import OptionDropdown from "./OptionDropdown";
 
 interface IProps {
   blog: IBlog;
@@ -19,6 +20,7 @@ interface IProps {
 const BlogCard: FC<IProps> = ({ blog }) => {
   const router = useRouter();
   const {
+    _id: blogId,
     title,
     slug,
     thumbnail,
@@ -26,10 +28,12 @@ const BlogCard: FC<IProps> = ({ blog }) => {
     createdAt,
     user: { firstName, lastName, username, profilePic },
   } = blog;
+  const [isOptionDropdown, setIsOptionDropdown] = useState(false);
 
   const handleOptionClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
     e.preventDefault();
+    setIsOptionDropdown((prev) => !prev);
   };
 
   const handleNavigateToProfile = (e: MouseEvent<HTMLButtonElement>) => {
@@ -43,13 +47,16 @@ const BlogCard: FC<IProps> = ({ blog }) => {
       <Card className="w-full border-none bg-background text-foreground shadow-none">
         {/* ---> Thumbnail  */}
         <div className="overflow-hidden rounded-lg">
-          <AspectRatio ratio={16 / 9}>
+          <AspectRatio
+            ratio={16 / 9}
+            className="z-0"
+          >
             <Image
               src={thumbnail}
               alt={title}
               width={450}
               height={300}
-              className="w-full object-contain"
+              className="z-0 w-full object-contain"
             />
           </AspectRatio>
         </div>
@@ -72,10 +79,19 @@ const BlogCard: FC<IProps> = ({ blog }) => {
               {/* ---> Options three dots  */}
               <div className="translate-x-2 justify-self-end">
                 <Button
+                  type="reset"
                   onClick={handleOptionClick}
+                  // onBlur={() => setIsOptionDropdown(false)}
                   className="relative h-10 w-10 rounded-full bg-background text-muted-foreground shadow-none hover:bg-muted"
                 >
                   <BsThreeDotsVertical className="absolute text-lg" />
+                  {isOptionDropdown && (
+                    <OptionDropdown
+                      blogId={blogId}
+                      isReadLater={blog?.isReadLater ?? false}
+                      onClose={() => setIsOptionDropdown(false)}
+                    />
+                  )}
                 </Button>
               </div>
             </div>
