@@ -12,6 +12,9 @@ export interface IBlog {
   thumbnail: string;
   reads: number;
   isReadLater?: boolean;
+  status: TBlogStatus;
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type TBlogStatus = "published" | "draft";
