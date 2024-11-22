@@ -11,6 +11,7 @@ export interface IBlog {
   slug: string;
   thumbnail: string;
   reads: number;
+  isReadLater?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
