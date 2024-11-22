@@ -77,22 +77,20 @@ const BlogCard: FC<IProps> = ({ blog }) => {
             <div className="flex">
               <CardTitle className="line-clamp-2 w-full leading-5">{title}</CardTitle>
               {/* ---> Options three dots  */}
-              <div className="translate-x-2 justify-self-end">
+              <div className="relative translate-x-2 justify-self-end">
                 <Button
-                  type="reset"
                   onClick={handleOptionClick}
-                  // onBlur={() => setIsOptionDropdown(false)}
-                  className="relative h-10 w-10 rounded-full bg-background text-muted-foreground shadow-none hover:bg-muted"
+                  className="h-10 w-10 rounded-full bg-background text-muted-foreground shadow-none hover:bg-muted"
                 >
                   <BsThreeDotsVertical className="absolute text-lg" />
-                  {isOptionDropdown && (
-                    <OptionDropdown
-                      blogId={blogId}
-                      isReadLater={blog?.isReadLater ?? false}
-                      onClose={() => setIsOptionDropdown(false)}
-                    />
-                  )}
                 </Button>
+                {isOptionDropdown && (
+                  <OptionDropdown
+                    blogId={blogId}
+                    isReadLater={blog?.isReadLater ?? false}
+                    onClose={() => setIsOptionDropdown(false)}
+                  />
+                )}
               </div>
             </div>
             <div className="mt-2 text-muted-foreground">

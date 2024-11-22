@@ -39,7 +39,7 @@ const OptionDropdown: FC<IProps> = ({ blogId, isReadLater, onClose }) => {
   };
 
   return (
-    <div className="absolute bottom-12 right-0 z-50 min-w-40 rounded-md bg-muted shadow-md">
+    <div className="absolute bottom-10 right-0 z-50 min-w-40 rounded-md bg-muted shadow-md">
       <div className="z-50 flex flex-col py-2">
         <Button
           className="rounded-none hover:bg-muted-foreground/50"
