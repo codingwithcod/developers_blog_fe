@@ -25,6 +25,7 @@ const BlogCard: FC<IProps> = ({ blog }) => {
     slug,
     thumbnail,
     reads,
+    status,
     createdAt,
     user: { firstName, lastName, username, profilePic },
   } = blog;
@@ -86,7 +87,9 @@ const BlogCard: FC<IProps> = ({ blog }) => {
                 </Button>
                 {isOptionDropdown && (
                   <OptionDropdown
+                    username={username}
                     blogId={blogId}
+                    blogStatus={status}
                     isReadLater={blog?.isReadLater ?? false}
                     onClose={() => setIsOptionDropdown(false)}
                   />

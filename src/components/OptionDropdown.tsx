@@ -5,14 +5,22 @@ import { errorLog } from "@/utils/errorLog";
 import { axiosClient } from "@/utils/axiosClient";
 import apiEndpoints from "@/api/apiEndpoints";
 import { toast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+import { TBlogStatus } from "@/interfaces/IBlog";
 
 interface IProps {
+  username: string;
   blogId: string;
+  blogStatus: TBlogStatus;
   isReadLater: boolean;
   onClose: () => void;
 }
 
-const OptionDropdown: FC<IProps> = ({ blogId, isReadLater, onClose }) => {
+const OptionDropdown: FC<IProps> = ({ blogId, username, isReadLater, blogStatus, onClose }) => {
+  const { data } = useSession();
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
   const handleAddRemoveBlogToReadLater = async () => {
     try {
       if (isReadLater) {
@@ -42,24 +50,24 @@ const OptionDropdown: FC<IProps> = ({ blogId, isReadLater, onClose }) => {
     <div className="absolute bottom-10 right-0 z-50 min-w-40 rounded-md bg-muted shadow-md">
       <div className="z-50 flex flex-col py-2">
         <Button
-          className="rounded-none hover:bg-muted-foreground/50"
+          className="rounded-none hover:bg-muted-foreground/30"
           variant={"secondary"}
           onClick={handleAddRemoveBlogToReadLater}
         >
           {isReadLater ? "Remove from Read later" : "Add to Read later"}
         </Button>
-        <Button
-          className="rounded-none hover:bg-muted-foreground/50"
-          variant={"secondary"}
-        >
-          Publish
-        </Button>
-        <Button
-          className="rounded-none hover:bg-muted-foreground/50"
-          variant={"secondary"}
-        >
-          Un Publish
-        </Button>
+        {data?.user.username === username && currentTab === "myblogs" && (
+          <Button
+            className="rounded-none hover:bg-muted-foreground/50"
+            variant={"secondary"}
+          >
+            {blogStatus === "draft" ? (
+              <span className="text-green-500">Publish</span>
+            ) : (
+              <span className="text-yellow-500">Unpublish</span>
+            )}
+          </Button>
+        )}
       </div>
     </div>
   );
