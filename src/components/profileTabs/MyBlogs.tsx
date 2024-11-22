@@ -1,3 +1,4 @@
+"use client";
 import apiEndpoints from "@/api/apiEndpoints";
 import BlogCard from "@/components/BlogCard";
 import { Button } from "@/components/ui/button";

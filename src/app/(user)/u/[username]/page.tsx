@@ -15,6 +15,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/h
 import Link from "next/link";
 import { Metadata } from "next";
 import ProfileTabs from "@/components/profileTabs/ProfileTabs";
+import MyBlogs from "@/components/profileTabs/MyBlogs";
 
 export const metadata: Metadata = {
   title: "User Profile",
@@ -80,7 +81,8 @@ const Profile: FC<IProps> = async ({ params: { username } }) => {
             </div>
           </div>
           {/* ---> Body */}
-          <ProfileTabs userId={profile.user} />
+          {isUserSelf && <ProfileTabs userId={profile.user} />}
+          {!isUserSelf && <MyBlogs userId={profile.user} />}
         </div>
 
         {/* ---> Right side */}
