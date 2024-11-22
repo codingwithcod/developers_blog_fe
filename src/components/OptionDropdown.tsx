@@ -65,6 +65,36 @@ const OptionDropdown: FC<IProps> = ({ blogId, username, isReadLater, blogStatus,
     }
   };
 
+  const handlePublishUnPublishBlogs = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    try {
+      if (blogStatus === "draft") {
+        await axiosClient.patch(apiEndpoints.blogs.updateBlog(blogId), {
+          status: "published",
+        });
+        toast({
+          title: "Blog published successfully.",
+        });
+      } else {
+        await axiosClient.patch(apiEndpoints.blogs.updateBlog(blogId), {
+          status: "draft",
+        });
+        toast({
+          title: "Blog unpublished successfully.",
+        });
+      }
+    } catch (error) {
+      errorLog(error);
+      toast({
+        title: blogStatus === "draft" ? "Blog Didn't published." : "Blog Didn't unpublished.",
+        variant: "destructive",
+      });
+    } finally {
+      onClose();
+    }
+  };
+
   return (
     <div
       ref={boxRef}
@@ -82,6 +112,7 @@ const OptionDropdown: FC<IProps> = ({ blogId, username, isReadLater, blogStatus,
           <Button
             className="rounded-none hover:bg-muted-foreground/50"
             variant={"secondary"}
+            onClick={handlePublishUnPublishBlogs}
           >
             {blogStatus === "draft" ? (
               <span className="text-green-500">Publish</span>
