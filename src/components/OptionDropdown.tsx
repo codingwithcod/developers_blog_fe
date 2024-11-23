@@ -8,6 +8,7 @@ import { toast } from "@/hooks/use-toast";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { TBlogStatus } from "@/interfaces/IBlog";
+import Link from "next/link";
 
 interface IProps {
   username: string;
@@ -114,24 +115,38 @@ const OptionDropdown: FC<IProps> = ({
     >
       <div className="z-50 flex flex-col py-2">
         <Button
-          className="rounded-none hover:bg-muted-foreground/30"
+          className="w-full rounded-none hover:bg-muted-foreground/30"
           variant={"secondary"}
           onClick={handleAddRemoveBlogToReadLater}
         >
-          {isReadLater ? "Remove from Read later" : "Add to Read later"}
+          {isReadLater ? (
+            <span className="w-full text-start">Remove from Read later</span>
+          ) : (
+            <span className="w-full text-start">Add to Read later</span>
+          )}
         </Button>
         {data?.user.username === username && currentTab === "myblogs" && (
-          <Button
-            className="rounded-none hover:bg-muted-foreground/50"
-            variant={"secondary"}
-            onClick={handlePublishUnPublishBlogs}
-          >
-            {blogStatus === "draft" ? (
-              <span className="text-green-500">Publish</span>
-            ) : (
-              <span className="text-yellow-500">Unpublish</span>
-            )}
-          </Button>
+          <>
+            <Link href={`/blog/update/${blogId}`}>
+              <Button
+                className="flex w-full rounded-none hover:bg-muted-foreground/30"
+                variant={"secondary"}
+              >
+                <span className="w-full text-start">Update Blog</span>
+              </Button>
+            </Link>
+            <Button
+              className="w-full rounded-none hover:bg-muted-foreground/50"
+              variant={"secondary"}
+              onClick={handlePublishUnPublishBlogs}
+            >
+              {blogStatus === "draft" ? (
+                <span className="w-full text-start text-green-500">Publish</span>
+              ) : (
+                <span className="w-full text-start text-yellow-500">Unpublish</span>
+              )}
+            </Button>
+          </>
         )}
       </div>
     </div>
