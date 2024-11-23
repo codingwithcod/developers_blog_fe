@@ -19,7 +19,7 @@ type TStatus = "draft" | "published";
 
 // [::] : Have to fix layout
 
-const NewBlog = () => {
+const AddUpdateBlog = () => {
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -266,4 +266,4 @@ const NewBlog = () => {
   );
 };
 
-export default NewBlog;
+export default AddUpdateBlog;
