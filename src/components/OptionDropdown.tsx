@@ -15,9 +15,19 @@ interface IProps {
   blogStatus: TBlogStatus;
   isReadLater: boolean;
   onClose: () => void;
+  onPublishUnpublish?: () => void;
+  onRemoveFromReadLater?: () => void;
 }
 
-const OptionDropdown: FC<IProps> = ({ blogId, username, isReadLater, blogStatus, onClose }) => {
+const OptionDropdown: FC<IProps> = ({
+  blogId,
+  username,
+  isReadLater,
+  blogStatus,
+  onClose,
+  onPublishUnpublish,
+  onRemoveFromReadLater,
+}) => {
   const { data } = useSession();
   const searchParams = useSearchParams();
   const currentTab = searchParams.get("tab");
@@ -53,6 +63,7 @@ const OptionDropdown: FC<IProps> = ({ blogId, username, isReadLater, blogStatus,
           title: "Saved to read later.",
         });
       }
+      onRemoveFromReadLater?.();
     } catch (error) {
       errorLog(error);
 
@@ -84,6 +95,7 @@ const OptionDropdown: FC<IProps> = ({ blogId, username, isReadLater, blogStatus,
           title: "Blog unpublished successfully.",
         });
       }
+      onPublishUnpublish?.();
     } catch (error) {
       errorLog(error);
       toast({

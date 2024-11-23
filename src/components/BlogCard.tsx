@@ -15,9 +15,11 @@ import OptionDropdown from "./OptionDropdown";
 
 interface IProps {
   blog: IBlog;
+  onPublishUnpublish?: () => void;
+  onRemoveFromReadLater?: () => void;
 }
 
-const BlogCard: FC<IProps> = ({ blog }) => {
+const BlogCard: FC<IProps> = ({ blog, onPublishUnpublish, onRemoveFromReadLater }) => {
   const router = useRouter();
   const {
     _id: blogId,
@@ -92,11 +94,13 @@ const BlogCard: FC<IProps> = ({ blog }) => {
                     blogStatus={status}
                     isReadLater={blog?.isReadLater ?? false}
                     onClose={() => setIsOptionDropdown(false)}
+                    onPublishUnpublish={onPublishUnpublish}
+                    onRemoveFromReadLater={onRemoveFromReadLater}
                   />
                 )}
               </div>
             </div>
-            <div className="mt-2 text-muted-foreground">
+            <div className="text-muted-foreground">
               <button
                 onClick={handleNavigateToProfile}
                 className="pr-2"
