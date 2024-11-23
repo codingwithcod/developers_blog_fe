@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import MDEditor from "@uiw/react-md-editor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,12 +14,16 @@ import { HiOutlinePhoto } from "react-icons/hi2";
 import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import axios from "axios";
+import { IBlogPost } from "@/interfaces/IBlogPost";
 
 type TStatus = "draft" | "published";
 
-// [::] : Have to fix layout
+interface IProps {
+  isUpdateBlog?: boolean;
+  blogId?: string;
+}
 
-const AddUpdateBlog = () => {
+const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -34,7 +38,29 @@ const AddUpdateBlog = () => {
 
   const thumbnailInputRef = useRef<HTMLInputElement>(null);
 
+  /** ---> Fetching blog if update blog page. */
+  useEffect(() => {
+    if (isUpdateBlog) {
+      handleFetchBlogToBeUpdated();
+    }
+  }, []);
+
+  const handleFetchBlogToBeUpdated = async () => {
+    try {
+      if (!blogId) return;
+      const res = await axiosClient.get(apiEndpoints.blogs.getBlogById(blogId));
+      const blog = res.data.blog as IBlogPost;
+      setTitle(blog.title);
+      setSlug(blog.slug);
+      setThumbnail(blog.thumbnail);
+      setMdContent(blog.content);
+    } catch (error) {
+      errorLog(error);
+    }
+  };
+
   const handleSave = async (status: TStatus) => {
+    // console.log("saving blog .............");
     if (!title || !slug || !thumbnail || !mdContent) {
       return toast({
         title: "All field Required!!",
@@ -69,6 +95,53 @@ const AddUpdateBlog = () => {
       toast({
         title: "Blog saving failed !!",
         description: "Blog did not save, please try again",
+        variant: "destructive",
+        duration: 2000,
+      });
+    } finally {
+      setIsSaving(false);
+      setIsPublishing(false);
+    }
+  };
+
+  // console.log("isUpdateBlog ------>", isUpdateBlog);
+  const handleUpdateBlog = async (status: TStatus) => {
+    // console.log("updating blog .............");
+    if (!title || !slug || !thumbnail || !mdContent) {
+      return toast({
+        title: "All field Required!!",
+        description: "Title, Thumbnail and Content is Required to update.",
+        variant: "destructive",
+        duration: 2000,
+      });
+    }
+    if (status === "draft") {
+      setIsSaving(true);
+    } else {
+      setIsPublishing(true);
+    }
+
+    try {
+      if (!blogId) return;
+      const thumbnail = await handleUploadThumbnail();
+      await axiosClient.post(apiEndpoints.blogs.updateBlog(blogId), {
+        title,
+        slug,
+        ...(thumbnail ? { thumbnail } : {}),
+        status,
+        content: mdContent,
+      });
+      setIsBlogSaved(true);
+      setTitle("");
+      setSlug("");
+      setThumbnail("");
+      setMdContent("**Namaskar Developers!!**");
+      setImageErrorMessage("");
+    } catch (error) {
+      errorLog(error);
+      toast({
+        title: "Blog updaing failed !!",
+        description: "Blog did not update, please try again",
         variant: "destructive",
         duration: 2000,
       });
@@ -169,6 +242,7 @@ const AddUpdateBlog = () => {
               id="slug"
               name="slug"
               value={slug}
+              disabled={isUpdateBlog}
               onChange={handleSlugChange}
               className="border-muted-foreground/40 focus:border-primary"
             />
@@ -215,7 +289,7 @@ const AddUpdateBlog = () => {
             <Button
               variant={"outline"}
               disabled={isSaving || isPublishing}
-              onClick={() => handleSave("draft")}
+              onClick={() => (!isUpdateBlog ? handleUpdateBlog("draft") : handleSave("draft"))}
               className="w-28"
             >
               {isSaving ? "Saving.." : "Save"}
@@ -223,7 +297,9 @@ const AddUpdateBlog = () => {
             <Button
               variant={"secondary"}
               disabled={isSaving || isPublishing}
-              onClick={() => handleSave("published")}
+              onClick={() =>
+                isUpdateBlog ? handleUpdateBlog("published") : handleSave("published")
+              }
               className="w-28 bg-green-600/80"
             >
               {isPublishing ? "Publishing.." : "Publish"}
