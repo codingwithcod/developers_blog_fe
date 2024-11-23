@@ -1,5 +1,5 @@
 import React from "react";
-import AddUpdateBlog from "../AddUpdateBlog";
+import AddUpdateBlog from "../../AddUpdateBlog";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
