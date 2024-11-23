@@ -37,6 +37,17 @@ const MyBlogs: FC<IProps> = ({ userId }) => {
     }
   };
 
+  const onPublishUnpublish = (blogId: string) => {
+    setBlogs((blogs) =>
+      blogs.map((blog) => {
+        if (blog._id === blogId) {
+          return { ...blog, status: blog.status === "draft" ? "published" : "draft" };
+        }
+        return blog;
+      })
+    );
+  };
+
   if (!isError) {
     return (
       <>
@@ -71,7 +82,7 @@ const MyBlogs: FC<IProps> = ({ userId }) => {
                 <BlogCard
                   blog={blog}
                   key={blog._id}
-                  onPublishUnpublish={fetchUsersBlogs}
+                  onPublishUnpublish={() => onPublishUnpublish(blog._id)}
                 />
               );
             })}
