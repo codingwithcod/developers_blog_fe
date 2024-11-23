@@ -71,6 +71,7 @@ const MyBlogs: FC<IProps> = ({ userId }) => {
                 <BlogCard
                   blog={blog}
                   key={blog._id}
+                  onPublishUnpublish={fetchUsersBlogs}
                 />
               );
             })}

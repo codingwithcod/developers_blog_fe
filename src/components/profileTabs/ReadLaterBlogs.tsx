@@ -55,6 +55,7 @@ const ReadLaterBlogs = () => {
                 <BlogCard
                   blog={blog}
                   key={blog._id}
+                  onRemoveFromReadLater={fetchUsersReadLaterBlogs}
                 />
               );
             })}
