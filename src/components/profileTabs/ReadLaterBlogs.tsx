@@ -29,6 +29,10 @@ const ReadLaterBlogs = () => {
     }
   };
 
+  const onRemoveFromReadLater = (blogId: string) => {
+    setBlogs(blogs.filter((blog) => blog._id !== blogId));
+  };
+
   if (!isError) {
     return (
       <>
@@ -55,7 +59,7 @@ const ReadLaterBlogs = () => {
                 <BlogCard
                   blog={blog}
                   key={blog._id}
-                  onRemoveFromReadLater={fetchUsersReadLaterBlogs}
+                  onRemoveFromReadLater={() => onRemoveFromReadLater(blog._id)}
                 />
               );
             })}
