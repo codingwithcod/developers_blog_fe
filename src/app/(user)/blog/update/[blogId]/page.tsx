@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import AddUpdateBlog from "../../AddUpdateBlog";
 import { Metadata } from "next";
 
@@ -7,8 +7,19 @@ export const metadata: Metadata = {
   description: "Update your blog and publish them to direct public or save as draft.",
 };
 
-const UpdateBlog = () => {
-  return <AddUpdateBlog />;
+interface IProps {
+  params: {
+    blogId: string;
+  };
+}
+
+const UpdateBlog: FC<IProps> = ({ params: { blogId } }) => {
+  return (
+    <AddUpdateBlog
+      isUpdateBlog
+      blogId={blogId}
+    />
+  );
 };
 
 export default UpdateBlog;
