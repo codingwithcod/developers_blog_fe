@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IBlog } from "@/interfaces/IBlog";
 import { FC, MouseEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { AspectRatio } from "./ui/aspect-ratio";
 import OptionDropdown from "./OptionDropdown";
 
@@ -20,6 +20,8 @@ interface IProps {
 }
 
 const BlogCard: FC<IProps> = ({ blog, onPublishUnpublish, onRemoveFromReadLater }) => {
+  const searchParams = useSearchParams();
+  const currentTab = searchParams.get("tab");
   const router = useRouter();
   const {
     _id: blogId,
@@ -114,6 +116,19 @@ const BlogCard: FC<IProps> = ({ blog, onPublishUnpublish, onRemoveFromReadLater 
                 <DotFilledIcon />
                 <p className="text-nowrap">{timeAgo(createdAt)}</p>
               </div>
+              {currentTab === "myblogs" && (
+                <div className="flex py-1">
+                  {status === "draft" ? (
+                    <div className="flex h-5 min-w-20 items-center justify-center rounded-full border border-yellow-500/40 bg-yellow-500/20 px-2 text-sm font-[500] text-yellow-500">
+                      Draft
+                    </div>
+                  ) : (
+                    <div className="flex h-5 min-w-20 items-center justify-center rounded-full border border-green-500/40 bg-green-500/20 px-2 text-sm font-[500] text-green-500">
+                      Published
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
