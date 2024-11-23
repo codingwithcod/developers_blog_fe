@@ -44,25 +44,32 @@ const NavbarMobileMenu: FC<IProps> = ({ session }) => {
             {session?.user ? (
               <>
                 <Link
-                  href={"/new-blog"}
+                  href={"/blog/new"}
                   onClick={handleClickOnLink}
                   className="rounded-lg px-4 py-4 hover:bg-secondary/40"
                 >
                   Write
                 </Link>
                 <Link
-                  href={"/u/read-later"}
+                  href={`/u/@${session.user.username}?tab=read-later`}
                   onClick={handleClickOnLink}
                   className="rounded-lg px-4 py-4 hover:bg-secondary/40"
                 >
                   Read later
                 </Link>
                 <Link
-                  href={"/u/liked-blogs"}
+                  href={`/u/@${session.user.username}?tab=liked`}
                   onClick={handleClickOnLink}
                   className="rounded-lg px-4 py-4 hover:bg-secondary/40"
                 >
                   Liked blogs
+                </Link>
+                <Link
+                  href={`/u/@${session.user.username}?tab=myblogs`}
+                  onClick={handleClickOnLink}
+                  className="rounded-lg px-4 py-4 hover:bg-secondary/40"
+                >
+                  My blogs
                 </Link>
               </>
             ) : (
