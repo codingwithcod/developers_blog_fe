@@ -1,6 +1,6 @@
 "use client";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import MyBlogs from "./MyBlogs";
 import LikedBlogs from "./LikedBlogs";
 import ReadLaterBlogs from "./ReadLaterBlogs";
@@ -17,6 +17,15 @@ const ProfileTabs: FC<IProps> = ({ userId }) => {
   const rotuer = useRouter();
   const pathname = usePathname();
   const [activeTab, setActiveTab] = useState(searchParams.get("tab") ?? "myblogs");
+
+  /** ---> Setting up query params on component load. */
+  useEffect(() => {
+    if (!searchParams.toString()) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set("tab", "myblogs");
+      rotuer.replace(`${pathname}?${params.toString()}`);
+    }
+  }, []);
 
   const handleTabChange = (tab: TTabs) => {
     const params = new URLSearchParams(searchParams.toString());
