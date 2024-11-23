@@ -11,7 +11,7 @@ const middleware = async (request: NextRequest) => {
     PUBLIC_ROUTES.find((route) => nextUrl.pathname.startsWith(route)) || nextUrl.pathname === ROOT;
 
   const isAuthRoute = nextUrl.pathname.startsWith("/auth");
-  const isUserProfileRoute = nextUrl.pathname.startsWith("/u");
+  const isUserProfileRoute = nextUrl.pathname.startsWith("/u/");
 
   /** ---> If user not logged in and try to access private pages. */
   if (!isAuthenticated && !isPublicRoute) {
