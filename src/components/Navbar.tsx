@@ -34,7 +34,9 @@ const Navbar = async () => {
         <div className="flex gap-3">
           {/* ---> Navlinks and profile */}
           <div className="flex items-center gap-5">
-            <nav className="hidden items-end gap-5 text-sm text-foreground sm:flex">
+            <nav className="hidden items-end gap-5 text-sm text-foreground md:flex">
+              {session?.user.role === "ADMIN" && <Link href={"/dashboard"}>Dashboard</Link>}
+
               <Link href={"/blogs"}>Blogs</Link>
               {session?.user ? (
                 <Link href={"/blog/new"}>Write</Link>

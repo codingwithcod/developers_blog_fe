@@ -33,11 +33,11 @@ const NavbarMobileMenu: FC<IProps> = ({ session }) => {
         <div className="my-1 border-b border-border/50"></div>
 
         <div className="flex h-full flex-col justify-between">
-          <nav className="flex w-full flex-col text-xl">
+          <nav className="flex h-[60vh] w-full flex-col overflow-y-auto text-xl">
             <Link
               href={"/blogs"}
               onClick={handleClickOnLink}
-              className="rounded-lg px-4 py-4 hover:bg-secondary/40"
+              className="rounded-lg px-4 py-3 hover:bg-secondary/40"
             >
               Blogs
             </Link>
@@ -46,31 +46,41 @@ const NavbarMobileMenu: FC<IProps> = ({ session }) => {
                 <Link
                   href={"/blog/new"}
                   onClick={handleClickOnLink}
-                  className="rounded-lg px-4 py-4 hover:bg-secondary/40"
+                  className="rounded-lg px-4 py-3 hover:bg-secondary/40"
                 >
                   Write
                 </Link>
                 <Link
                   href={`/u/@${session.user.username}?tab=read-later`}
                   onClick={handleClickOnLink}
-                  className="rounded-lg px-4 py-4 hover:bg-secondary/40"
+                  className="rounded-lg px-4 py-3 hover:bg-secondary/40"
                 >
                   Read later
                 </Link>
                 <Link
                   href={`/u/@${session.user.username}?tab=liked`}
                   onClick={handleClickOnLink}
-                  className="rounded-lg px-4 py-4 hover:bg-secondary/40"
+                  className="rounded-lg px-4 py-3 hover:bg-secondary/40"
                 >
                   Liked blogs
                 </Link>
                 <Link
                   href={`/u/@${session.user.username}?tab=myblogs`}
                   onClick={handleClickOnLink}
-                  className="rounded-lg px-4 py-4 hover:bg-secondary/40"
+                  className="rounded-lg px-4 py-3 hover:bg-secondary/40"
                 >
                   My blogs
                 </Link>
+
+                {session?.user.role === "ADMIN" && (
+                  <Link
+                    href={"/dashboard"}
+                    onClick={handleClickOnLink}
+                    className="rounded-lg px-4 py-3 hover:bg-secondary/40"
+                  >
+                    Dashboard
+                  </Link>
+                )}
               </>
             ) : (
               <>
