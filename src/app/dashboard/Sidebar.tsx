@@ -5,11 +5,7 @@ import {
   BookOpen,
   Bot,
   Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
   SquareTerminal,
 } from "lucide-react";
 import {
@@ -43,106 +39,66 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Users",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "All Users",
           url: "#",
         },
         {
-          title: "Starred",
+          title: "Blocked Users",
           url: "#",
         },
         {
-          title: "Settings",
+          title: "Unverified Users",
           url: "#",
         },
       ],
     },
     {
-      title: "Models",
+      title: "Blogs",
       url: "#",
       icon: Bot,
       items: [
         {
-          title: "Genesis",
+          title: "All Blogs",
           url: "#",
         },
         {
-          title: "Explorer",
+          title: "Featured",
           url: "#",
         },
         {
-          title: "Quantum",
+          title: "Published",
+          url: "#",
+        },
+        {
+          title: "Draft",
           url: "#",
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "Report",
       url: "#",
       icon: BookOpen,
       items: [
         {
-          title: "Introduction",
+          title: "Blog",
           url: "#",
         },
         {
-          title: "Get Started",
+          title: "Comment",
           url: "#",
         },
         {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
+          title: "Profile",
           url: "#",
         },
       ],
-    },
-    {
-      title: "Settings",
-      url: "#",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Team",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  projects: [
-    {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
     },
   ],
 };
