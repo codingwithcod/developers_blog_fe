@@ -12,6 +12,7 @@ const middleware = async (request: NextRequest) => {
 
   const isAuthRoute = nextUrl.pathname.startsWith("/auth");
   const isUserProfileRoute = nextUrl.pathname.startsWith("/u/");
+  const isDashboardRoute = nextUrl.pathname.startsWith("/dashboard");
 
   /** ---> If user not logged in and try to access private pages. */
   if (!isAuthenticated && !isPublicRoute) {
@@ -21,6 +22,10 @@ const middleware = async (request: NextRequest) => {
 
   /** ---> If user logged in and try to access auth pages. */
   if (isAuthenticated && isAuthRoute) return Response.redirect(new URL(ROOT, nextUrl));
+
+  /** ---> If user not a admin and try to access dashboard pages. */
+  if (session?.user.role !== "ADMIN" && isDashboardRoute)
+    return Response.redirect(new URL(ROOT, nextUrl));
 
   /** ---> If username not starts with @ then redirecting to 404 not found page. */
   if (isUserProfileRoute && !nextUrl.pathname.split("/u/")[1].startsWith("@")) {
