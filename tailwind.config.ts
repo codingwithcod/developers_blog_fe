@@ -14,7 +14,7 @@ const config: Config = {
       center: true,
       padding: "1rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1536px",
       },
     },
     extend: {
@@ -70,6 +70,9 @@ const config: Config = {
         georgia: ["Georgia", "serif"],
         merriweather: ["var(--font-merriweather)", "serif"],
         roboto: ["var(--font-roboto)", "sans-serif"],
+      },
+      animation: {
+        slowSpin: "spin 3s linear infinite",
       },
     },
   },

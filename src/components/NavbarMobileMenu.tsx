@@ -15,7 +15,6 @@ interface IProps {
 const NavbarMobileMenu: FC<IProps> = ({ session }) => {
   const [open, setOpen] = useState(false);
 
-  // Function to close the sheet when a link is clicked
   const handleClickOnLink = () => {
     setOpen(false);
   };
@@ -45,25 +44,32 @@ const NavbarMobileMenu: FC<IProps> = ({ session }) => {
             {session?.user ? (
               <>
                 <Link
-                  href={"/new-blog"}
+                  href={"/blog/new"}
                   onClick={handleClickOnLink}
                   className="rounded-lg px-4 py-4 hover:bg-secondary/40"
                 >
                   Write
                 </Link>
                 <Link
-                  href={"/u/read-later"}
+                  href={`/u/@${session.user.username}?tab=read-later`}
                   onClick={handleClickOnLink}
                   className="rounded-lg px-4 py-4 hover:bg-secondary/40"
                 >
                   Read later
                 </Link>
                 <Link
-                  href={"/u/liked-blogs"}
+                  href={`/u/@${session.user.username}?tab=liked`}
                   onClick={handleClickOnLink}
                   className="rounded-lg px-4 py-4 hover:bg-secondary/40"
                 >
                   Liked blogs
+                </Link>
+                <Link
+                  href={`/u/@${session.user.username}?tab=myblogs`}
+                  onClick={handleClickOnLink}
+                  className="rounded-lg px-4 py-4 hover:bg-secondary/40"
+                >
+                  My blogs
                 </Link>
               </>
             ) : (
@@ -90,17 +96,24 @@ const NavbarMobileMenu: FC<IProps> = ({ session }) => {
             <div>
               <div className="flex items-center gap-5">
                 <Link
-                  href={"/u/@theabhipatel"}
+                  href={`/u/@${session.user.username}`}
                   onClick={handleClickOnLink}
                 >
                   <Avatar className="h-12 w-12">
-                    <AvatarImage src={session.user?.image ?? ""} />
+                    <AvatarImage src={session.user?.profilePic ?? ""} />
                     <AvatarFallback className="bg-indigo-500 font-roboto text-2xl font-bold capitalize text-white">
-                      {session.user?.name?.slice(0, 1)}
+                      {session.user?.firstName?.slice(0, 1)}
                     </AvatarFallback>
                   </Avatar>
                 </Link>
-                <p className="line-clamp-1 text-xl">{session.user?.name}</p>
+                <Link
+                  href={`/u/@${session.user.username}`}
+                  onClick={handleClickOnLink}
+                >
+                  <p className="line-clamp-1 text-xl">
+                    {session.user?.firstName} {session.user?.lastName}
+                  </p>
+                </Link>
               </div>
               <hr className="my-3 border-border/50" />
               <div className="flex w-full items-center justify-between">

@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---> Updating tailwind's container padding on different break points. */
+@layer utilities {
+  .container {
+    @apply sm:px-5 md:px-10 lg:px-20;
+  }
+}
+
 /* :root {
   --background: #ffffff;
   --foreground: #171717;

@@ -1,6 +1,5 @@
 "use client";
-import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,52 +15,118 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import { toast } from "@/hooks/use-toast";
+import {
+  handleCredentialsSignin,
+  handleGithubSignin,
+  handleGoogleSignin,
+} from "@/actions/authActions";
+import { useRouter, useSearchParams } from "next/navigation";
+import { errorLog } from "@/utils/errorLog";
 
 const SignIn = () => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const signinError = searchParams.get("error");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleCredentialSubmit = async (e: React.FormEvent) => {
+  const handleOnSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const result = await signIn("credentials", {
-      email,
-      password,
-      redirectTo: "/",
-    });
-    if (result?.error) {
+    if (!email || !password) {
       toast({
-        title: "Login field !!",
-        description: result.error,
+        title: "Email and Password are required !!",
+        description: "Please fill correct email and password",
         variant: "destructive",
       });
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const result = await handleCredentialsSignin({
+        email,
+        password,
+        redirectTo: searchParams.get("redirectTo") ?? "/",
+      });
+      if (result?.message) {
+        toast({
+          title: "Login field !!",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      console.log("error login ------>", error); // eslint-disable-line
+      toast({
+        title: "Login field !!",
+        description: "Something went wrong try again",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleGoogleLogin = async () => {
-    const result = await signIn("google", { redirectTo: "/" });
-    if (result?.error) {
-      toast({
-        title: "Login field !!",
-        description: "Something went wrong, please try again.",
-        variant: "destructive",
+  const handleGoogleSubmit = async () => {
+    try {
+      const result = await handleGoogleSignin({
+        redirectTo: searchParams.get("redirectTo") ?? "/",
       });
+      if (result?.message) {
+        toast({
+          title: "Login field !!",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      errorLog(["error google login ------>", error]);
     }
   };
 
-  const handleGithubLogin = async () => {
-    const result = await signIn("github", { redirectTo: "/" });
-    if (result?.error) {
-      toast({
-        title: "Login field !!",
-        description: "Something went wrong, please try again.",
-        variant: "destructive",
+  const handleGithubSubmit = async () => {
+    try {
+      const result = await handleGithubSignin({
+        redirectTo: searchParams.get("redirectTo") ?? "/",
       });
+      if (result?.message) {
+        toast({
+          title: "Login field !!",
+          description: result.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      errorLog(["error google login ------>", error]);
     }
   };
+
+  /** ---> If login error then showing toast. */
+  useEffect(() => {
+    if (signinError) {
+      if (signinError === "AccessDenied") {
+        toast({
+          title: "Login field !!",
+          description: "You cannot log in with Google. Please use your credentials.",
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Login field !!",
+          description: "An error occurred during sign-in. Please try again.",
+          variant: "destructive",
+        });
+      }
+      const newUrl = window.location.pathname;
+      router.replace(newUrl);
+    }
+  }, [signinError]);
 
   return (
-    <div className="container flex flex-col items-center justify-center py-20 sm:px-5 md:px-10 lg:px-20">
+    <div className="container flex flex-col items-center justify-center py-20">
       <Card className="w-full border-muted-foreground/30 bg-background text-foreground backdrop:blur-sm sm:w-[400px] sm:p-5">
         <CardHeader className="text-center">
           <Link href={"/"}>
@@ -70,7 +135,7 @@ const SignIn = () => {
           <CardDescription className="tracking-wider">Sign in to your account.</CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleCredentialSubmit}>
+          <form onSubmit={handleOnSubmit}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="email">Email</Label>
@@ -96,8 +161,9 @@ const SignIn = () => {
                 <Button
                   type="submit"
                   className="w-full"
+                  disabled={isLoading}
                 >
-                  Sign in
+                  {isLoading ? "Signing in..." : "Sign in"}
                 </Button>
               </div>
             </div>
@@ -109,7 +175,7 @@ const SignIn = () => {
             type="button"
             variant={"outline"}
             className="w-full gap-3"
-            onClick={handleGoogleLogin}
+            onClick={handleGoogleSubmit}
           >
             <FcGoogle className="text-lg" /> Google
           </Button>
@@ -117,7 +183,7 @@ const SignIn = () => {
             type="button"
             variant={"outline"}
             className="w-full gap-3"
-            onClick={handleGithubLogin}
+            onClick={handleGithubSubmit}
           >
             <FaGithub className="text-lg" /> Github
           </Button>

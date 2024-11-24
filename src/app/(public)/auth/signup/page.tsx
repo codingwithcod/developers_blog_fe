@@ -15,24 +15,61 @@ import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
 import Link from "next/link";
 import SuccessAlert from "@/components/SuccessAlert";
+import { useToast } from "@/hooks/use-toast";
+import { axiosClient } from "@/utils/axiosClient";
+import { AxiosError } from "axios";
+import apiEndpoints from "@/api/apiEndpoints";
 
 export default function SignIn() {
+  const { toast } = useToast();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isSuccessAlert, setIsSuccessAlert] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleCredentialSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // console.log("user info -->", { firstName, lastName, email, password });
-    setIsSuccessAlert(true);
-    window.scrollTo(0, 0);
+    if (!firstName || !lastName || !email || !password)
+      return toast({
+        title: "All field Required!!",
+        description: "First Name, Last Name, Email and Password are Required to save.",
+        variant: "destructive",
+        duration: 2000,
+      });
+    setIsLoading(true);
+
+    try {
+      await axiosClient.post(apiEndpoints.auth.signup, {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+
+      setIsSuccessAlert(true);
+      window.scrollTo(0, 0);
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        return toast({
+          title: "Sign up Failed!",
+          description: error.response?.data.message,
+          variant: "destructive",
+        });
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
-    <div className="container flex flex-col items-center py-20 sm:px-5 md:px-10 lg:px-20">
+    <div className="container flex flex-col items-center py-20">
       {isSuccessAlert && (
         <div className="my-5">
           <SuccessAlert
@@ -99,8 +136,9 @@ export default function SignIn() {
                 <Button
                   type="submit"
                   className="w-full"
+                  disabled={isLoading}
                 >
-                  Sign up
+                  {isLoading ? "Signing up..." : "Sign up"}
                 </Button>
               </div>
             </div>
