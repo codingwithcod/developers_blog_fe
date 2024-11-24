@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Merriweather, Roboto, Poppins } from "next/font/google";
-import AppLayout from "./AppLayout";
 import { SessionProvider } from "next-auth/react";
+import ThemeProvider from "@/components/ThemeProvider";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700", "900"],
@@ -47,7 +47,13 @@ export default function RootLayout({
         className={`${poppins.variable} ${roboto.variable} ${merriweather.variable} font-poppins antialiased`}
       >
         <SessionProvider>
-          <AppLayout>{children}</AppLayout>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+          >
+            {children}
+          </ThemeProvider>
         </SessionProvider>
       </body>
     </html>
