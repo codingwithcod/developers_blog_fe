@@ -62,7 +62,7 @@ const MyBlogs: FC<IProps> = ({ userId }) => {
           <div className="flex h-[20rem] w-full flex-col items-center justify-center text-center">
             <p className="text-2xl text-muted-foreground">There is no blogs available</p>
             <p className="text-sm text-muted-foreground/70">You can also Write your own blogs</p>
-            <Link href={`/new-blog`}>
+            <Link href={`/blog/new`}>
               <Button
                 variant={"outline"}
                 size={"sm"}

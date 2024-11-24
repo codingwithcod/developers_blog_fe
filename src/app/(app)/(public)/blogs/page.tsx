@@ -27,7 +27,7 @@ const Blogs: FC<IProps> = async ({ searchParams: { search } }) => {
           <div className="flex h-[20rem] w-full flex-col items-center justify-center">
             <p className="text-2xl">There is no blogs available</p>
             <p className="text-muted-foreground">You can also Write your own blogs</p>
-            <Link href={`/new-blog`}>
+            <Link href={`/blog/new`}>
               <Button
                 variant={"outline"}
                 size={"sm"}
