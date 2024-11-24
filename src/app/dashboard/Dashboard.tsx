@@ -30,8 +30,13 @@ const Dashboard = () => {
             <p className="text-xl text-yellow-500">Draft</p>
           </div>
         </div>
-        <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-        <div className="h-[10rem] rounded-xl bg-red-500/10" />
+
+        <div className="flex h-[10rem] flex-col items-center justify-center rounded-xl bg-blue-500/10 text-4xl">
+          <h1>Comming Soon...</h1>
+          <p className="text-lg tracking-widest text-muted-foreground/70">
+            Fully featured admin Dashboard
+          </p>
+        </div>
         <div className="h-[10rem] rounded-xl bg-muted/50" />
         <div className="h-[10rem] rounded-xl bg-muted/50" />
         <div className="h-[10rem] rounded-xl bg-muted/50" />
