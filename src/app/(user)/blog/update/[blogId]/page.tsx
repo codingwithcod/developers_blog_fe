@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import AddUpdateBlog from "../../AddUpdateBlog";
 import { Metadata } from "next";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
   title: "Update blog | Developers Blog",
@@ -13,11 +14,13 @@ interface IProps {
   };
 }
 
-const UpdateBlog: FC<IProps> = ({ params: { blogId } }) => {
+const UpdateBlog: FC<IProps> = async ({ params: { blogId } }) => {
+  const session = await auth();
   return (
     <AddUpdateBlog
       isUpdateBlog
       blogId={blogId}
+      username={session?.user.username}
     />
   );
 };

@@ -15,15 +15,19 @@ import Image from "next/image";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import axios from "axios";
 import { IBlogPost } from "@/interfaces/IBlogPost";
+import { Loader } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 type TStatus = "draft" | "published";
 
 interface IProps {
   isUpdateBlog?: boolean;
   blogId?: string;
+  username?: string;
 }
 
-const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
+const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId, username }) => {
+  const router = useRouter();
   const { toast } = useToast();
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
@@ -35,6 +39,7 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
   const [isSaving, setIsSaving] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [imageErrorMessage, setImageErrorMessage] = useState("");
+  const [isFetchingBlogToBeUpdated, setIsFetchingBlogToBeUpdated] = useState(Boolean(isUpdateBlog));
 
   const thumbnailInputRef = useRef<HTMLInputElement>(null);
 
@@ -46,6 +51,7 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
   }, []);
 
   const handleFetchBlogToBeUpdated = async () => {
+    setIsFetchingBlogToBeUpdated(true);
     try {
       if (!blogId) return;
       const res = await axiosClient.get(apiEndpoints.blogs.getBlogById(blogId));
@@ -56,11 +62,12 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
       setMdContent(blog.content);
     } catch (error) {
       errorLog(error);
+    } finally {
+      setIsFetchingBlogToBeUpdated(false);
     }
   };
 
   const handleSave = async (status: TStatus) => {
-    // console.log("saving blog .............");
     if (!title || !slug || !thumbnail || !mdContent) {
       return toast({
         title: "All field Required!!",
@@ -80,7 +87,7 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
       await axiosClient.post(apiEndpoints.blogs.addBlog, {
         title,
         slug,
-        thumbnail,
+        ...(thumbnail ? { thumbnail } : {}),
         status,
         content: mdContent,
       });
@@ -104,9 +111,7 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
     }
   };
 
-  // console.log("isUpdateBlog ------>", isUpdateBlog);
   const handleUpdateBlog = async (status: TStatus) => {
-    // console.log("updating blog .............");
     if (!title || !slug || !thumbnail || !mdContent) {
       return toast({
         title: "All field Required!!",
@@ -124,19 +129,14 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
     try {
       if (!blogId) return;
       const thumbnail = await handleUploadThumbnail();
-      await axiosClient.post(apiEndpoints.blogs.updateBlog(blogId), {
+      await axiosClient.patch(apiEndpoints.blogs.updateBlog(blogId), {
         title,
         slug,
         ...(thumbnail ? { thumbnail } : {}),
         status,
         content: mdContent,
       });
-      setIsBlogSaved(true);
-      setTitle("");
-      setSlug("");
-      setThumbnail("");
-      setMdContent("**Namaskar Developers!!**");
-      setImageErrorMessage("");
+      router.replace(`/u/@${username}?tab=myblogs`);
     } catch (error) {
       errorLog(error);
       toast({
@@ -211,6 +211,14 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
       return null;
     }
   };
+
+  if (isFetchingBlogToBeUpdated) {
+    return (
+      <div className="flex h-[90vh] w-full items-center justify-center">
+        <Loader className="h-8 w-8 animate-slowSpin" />
+      </div>
+    );
+  }
 
   return (
     <div className="container mt-20 flex flex-col">
@@ -289,7 +297,7 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
             <Button
               variant={"outline"}
               disabled={isSaving || isPublishing}
-              onClick={() => (!isUpdateBlog ? handleUpdateBlog("draft") : handleSave("draft"))}
+              onClick={() => (isUpdateBlog ? handleUpdateBlog("draft") : handleSave("draft"))}
               className="w-28"
             >
               {isSaving ? "Saving.." : "Save"}
@@ -323,7 +331,7 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
           <Button
             variant={"outline"}
             disabled={isSaving || isPublishing}
-            onClick={() => handleSave("draft")}
+            onClick={() => (isUpdateBlog ? handleUpdateBlog("draft") : handleSave("draft"))}
             className="w-28"
           >
             {isSaving ? "Saving.." : "Save"}
@@ -331,7 +339,7 @@ const AddUpdateBlog: FC<IProps> = ({ isUpdateBlog, blogId }) => {
           <Button
             variant={"secondary"}
             disabled={isSaving || isPublishing}
-            onClick={() => handleSave("published")}
+            onClick={() => (isUpdateBlog ? handleUpdateBlog("published") : handleSave("published"))}
             className="w-28 bg-green-600/80"
           >
             {isPublishing ? "Publishing.." : "Publish"}
