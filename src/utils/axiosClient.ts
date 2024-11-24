@@ -4,6 +4,7 @@ import axios from "axios";
 
 export const axiosClient = axios.create({
   baseURL: NEXT_PUBLIC_API_BASE_URL,
+  timeout: 5000,
 });
 
 async function getAuthToken(req?: Request | { headers: Headers | Record<string, string> }) {
