@@ -71,6 +71,9 @@ const config: Config = {
         merriweather: ["var(--font-merriweather)", "serif"],
         roboto: ["var(--font-roboto)", "sans-serif"],
       },
+      animation: {
+        slowSpin: "spin 3s linear infinite",
+      },
     },
   },
   plugins: [TailwindcssAnimate, Typography],
