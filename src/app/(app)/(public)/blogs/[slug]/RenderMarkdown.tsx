@@ -5,6 +5,7 @@ import React, { FC, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
+import remarkBreaks from "remark-breaks";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -25,7 +26,7 @@ const RenderMarkdown: FC<IProps> = ({ content }) => {
     <div className="mt-12 pb-16">
       <article className="prose-tbody:!border-0 prose prose-slate max-w-none dark:prose-invert prose-headings:scroll-mt-24 prose-headings:font-bold prose-h1:mb-6 prose-h1:mt-16 prose-h1:text-4xl prose-h1:tracking-tight prose-h2:mb-5 prose-h2:mt-14 prose-h2:border-b prose-h2:pb-3 prose-h2:text-3xl prose-h2:tracking-tight prose-h3:mb-4 prose-h3:mt-10 prose-h3:text-2xl prose-h3:tracking-tight prose-h4:mb-3 prose-h4:mt-8 prose-h4:text-xl prose-h4:tracking-tight prose-p:my-6 prose-p:text-base prose-p:leading-7 prose-a:font-medium prose-a:text-primary prose-a:no-underline prose-a:transition-colors hover:prose-a:text-primary/80 hover:prose-a:underline prose-blockquote:my-8 prose-blockquote:rounded-r prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:bg-muted/50 prose-blockquote:px-5 prose-blockquote:py-3 prose-blockquote:not-italic prose-strong:font-semibold prose-strong:text-foreground prose-em:italic prose-code:rounded prose-code:border prose-code:bg-muted prose-code:px-[0.4rem] prose-code:py-[0.2rem] prose-code:font-mono prose-code:text-sm prose-code:font-semibold prose-code:before:content-[''] prose-code:after:content-[''] prose-pre:!my-0 prose-pre:!border-0 prose-pre:!bg-transparent prose-pre:!p-0 prose-ol:my-6 prose-ol:leading-7 prose-ul:my-6 prose-ul:leading-7 prose-li:my-2 prose-table:!my-0 prose-table:!border-0 prose-thead:!border-0 prose-tr:!border-0 prose-th:!border-0 prose-th:!bg-transparent prose-th:!p-0 prose-td:!border-0 prose-td:!p-0 prose-img:my-10 prose-img:rounded-lg prose-img:shadow-lg prose-hr:my-16 prose-hr:border-border">
         <ReactMarkdown
-          remarkPlugins={[remarkGfm, remarkMath]}
+          remarkPlugins={[remarkGfm, remarkMath, remarkBreaks]}
           rehypePlugins={[rehypeKatex, rehypeRaw]}
           components={{
             // Code blocks with syntax highlighting
@@ -33,12 +34,21 @@ const RenderMarkdown: FC<IProps> = ({ content }) => {
               const match = /language-(\w+)/.exec(className || "");
               const codeString = String(children).replace(/\n$/, "");
 
-              return !inline && match ? (
-                <CodeBlockWithCopy
-                  language={match[1]}
-                  code={codeString}
-                />
-              ) : (
+              // Check if it's a code block (multiline or has language)
+              const isCodeBlock = !inline && (match || codeString.includes("\n"));
+
+              if (isCodeBlock) {
+                const language = match ? match[1] : "text";
+                return (
+                  <CodeBlockWithCopy
+                    language={language}
+                    code={codeString}
+                  />
+                );
+              }
+
+              // Inline code
+              return (
                 <code
                   className={cn("not-prose", className)}
                   {...props}
@@ -199,6 +209,16 @@ const RenderMarkdown: FC<IProps> = ({ content }) => {
               );
             },
 
+            // Line breaks
+            br({ ...props }: any) {
+              return (
+                <br
+                  className="my-1"
+                  {...props}
+                />
+              );
+            },
+
             // Blockquote
             blockquote({ children, ...props }: any) {
               return (
@@ -259,6 +279,7 @@ const CodeBlockWithCopy: FC<{ language: string; code: string }> = ({ language, c
           border: "1px solid rgb(51 65 85)",
         }}
         showLineNumbers={false}
+        wrapLongLines={false}
         PreTag="div"
       >
         {code}
